@@ -1,4 +1,4 @@
-package com.example.loldex.ui.theme
+package com.example.loldex.core.designsystem.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

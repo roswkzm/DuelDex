@@ -1,4 +1,4 @@
-package com.example.loldex.ui.theme
+package com.example.loldex.core.designsystem.theme
 
 import androidx.compose.ui.graphics.Color
 
