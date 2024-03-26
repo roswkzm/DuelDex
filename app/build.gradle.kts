@@ -31,6 +31,9 @@ android {
 }
 
 dependencies {
+    implementation(projects.feature.home)
+    implementation(projects.feature.bookmarks)
+    implementation(projects.feature.settings)
 
     implementation(projects.core.designsystem)
 

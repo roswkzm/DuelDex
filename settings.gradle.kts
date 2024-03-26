@@ -28,3 +28,7 @@ include(":core:data")
 include(":core:common")
 include(":core:datastore")
 include(":core:datastore-proto")
+
+include(":feature:home")
+include(":feature:bookmarks")
+include(":feature:settings")
