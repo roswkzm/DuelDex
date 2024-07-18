@@ -30,7 +30,6 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
-import com.example.loldex.core.designsystem.component.LdBackGround
 import com.example.loldex.core.designsystem.component.LdNavigationBar
 import com.example.loldex.core.designsystem.component.LdNavigationBarItem
 import com.example.loldex.core.designsystem.component.LdTopAppBar
@@ -49,54 +48,52 @@ fun MainScreen(
     val snackBarHostState = remember {
         SnackbarHostState()
     }
-    LdBackGround {
-        Scaffold(
-            containerColor = Color.Transparent,
-            contentColor = MaterialTheme.colorScheme.onBackground,
-            contentWindowInsets = WindowInsets(0, 0, 0, 0),
-            snackbarHost = { SnackbarHost(hostState = snackBarHostState) },
-            bottomBar = {
-                LdBottomBar(
-                    destinations = appState.topLevelDestinations,
-                    onNavigateToDestination = appState::navigateToTopLevelDestination,
-                    currentDestination = appState.currentDestination,
-                    modifier = Modifier.testTag("LdBottomBar")
-                )
-            }
-        ) { padding ->
-            Row(
-                Modifier
-                    .fillMaxSize()
-                    .padding(padding)
-                    .consumeWindowInsets(padding)
-                    .windowInsetsPadding(
-                        WindowInsets.safeDrawing.only(
-                            WindowInsetsSides.Horizontal
-                        )
+    Scaffold(
+        containerColor = Color.Transparent,
+        contentColor = MaterialTheme.colorScheme.onBackground,
+        contentWindowInsets = WindowInsets(0, 0, 0, 0),
+        snackbarHost = { SnackbarHost(hostState = snackBarHostState) },
+        bottomBar = {
+            LdBottomBar(
+                destinations = appState.topLevelDestinations,
+                onNavigateToDestination = appState::navigateToTopLevelDestination,
+                currentDestination = appState.currentDestination,
+                modifier = Modifier.testTag("LdBottomBar")
+            )
+        }
+    ) { padding ->
+        Row(
+            Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .consumeWindowInsets(padding)
+                .windowInsetsPadding(
+                    WindowInsets.safeDrawing.only(
+                        WindowInsetsSides.Horizontal
                     )
-            ) {
-                Column(Modifier.fillMaxSize()) {
-                    val destination = appState.currentTopLevelDestination
-                    if (destination != null) {
-                        LdTopAppBar(
-                            titleRes = destination.titleTextId,
-                            navigationIcon = Icons.Rounded.Search,
-                            navigationIconContentDescription = stringResource(
-                                id = settingsR.string.feature_settings_top_app_bar_navigation_icon_description
-                            ),
-                            actionIcon = Icons.Rounded.Settings,
-                            actionIconContentDescription = stringResource(
-                                id = settingsR.string.feature_settings_top_app_bar_action_icon_description
-                            ),
-                            colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                                containerColor = Color.Transparent,
-                            ),
-                            onActionClick = {},
-                            onNavigationClick = {}
-                        )
-                    }
-                    LdNavHost(appState = appState)
+                )
+        ) {
+            Column(Modifier.fillMaxSize()) {
+                val destination = appState.currentTopLevelDestination
+                if (destination != null) {
+                    LdTopAppBar(
+                        titleRes = destination.titleTextId,
+                        navigationIcon = Icons.Rounded.Search,
+                        navigationIconContentDescription = stringResource(
+                            id = settingsR.string.feature_settings_top_app_bar_navigation_icon_description
+                        ),
+                        actionIcon = Icons.Rounded.Settings,
+                        actionIconContentDescription = stringResource(
+                            id = settingsR.string.feature_settings_top_app_bar_action_icon_description
+                        ),
+                        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                            containerColor = Color.Transparent,
+                        ),
+                        onActionClick = {},
+                        onNavigationClick = {}
+                    )
                 }
+                LdNavHost(appState = appState)
             }
         }
     }
@@ -131,7 +128,7 @@ private fun LdBottomBar(
                         contentDescription = null
                     )
                 },
-                label = { Text(text = stringResource(id = destination.iconTextId))}
+                label = { Text(text = stringResource(id = destination.iconTextId)) }
             )
         }
     }
