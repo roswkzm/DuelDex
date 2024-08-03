@@ -9,10 +9,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Search
-import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -20,7 +18,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -32,10 +29,8 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import com.example.loldex.core.designsystem.component.LdNavigationBar
 import com.example.loldex.core.designsystem.component.LdNavigationBarItem
-import com.example.loldex.core.designsystem.component.LdTopAppBar
 import com.example.loldex.navigation.LdNavHost
 import com.example.loldex.navigation.TopLevelDestination
-import com.example.loldex.feature.settings.R as settingsR
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -72,26 +67,27 @@ fun MainScreen(
                         WindowInsetsSides.Horizontal
                     )
                 )
+                .statusBarsPadding()
         ) {
             Column(Modifier.fillMaxSize()) {
                 val destination = appState.currentTopLevelDestination
                 if (destination != null) {
-                    LdTopAppBar(
-                        titleRes = destination.titleTextId,
-                        navigationIcon = Icons.Rounded.Search,
-                        navigationIconContentDescription = stringResource(
-                            id = settingsR.string.feature_settings_top_app_bar_navigation_icon_description
-                        ),
-                        actionIcon = Icons.Rounded.Settings,
-                        actionIconContentDescription = stringResource(
-                            id = settingsR.string.feature_settings_top_app_bar_action_icon_description
-                        ),
-                        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                            containerColor = Color.Transparent,
-                        ),
-                        onActionClick = {},
-                        onNavigationClick = {}
-                    )
+//                    LdTopAppBar(
+//                        titleRes = destination.titleTextId,
+//                        navigationIcon = Icons.Rounded.Search,
+//                        navigationIconContentDescription = stringResource(
+//                            id = settingsR.string.feature_settings_top_app_bar_navigation_icon_description
+//                        ),
+//                        actionIcon = Icons.Rounded.Settings,
+//                        actionIconContentDescription = stringResource(
+//                            id = settingsR.string.feature_settings_top_app_bar_action_icon_description
+//                        ),
+//                        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+//                            containerColor = Color.Transparent,
+//                        ),
+//                        onActionClick = {},
+//                        onNavigationClick = {}
+//                    )
                 }
                 LdNavHost(appState = appState)
             }

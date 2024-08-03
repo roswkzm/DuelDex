@@ -30,6 +30,7 @@ androidxTracing = "1.2.0"
 kotlinxDatetime = "0.5.0"
 retrofit = "2.9.0"
 retrofitKotlinxSerializationJson = "1.0.0"
+sandwich = "2.0.5"
 okhttp = "4.12.0"
 kotlinxSerializationJson = "1.6.0"
 room = "2.6.1"
@@ -93,6 +94,8 @@ kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-kotlin-serialization = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "retrofitKotlinxSerializationJson" }
 okhttp-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
+# network response handle library
+sandwich = { group = "com.github.skydoves", name = "sandwich-retrofit", version.ref = "sandwich" }
 
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }

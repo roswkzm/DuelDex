@@ -14,4 +14,6 @@ dependencies {
     api(projects.core.datastore)
     api(projects.core.model)
     api(projects.core.network)
+
+    implementation(libs.sandwich)
 }
