@@ -16,4 +16,8 @@ dependencies {
     api(projects.core.network)
 
     implementation(libs.sandwich)
+    implementation(libs.kotlinx.serialization.json)
+
+    api(libs.androidx.paging.runtime)
+    api(libs.androidx.paging.compose)
 }
