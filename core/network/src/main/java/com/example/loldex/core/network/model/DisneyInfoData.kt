@@ -3,7 +3,7 @@ package com.example.loldex.core.network.model
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ListInfoData(
+data class DisneyInfoData(
     val count: Int,
     val totalPages: Int?,
     val previousPage: String?,

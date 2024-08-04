@@ -3,7 +3,7 @@ package com.example.loldex.core.network.model
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class DataResponse<T>(
-    val info: InfoData,
+data class DisneyDataResponse<T>(
+    val info: DisneyInfoData,
     val data: T
 )

@@ -2,13 +2,14 @@ package com.example.loldex.core.network.retrofit
 
 import androidx.tracing.trace
 import com.example.loldex.core.network.DisneyNetworkDataSource
-import com.example.loldex.core.network.model.DataResponse
-import com.example.loldex.core.network.model.ListResponse
+import com.example.loldex.core.network.model.DisneyDataResponse
 import com.example.loldex.core.network.model.response.DisneyCharacterResponse
+import com.example.loldex.core.network.util.parseDisneyDataResponse
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.skydoves.sandwich.ApiResponse
 import com.skydoves.sandwich.retrofit.adapters.ApiResponseCallAdapterFactory
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonElement
 import okhttp3.Call
 import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
@@ -23,22 +24,22 @@ private interface RetrofitDisneyNetworkApi {
     suspend fun getCharacter(
         @Query("page") page: Int,
         @Query("pageSize") pageSize: Int,
-    ): ApiResponse<ListResponse<List<DisneyCharacterResponse>>>
+    ): ApiResponse<DisneyDataResponse<List<DisneyCharacterResponse>>>
 
     @GET("character/{id}")
     suspend fun getCharacterById(
         @Path("id") id: Int,
-    ): ApiResponse<DataResponse<DisneyCharacterResponse>>
+    ): ApiResponse<DisneyDataResponse<DisneyCharacterResponse>>
 
     @GET("character")
     suspend fun getCharacterByName(
         @Query("name") name: String,
-    ): ApiResponse<ListResponse<List<DisneyCharacterResponse>>>
+    ): ApiResponse<JsonElement>
 }
 
 @Singleton
 class RetrofitDisneyNetwork @Inject constructor(
-    networkJson: Json,
+    private val networkJson: Json,
     okhttpCallFactory: dagger.Lazy<Call.Factory>
 ) : DisneyNetworkDataSource {
 
@@ -59,7 +60,7 @@ class RetrofitDisneyNetwork @Inject constructor(
     override suspend fun getCharacter(
         page: Int,
         pageSize: Int
-    ): ApiResponse<ListResponse<List<DisneyCharacterResponse>>> =
+    ): ApiResponse<DisneyDataResponse<List<DisneyCharacterResponse>>> =
         networkApi.getCharacter(
             page = page,
             pageSize = pageSize,
@@ -67,11 +68,26 @@ class RetrofitDisneyNetwork @Inject constructor(
 
     override suspend fun getCharacterById(
         id: Int
-    ): ApiResponse<DataResponse<DisneyCharacterResponse>> =
+    ): ApiResponse<DisneyDataResponse<DisneyCharacterResponse>> =
         networkApi.getCharacterById(id)
 
     override suspend fun getCharacterByName(
         name: String
-    ): ApiResponse<ListResponse<List<DisneyCharacterResponse>>> =
-        networkApi.getCharacterByName(name)
+    ): ApiResponse<DisneyDataResponse<List<DisneyCharacterResponse>>> {
+        val apiResponse = networkApi.getCharacterByName(name)
+        return when (apiResponse) {
+            is ApiResponse.Success -> {
+                val parsedResponse = parseDisneyDataResponse(apiResponse.data)
+                ApiResponse.Success(parsedResponse)
+            }
+
+            is ApiResponse.Failure.Error -> {
+                ApiResponse.Failure.Error(apiResponse.payload)
+            }
+
+            is ApiResponse.Failure.Exception -> {
+                ApiResponse.Failure.Exception(apiResponse.throwable)
+            }
+        }
+    }
 }

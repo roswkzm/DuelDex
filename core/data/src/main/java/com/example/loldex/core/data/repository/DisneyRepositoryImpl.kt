@@ -5,7 +5,7 @@ import com.example.loldex.core.common.network.LdDispatchers
 import com.example.loldex.core.data.mapper.toData
 import com.example.loldex.core.model.DisneyCharacterData
 import com.example.loldex.core.network.DisneyNetworkDataSource
-import com.example.loldex.core.network.model.ListResponse
+import com.example.loldex.core.network.model.DisneyDataResponse
 import com.example.loldex.core.network.model.response.DisneyCharacterResponse
 import com.skydoves.sandwich.onError
 import com.skydoves.sandwich.onException
@@ -24,7 +24,7 @@ class DisneyRepositoryImpl @Inject constructor(
     override fun getCharacter(
         page: Int,
         pageSize: Int
-    ): Flow<ListResponse<List<DisneyCharacterResponse>>> =
+    ): Flow<DisneyDataResponse<List<DisneyCharacterResponse>>> =
         flow {
             val response = dataSource.getCharacter(page, pageSize)
             response.suspendOnSuccess {
