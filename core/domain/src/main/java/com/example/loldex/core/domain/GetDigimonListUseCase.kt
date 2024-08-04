@@ -3,24 +3,24 @@ package com.example.loldex.core.domain
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.example.loldex.core.data.repository.DisneyRepository
-import com.example.loldex.core.data.repository.paging.CharacterListPagingSource
-import com.example.loldex.core.model.DisneyCharacterData
+import com.example.loldex.core.data.repository.DigimonRepository
+import com.example.loldex.core.data.repository.paging.DigimonListPagingSource
+import com.example.loldex.core.model.DigimonContentData
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class GetCharacterListUseCase @Inject constructor(
-    private val disneyRepository: DisneyRepository,
+class GetDigimonListUseCase @Inject constructor(
+    private val digimonRepository: DigimonRepository,
 ) {
     operator fun invoke(
         pageSize: Int
-    ): Flow<PagingData<DisneyCharacterData>> {
+    ): Flow<PagingData<DigimonContentData>> {
         return Pager(
             config = PagingConfig(pageSize = 10, prefetchDistance = 5),
             pagingSourceFactory = {
-                CharacterListPagingSource(
+                DigimonListPagingSource(
                     size = pageSize,
-                    disneyRepository = disneyRepository,
+                    digimonRepository = digimonRepository,
                 )
             }
         ).flow

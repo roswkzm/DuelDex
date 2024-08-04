@@ -2,11 +2,9 @@ package com.example.loldex.core.data.repository
 
 import com.example.loldex.core.common.network.Dispatcher
 import com.example.loldex.core.common.network.LdDispatchers
-import com.example.loldex.core.data.mapper.toData
-import com.example.loldex.core.model.DisneyCharacterData
-import com.example.loldex.core.network.DisneyNetworkDataSource
-import com.example.loldex.core.network.model.DisneyDataResponse
-import com.example.loldex.core.network.model.response.DisneyCharacterResponse
+import com.example.loldex.core.network.DigimonNetworkDataSource
+import com.example.loldex.core.network.model.response.DigimonDetailResponse
+import com.example.loldex.core.network.model.response.DigimonPagingResponse
 import com.skydoves.sandwich.onError
 import com.skydoves.sandwich.onException
 import com.skydoves.sandwich.suspendOnSuccess
@@ -16,17 +14,17 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
-class DisneyRepositoryImpl @Inject constructor(
+class DigimonRepositoryImpl @Inject constructor(
     @Dispatcher(LdDispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
-    private val dataSource: DisneyNetworkDataSource
-) : DisneyRepository {
+    private val dataSource: DigimonNetworkDataSource
+) : DigimonRepository {
 
-    override fun getCharacter(
+    override fun getDigimonList(
         page: Int,
         pageSize: Int
-    ): Flow<DisneyDataResponse<List<DisneyCharacterResponse>>> =
+    ): Flow<DigimonPagingResponse> =
         flow {
-            val response = dataSource.getCharacter(page, pageSize)
+            val response = dataSource.getDigimonList(page, pageSize)
             response.suspendOnSuccess {
                 emit(data)
             }.onError {
@@ -36,11 +34,13 @@ class DisneyRepositoryImpl @Inject constructor(
             }
         }.flowOn(ioDispatcher)
 
-    override fun getCharacterById(id: Int): Flow<DisneyCharacterData> =
+    override fun getDigimonById(
+        id: Int
+    ): Flow<DigimonDetailResponse> =
         flow {
-            val response = dataSource.getCharacterById(id)
+            val response = dataSource.getDigimonById(id)
             response.suspendOnSuccess {
-                emit(data.data.toData())
+                emit(data)
             }.onError {
 
             }.onException {
@@ -48,16 +48,17 @@ class DisneyRepositoryImpl @Inject constructor(
             }
         }.flowOn(ioDispatcher)
 
-    override fun getCharacterByName(name: String): Flow<List<DisneyCharacterData>> =
+    override fun getDigimonByName(
+        name: String
+    ): Flow<DigimonDetailResponse> =
         flow {
-            val response = dataSource.getCharacterByName(name)
+            val response = dataSource.getDigimonByName(name)
             response.suspendOnSuccess {
-                emit(data.data.toData())
+                emit(data)
             }.onError {
 
             }.onException {
 
             }
         }.flowOn(ioDispatcher)
-
 }

@@ -1,7 +1,7 @@
 package com.example.loldex.core.network.di
 
-import com.example.loldex.core.network.DisneyNetworkDataSource
-import com.example.loldex.core.network.retrofit.RetrofitDisneyNetwork
+import com.example.loldex.core.network.DigimonNetworkDataSource
+import com.example.loldex.core.network.retrofit.RetrofitDigimonNetwork
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -12,5 +12,5 @@ import dagger.hilt.components.SingletonComponent
 interface FlavoredNetworkModule {
 
     @Binds
-    fun bindsDisneyNetworkDataSource(impl: RetrofitDisneyNetwork): DisneyNetworkDataSource
+    fun bindsDigimonNetworkDataSource(impl: RetrofitDigimonNetwork): DigimonNetworkDataSource
 }
