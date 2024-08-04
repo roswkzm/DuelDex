@@ -1,11 +1,6 @@
-package com.example.loldex.core.network.model.response
+package com.example.loldex.core.model
 
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
-
-@Serializable
-data class DisneyCharacter(
-    @SerialName("_id")
+data class DisneyCharacterData(
     val id: Int,
     val url: String,
     val name: String,

@@ -4,7 +4,7 @@ import androidx.tracing.trace
 import com.example.loldex.core.network.DisneyNetworkDataSource
 import com.example.loldex.core.network.model.DataResponse
 import com.example.loldex.core.network.model.ListResponse
-import com.example.loldex.core.network.model.response.DisneyCharacter
+import com.example.loldex.core.network.model.response.DisneyCharacterResponse
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.skydoves.sandwich.ApiResponse
 import com.skydoves.sandwich.retrofit.adapters.ApiResponseCallAdapterFactory
@@ -23,17 +23,17 @@ private interface RetrofitDisneyNetworkApi {
     suspend fun getCharacter(
         @Query("page") page: Int,
         @Query("pageSize") pageSize: Int,
-    ): ApiResponse<ListResponse<List<DisneyCharacter>>>
+    ): ApiResponse<ListResponse<List<DisneyCharacterResponse>>>
 
     @GET("character/{id}")
     suspend fun getCharacterById(
         @Path("id") id: Int,
-    ): ApiResponse<DataResponse<DisneyCharacter>>
+    ): ApiResponse<DataResponse<DisneyCharacterResponse>>
 
     @GET("character")
     suspend fun getCharacterByName(
         @Query("name") name: String,
-    ): ApiResponse<ListResponse<List<DisneyCharacter>>>
+    ): ApiResponse<ListResponse<List<DisneyCharacterResponse>>>
 }
 
 @Singleton
@@ -59,7 +59,7 @@ class RetrofitDisneyNetwork @Inject constructor(
     override suspend fun getCharacter(
         page: Int,
         pageSize: Int
-    ): ApiResponse<ListResponse<List<DisneyCharacter>>> =
+    ): ApiResponse<ListResponse<List<DisneyCharacterResponse>>> =
         networkApi.getCharacter(
             page = page,
             pageSize = pageSize,
@@ -67,11 +67,11 @@ class RetrofitDisneyNetwork @Inject constructor(
 
     override suspend fun getCharacterById(
         id: Int
-    ): ApiResponse<DataResponse<DisneyCharacter>> =
+    ): ApiResponse<DataResponse<DisneyCharacterResponse>> =
         networkApi.getCharacterById(id)
 
     override suspend fun getCharacterByName(
         name: String
-    ): ApiResponse<ListResponse<List<DisneyCharacter>>> =
+    ): ApiResponse<ListResponse<List<DisneyCharacterResponse>>> =
         networkApi.getCharacterByName(name)
 }

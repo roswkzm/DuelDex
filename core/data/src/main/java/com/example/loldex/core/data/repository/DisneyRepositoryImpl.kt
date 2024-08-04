@@ -2,9 +2,11 @@ package com.example.loldex.core.data.repository
 
 import com.example.loldex.core.common.network.Dispatcher
 import com.example.loldex.core.common.network.LdDispatchers
+import com.example.loldex.core.data.mapper.toData
+import com.example.loldex.core.model.DisneyCharacterData
 import com.example.loldex.core.network.DisneyNetworkDataSource
 import com.example.loldex.core.network.model.ListResponse
-import com.example.loldex.core.network.model.response.DisneyCharacter
+import com.example.loldex.core.network.model.response.DisneyCharacterResponse
 import com.skydoves.sandwich.onError
 import com.skydoves.sandwich.onException
 import com.skydoves.sandwich.suspendOnSuccess
@@ -22,7 +24,7 @@ class DisneyRepositoryImpl @Inject constructor(
     override fun getCharacter(
         page: Int,
         pageSize: Int
-    ): Flow<ListResponse<List<DisneyCharacter>>> =
+    ): Flow<ListResponse<List<DisneyCharacterResponse>>> =
         flow {
             val response = dataSource.getCharacter(page, pageSize)
             response.suspendOnSuccess {
@@ -34,11 +36,11 @@ class DisneyRepositoryImpl @Inject constructor(
             }
         }.flowOn(ioDispatcher)
 
-    override fun getCharacterById(id: Int): Flow<DisneyCharacter> =
+    override fun getCharacterById(id: Int): Flow<DisneyCharacterData> =
         flow {
             val response = dataSource.getCharacterById(id)
             response.suspendOnSuccess {
-                emit(data.data)
+                emit(data.data.toData())
             }.onError {
 
             }.onException {
@@ -46,11 +48,11 @@ class DisneyRepositoryImpl @Inject constructor(
             }
         }.flowOn(ioDispatcher)
 
-    override fun getCharacterByName(name: String): Flow<List<DisneyCharacter>> =
+    override fun getCharacterByName(name: String): Flow<List<DisneyCharacterData>> =
         flow {
             val response = dataSource.getCharacterByName(name)
             response.suspendOnSuccess {
-                emit(data.data)
+                emit(data.data.toData())
             }.onError {
 
             }.onException {

@@ -1,7 +1,8 @@
 package com.example.loldex.core.data.repository
 
+import com.example.loldex.core.model.DisneyCharacterData
 import com.example.loldex.core.network.model.ListResponse
-import com.example.loldex.core.network.model.response.DisneyCharacter
+import com.example.loldex.core.network.model.response.DisneyCharacterResponse
 import kotlinx.coroutines.flow.Flow
 
 interface DisneyRepository {
@@ -9,13 +10,13 @@ interface DisneyRepository {
     fun getCharacter(
         page: Int,
         pageSize: Int,
-    ): Flow<ListResponse<List<DisneyCharacter>>>
+    ): Flow<ListResponse<List<DisneyCharacterResponse>>>
 
     fun getCharacterById(
         id: Int,
-    ): Flow<DisneyCharacter>
+    ): Flow<DisneyCharacterData>
 
     fun getCharacterByName(
         name: String
-    ): Flow<List<DisneyCharacter>>
+    ): Flow<List<DisneyCharacterData>>
 }
