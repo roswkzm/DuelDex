@@ -21,7 +21,7 @@ class DigimonListPagingSource(
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, DigimonContentData> {
         return try {
-            val currentPage = params.key ?: 1
+            val currentPage = params.key ?: 0
             val response = digimonRepository.getDigimonList(currentPage, size)
             val totalPage = response.first().pageable.totalPages
             val digimonContentData = response.first().content.map {
