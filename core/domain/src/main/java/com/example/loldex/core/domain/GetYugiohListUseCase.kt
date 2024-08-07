@@ -16,7 +16,7 @@ class GetYugiohListUseCase @Inject constructor(
         num: Int
     ): Flow<PagingData<YugiohCardData>> {
         return Pager(
-            config = PagingConfig(pageSize = num, prefetchDistance = num * 2),
+            config = PagingConfig(pageSize = num, prefetchDistance = num),
             pagingSourceFactory = {
                 YugiohPagingSource(
                     num = num,

@@ -43,7 +43,7 @@ internal fun HomeScreen(
         state = scrollState,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 10.dp),
+            .padding(10.dp),
         verticalArrangement = Arrangement.spacedBy(15.dp),
         horizontalArrangement = Arrangement.spacedBy(15.dp)
     ) {
