@@ -4,10 +4,15 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -16,6 +21,11 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.loldex.core.designsystem.theme.ThemePreviews
 import com.example.loldex.core.model.YugiohCardData
 import com.example.loldex.feature.home.ui.YugiohCardItem
+import com.example.loldex.feature.home.ui.component.LoadStateAppendError
+import com.example.loldex.feature.home.ui.component.LoadStateAppendSkeletonLoading
+import com.example.loldex.feature.home.ui.component.LoadStateRefreshError
+import com.example.loldex.feature.home.ui.component.LoadStateRefreshSkeletonLoading
+import com.example.loldex.feature.home.ui.component.pagingLoadStateHandler
 
 @Composable
 internal fun HomeRoute(
@@ -24,11 +34,13 @@ internal fun HomeRoute(
     val yugiohListPagingItems: LazyPagingItems<YugiohCardData> =
         viewModel.yugiohListState.collectAsLazyPagingItems()
     val scrollState = rememberLazyGridState()
+    var hasAppendErrorShown = remember { mutableStateOf(false) }
 
     HomeScreen(
         yugiohListPagingItems = yugiohListPagingItems,
         scrollState = scrollState,
-        onClickedContentItem = {}
+        onClickedContentItem = {},
+        hasAppendErrorShown = hasAppendErrorShown,
     )
 }
 
@@ -36,14 +48,15 @@ internal fun HomeRoute(
 internal fun HomeScreen(
     yugiohListPagingItems: LazyPagingItems<YugiohCardData>,
     scrollState: LazyGridState,
-    onClickedContentItem: (Long) -> Unit
+    onClickedContentItem: (Long) -> Unit,
+    hasAppendErrorShown: MutableState<Boolean>,
 ) {
     LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
-        state = scrollState,
         modifier = Modifier
             .fillMaxWidth()
             .padding(10.dp),
+        columns = GridCells.Fixed(2),
+        state = scrollState,
         verticalArrangement = Arrangement.spacedBy(15.dp),
         horizontalArrangement = Arrangement.spacedBy(15.dp)
     ) {
@@ -55,7 +68,50 @@ internal fun HomeScreen(
                 )
             }
         }
+        handlePagingLoadState(
+            yugiohListPagingItems = yugiohListPagingItems,
+            hasAppendErrorShown = hasAppendErrorShown
+        )
     }
+}
+
+private fun LazyGridScope.handlePagingLoadState(
+    yugiohListPagingItems: LazyPagingItems<YugiohCardData>,
+    hasAppendErrorShown: MutableState<Boolean>
+) {
+    pagingLoadStateHandler(
+        pagingItems = yugiohListPagingItems,
+        loadStateRefreshLoading = {
+            this@handlePagingLoadState.LoadStateRefreshSkeletonLoading()
+        },
+        loadStateRefreshError = { error ->
+            this@handlePagingLoadState.LoadStateRefreshError(
+                error = error,
+                onClickRetry = {
+                    yugiohListPagingItems.retry()
+                }
+            )
+
+        },
+        loadStateAppendLoading = {
+            this@handlePagingLoadState.LoadStateAppendSkeletonLoading()
+        },
+        loadStateAppendError = { error ->
+            if (!hasAppendErrorShown.value) {
+                hasAppendErrorShown.value = true
+
+                this@handlePagingLoadState.item(span = { GridItemSpan(2) }) {
+                    LoadStateAppendError(
+                        error = error,
+                        onClickRetry = {
+                            hasAppendErrorShown.value = false
+                            yugiohListPagingItems.retry()
+                        }
+                    )
+                }
+            }
+        }
+    )
 }
 
 @ThemePreviews

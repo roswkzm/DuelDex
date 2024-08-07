@@ -41,6 +41,8 @@ class YugiohPagingSource(
             )
         } catch (exception: IOException) {
             LoadResult.Error(exception)
+        } catch (exception: Exception) {
+            LoadResult.Error(exception)
         }
     }
 }
