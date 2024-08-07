@@ -1,4 +1,4 @@
-package com.example.loldex.core.model.yugioh
+package com.example.loldex.core.model
 
 data class YugiohCardData(
     val id: Long,

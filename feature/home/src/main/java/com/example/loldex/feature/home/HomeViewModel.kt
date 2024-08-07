@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.loldex.core.domain.GetYugiohListUseCase
-import com.example.loldex.core.model.yugioh.YugiohCardData
+import com.example.loldex.core.model.YugiohCardData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

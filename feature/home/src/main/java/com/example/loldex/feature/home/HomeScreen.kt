@@ -14,19 +14,19 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.loldex.core.designsystem.theme.ThemePreviews
-import com.example.loldex.core.model.yugioh.YugiohCardData
-import com.example.loldex.feature.home.ui.DigimonContentItem
+import com.example.loldex.core.model.YugiohCardData
+import com.example.loldex.feature.home.ui.YugiohCardItem
 
 @Composable
 internal fun HomeRoute(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
-    val digimonListPagingItems: LazyPagingItems<YugiohCardData> =
+    val yugiohListPagingItems: LazyPagingItems<YugiohCardData> =
         viewModel.yugiohListState.collectAsLazyPagingItems()
     val scrollState = rememberLazyGridState()
 
     HomeScreen(
-        yugiohListPagingItems = digimonListPagingItems,
+        yugiohListPagingItems = yugiohListPagingItems,
         scrollState = scrollState,
         onClickedContentItem = {}
     )
@@ -49,7 +49,7 @@ internal fun HomeScreen(
     ) {
         items(yugiohListPagingItems.itemCount) { index ->
             yugiohListPagingItems[index]?.let { yugiohCardData ->
-                DigimonContentItem(
+                YugiohCardItem(
                     onClickedItem = onClickedContentItem,
                     yugiohCardData = yugiohCardData,
                 )
@@ -60,5 +60,5 @@ internal fun HomeScreen(
 
 @ThemePreviews
 @Composable
-fun HomeScreenPreivew() {
+fun HomeScreenPreview() {
 }

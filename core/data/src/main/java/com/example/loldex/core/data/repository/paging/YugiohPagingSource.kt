@@ -4,7 +4,7 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.loldex.core.data.mapper.toData
 import com.example.loldex.core.data.repository.YugiohRepository
-import com.example.loldex.core.model.yugioh.YugiohCardData
+import com.example.loldex.core.model.YugiohCardData
 import kotlinx.coroutines.flow.first
 import java.io.IOException
 

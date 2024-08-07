@@ -15,10 +15,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.loldex.core.designsystem.theme.ThemePreviews
 import com.example.loldex.core.designsystem.theme.ldTypography
-import com.example.loldex.core.model.yugioh.YugiohCardData
+import com.example.loldex.core.model.YugiohCardData
 
 @Composable
-fun DigimonContentItem(
+fun YugiohCardItem(
     onClickedItem: (Long) -> Unit,
     yugiohCardData: YugiohCardData
 ) {
@@ -53,5 +53,5 @@ fun DigimonContentItem(
 
 @ThemePreviews
 @Composable
-fun DigimonContentItemPreview() {
+fun YugiohCardItemPreview() {
 }
