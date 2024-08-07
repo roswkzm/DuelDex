@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.example.loldex.core.domain.GetDigimonListUseCase
-import com.example.loldex.core.model.DigimonContentData
+import com.example.loldex.core.domain.GetYugiohListUseCase
+import com.example.loldex.core.model.yugioh.YugiohCardData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,20 +14,20 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getDigimonListUseCase: GetDigimonListUseCase
+    private val getYugiohListUseCase: GetYugiohListUseCase
 ) : ViewModel() {
 
-    private val _digimonListState: MutableStateFlow<PagingData<DigimonContentData>> =
+    private val _yugiohListState: MutableStateFlow<PagingData<YugiohCardData>> =
         MutableStateFlow(value = PagingData.empty())
-    val digimonListState: StateFlow<PagingData<DigimonContentData>> = _digimonListState
+    val yugiohListState: StateFlow<PagingData<YugiohCardData>> = _yugiohListState
 
     init {
         viewModelScope.launch {
-            getDigimonListUseCase.invoke(
-                pageSize = 10
+            getYugiohListUseCase.invoke(
+                num = 10
             ).cachedIn(viewModelScope)
                 .collect {
-                    _digimonListState.value = it
+                    _yugiohListState.value = it
                 }
         }
     }

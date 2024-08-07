@@ -13,21 +13,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.loldex.core.designsystem.component.DynamicAsyncImage
 import com.example.loldex.core.designsystem.theme.ThemePreviews
 import com.example.loldex.core.designsystem.theme.ldTypography
-import com.example.loldex.core.model.DigimonContentData
+import com.example.loldex.core.model.yugioh.YugiohCardData
 
 @Composable
 fun DigimonContentItem(
-    onClickedItem: (Int) -> Unit,
-    digimonContentData: DigimonContentData
+    onClickedItem: (Long) -> Unit,
+    yugiohCardData: YugiohCardData
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .aspectRatio(1f),
-        onClick = { onClickedItem(digimonContentData.id) },
+        onClick = { onClickedItem(yugiohCardData.id) },
         shape = RoundedCornerShape(8.dp),
         colors = CardDefaults.cardColors(),
     ) {
@@ -36,15 +35,15 @@ fun DigimonContentItem(
                 .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            DynamicAsyncImage(
-                modifier = Modifier
-                    .weight(1f),
-                imageUrl = digimonContentData.image,
-                contentDescription = "Digimon Card Item"
-            )
+//            DynamicAsyncImage(
+//                modifier = Modifier
+//                    .weight(1f),
+//                imageUrl = digimonContentData.image,
+//                contentDescription = "Digimon Card Item"
+//            )
 
             Text(
-                text = digimonContentData.name,
+                text = yugiohCardData.name,
                 style = MaterialTheme.ldTypography.fontTitleS,
                 color = Color.Red,
             )
@@ -55,15 +54,4 @@ fun DigimonContentItem(
 @ThemePreviews
 @Composable
 fun DigimonContentItemPreview() {
-    val digimonContentData = DigimonContentData(
-        href = "",
-        id = 1,
-        image = "",
-        name = "Name"
-    )
-
-    DigimonContentItem(
-        onClickedItem = {},
-        digimonContentData = digimonContentData
-    )
 }
