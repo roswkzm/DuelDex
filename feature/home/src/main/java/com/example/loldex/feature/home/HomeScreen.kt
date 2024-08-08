@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -54,7 +53,7 @@ internal fun HomeScreen(
     LazyVerticalGrid(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(10.dp),
+            .padding(horizontal = 10.dp),
         columns = GridCells.Fixed(2),
         state = scrollState,
         verticalArrangement = Arrangement.spacedBy(15.dp),
@@ -99,16 +98,13 @@ private fun LazyGridScope.handlePagingLoadState(
         loadStateAppendError = { error ->
             if (!hasAppendErrorShown.value) {
                 hasAppendErrorShown.value = true
-
-                this@handlePagingLoadState.item(span = { GridItemSpan(2) }) {
-                    LoadStateAppendError(
-                        error = error,
-                        onClickRetry = {
-                            hasAppendErrorShown.value = false
-                            yugiohListPagingItems.retry()
-                        }
-                    )
-                }
+                this@handlePagingLoadState.LoadStateAppendError(
+                    error = error,
+                    onClickRetry = {
+                        hasAppendErrorShown.value = false
+                        yugiohListPagingItems.retry()
+                    }
+                )
             }
         }
     )
