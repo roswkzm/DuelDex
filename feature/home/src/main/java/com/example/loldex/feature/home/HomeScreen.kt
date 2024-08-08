@@ -28,7 +28,8 @@ import com.example.loldex.feature.home.ui.component.pagingLoadStateHandler
 
 @Composable
 internal fun HomeRoute(
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
+    onClickedCardItem: (Long) -> Unit,
 ) {
     val yugiohListPagingItems: LazyPagingItems<YugiohCardData> =
         viewModel.yugiohListState.collectAsLazyPagingItems()
@@ -38,7 +39,7 @@ internal fun HomeRoute(
     HomeScreen(
         yugiohListPagingItems = yugiohListPagingItems,
         scrollState = scrollState,
-        onClickedContentItem = {},
+        onClickedCardItem = onClickedCardItem,
         hasAppendErrorShown = hasAppendErrorShown,
     )
 }
@@ -47,7 +48,7 @@ internal fun HomeRoute(
 internal fun HomeScreen(
     yugiohListPagingItems: LazyPagingItems<YugiohCardData>,
     scrollState: LazyGridState,
-    onClickedContentItem: (Long) -> Unit,
+    onClickedCardItem: (Long) -> Unit,
     hasAppendErrorShown: MutableState<Boolean>,
 ) {
     LazyVerticalGrid(
@@ -62,7 +63,7 @@ internal fun HomeScreen(
         items(yugiohListPagingItems.itemCount) { index ->
             yugiohListPagingItems[index]?.let { yugiohCardData ->
                 YugiohCardItem(
-                    onClickedItem = onClickedContentItem,
+                    onClickedItem = onClickedCardItem,
                     yugiohCardData = yugiohCardData,
                 )
             }
