@@ -20,26 +20,24 @@ import androidx.compose.ui.unit.dp
 fun YugiohSkeletonCardBack() {
     Card(
         modifier = Modifier
-            .fillMaxWidth()
             .clip(RoundedCornerShape(8.dp)),
         shape = RoundedCornerShape(8.dp),
         elevation = CardDefaults.elevatedCardElevation(12.dp)
     ) {
+        val modifier = Modifier
+            .fillMaxWidth()
+            .aspectRatio(2f / 3f)
         Box(
             contentAlignment = Alignment.Center
         ) {
             Image(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(2f / 3f),
+                modifier = modifier,
                 painter = painterResource(id = R.drawable.yugioh_card_back),
                 contentDescription = null,
-                contentScale = ContentScale.Fit
+                contentScale = ContentScale.Crop
             )
             SkeletonBox(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(2f / 3f)
+                modifier = modifier
             )
         }
     }

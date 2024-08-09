@@ -14,4 +14,8 @@ interface YugiohRepository {
     fun getYugiohCardDataById(
         id: Long
     ): Flow<YugiohCardData>
+
+    fun getYugiohCardDataByName(
+        name: String
+    ): Flow<YugiohCardData>
 }

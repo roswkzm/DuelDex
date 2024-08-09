@@ -8,23 +8,29 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.navArgument
 import com.example.loldex.feature.detail.CardDetailRoute
+import java.net.URLDecoder
+
+private val URL_CHARACTER_ENCODING = Charsets.UTF_8.name()
 
 const val DETAIL_GRAPH_ROUTE = "detail_graph"
 const val DETAIL_ROUTE = "detail"
 
-const val DETAIL_CARD_ID_ARG = "card_id"
+const val DETAIL_CARD_NAME_ARG = "card_name"
 
 internal class DetailArgs(
-    val cardId: Long,
+    val cardName: String,
 ) {
     constructor(savedStateHandle: SavedStateHandle) :
             this(
-                checkNotNull(savedStateHandle[DETAIL_CARD_ID_ARG]) as Long
+                URLDecoder.decode(
+                    checkNotNull(savedStateHandle[DETAIL_CARD_NAME_ARG]),
+                    URL_CHARACTER_ENCODING
+                )
             )
 }
 
-fun NavController.navigateToCardDetail(cardId: Long) {
-    navigate("$DETAIL_ROUTE/$cardId")
+fun NavController.navigateToCardDetail(cardName: String) {
+    navigate("$DETAIL_ROUTE/$cardName")
 }
 
 fun NavGraphBuilder.detailGraph() {
@@ -33,9 +39,9 @@ fun NavGraphBuilder.detailGraph() {
         startDestination = DETAIL_ROUTE
     ) {
         composable(
-            route = "$DETAIL_ROUTE/{$DETAIL_CARD_ID_ARG}",
+            route = "$DETAIL_ROUTE/{$DETAIL_CARD_NAME_ARG}",
             arguments = listOf(
-                navArgument(DETAIL_CARD_ID_ARG) { type = NavType.LongType }
+                navArgument(DETAIL_CARD_NAME_ARG) { type = NavType.StringType }
             )
         ) {
             CardDetailRoute()

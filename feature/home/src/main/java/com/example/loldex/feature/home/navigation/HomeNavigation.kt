@@ -13,7 +13,7 @@ const val HOME_ROUTE = "home"
 fun NavController.navigateToHome(navOptions: NavOptions) = navigate(HOME_GRAPH_ROUTE, navOptions)
 
 fun NavGraphBuilder.homeGraph(
-    onClickedCardItem: (Long) -> Unit,
+    onClickedCardItem: (String) -> Unit,
 ) {
     navigation(
         route = HOME_GRAPH_ROUTE,

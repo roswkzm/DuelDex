@@ -14,4 +14,8 @@ interface YugiohNetworkDataSource {
     suspend fun getYugiohCardDataById(
         id: Long
     ): ApiResponse<CardListResponse>
+
+    suspend fun getYugiohCardDataByName(
+        name: String
+    ): ApiResponse<CardListResponse>
 }

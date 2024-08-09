@@ -26,13 +26,13 @@ import com.example.loldex.core.model.YugiohCardData
 
 @Composable
 fun YugiohCardItem(
-    onClickedItem: (Long) -> Unit,
+    onClickedItem: (String) -> Unit,
     yugiohCardData: YugiohCardData
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth(),
-        onClick = { onClickedItem(yugiohCardData.id) },
+        onClick = { onClickedItem(yugiohCardData.name) },
         shape = RoundedCornerShape(8.dp),
         colors = CardDefaults.cardColors(),
         elevation = CardDefaults.elevatedCardElevation(12.dp)
@@ -46,9 +46,9 @@ fun YugiohCardItem(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(8.dp)),
-                url = yugiohCardData.cardImages[0].imageUrl,
+                url = yugiohCardData.cardImages[0].imageUrlSmall,
                 contentDescription = null,
-                contentScale = ContentScale.Fit,
+                contentScale = ContentScale.Crop,
                 placeholderContent = {
                     SkeletonBox(
                         modifier = Modifier

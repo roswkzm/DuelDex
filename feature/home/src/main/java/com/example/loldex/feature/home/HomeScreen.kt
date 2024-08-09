@@ -33,7 +33,7 @@ import kotlinx.coroutines.flow.flowOf
 @Composable
 internal fun HomeRoute(
     viewModel: HomeViewModel = hiltViewModel(),
-    onClickedCardItem: (Long) -> Unit,
+    onClickedCardItem: (String) -> Unit,
 ) {
     val yugiohListPagingItems: LazyPagingItems<YugiohCardData> =
         viewModel.yugiohListState.collectAsLazyPagingItems()
@@ -52,7 +52,7 @@ internal fun HomeRoute(
 internal fun HomeScreen(
     yugiohListPagingItems: LazyPagingItems<YugiohCardData>,
     scrollState: LazyGridState,
-    onClickedCardItem: (Long) -> Unit,
+    onClickedCardItem: (String) -> Unit,
     hasAppendErrorShown: MutableState<Boolean>,
 ) {
     LazyVerticalGrid(

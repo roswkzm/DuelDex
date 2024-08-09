@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.loldex.core.common.result.Result
 import com.example.loldex.core.common.result.asResult
-import com.example.loldex.core.domain.GetYugiohCardDataByIdUseCase
+import com.example.loldex.core.domain.GetYugiohCardDataByNameUseCase
 import com.example.loldex.core.model.YugiohCardData
 import com.example.loldex.feature.detail.navigation.DetailArgs
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,19 +19,19 @@ import javax.inject.Inject
 @HiltViewModel
 class CardDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val getYugiohCardDataByIdUseCase: GetYugiohCardDataByIdUseCase
+    private val getYugiohCardDataByNameUseCase: GetYugiohCardDataByNameUseCase,
 ) : ViewModel() {
 
     private val detailArgs: DetailArgs = DetailArgs(savedStateHandle)
-    private val cardId = detailArgs.cardId
+    private val cardName = detailArgs.cardName
 
     private val _cardDetailUiState = MutableStateFlow<CardDetailUiState>(CardDetailUiState.Loading)
     val cardDetailUiState: StateFlow<CardDetailUiState> = _cardDetailUiState.asStateFlow()
 
     init {
         viewModelScope.launch {
-            getYugiohCardDataByIdUseCase.invoke(
-                id = cardId
+            getYugiohCardDataByNameUseCase.invoke(
+                cardName = cardName
             ).asResult()
                 .map { yugiohCardDataResult ->
                     when (yugiohCardDataResult) {
@@ -41,7 +41,7 @@ class CardDetailViewModel @Inject constructor(
                     }
                 }
                 .collect {
-
+                    _cardDetailUiState.value = it
                 }
         }
     }
@@ -50,5 +50,5 @@ class CardDetailViewModel @Inject constructor(
 sealed interface CardDetailUiState {
     data object Loading : CardDetailUiState
     data object Error : CardDetailUiState
-    data class Success(val channelDetailData: YugiohCardData) : CardDetailUiState
+    data class Success(val yugiohCardDat: YugiohCardData) : CardDetailUiState
 }

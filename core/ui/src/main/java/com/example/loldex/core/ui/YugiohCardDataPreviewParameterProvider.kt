@@ -16,10 +16,10 @@ class YugiohCardDataPreviewParameterProvider : PreviewParameterProvider<List<Yug
 object PreviewParameterData {
 
     private val yugiohCardImage: YugiohCardImage = YugiohCardImage(
-        id = 1,
-        imageUrl = "Test Image Url",
-        imageUrlSmall = "Test Image Url Small",
-        imageUrlCropped = "Test Image Url Cropped",
+        id = 46986421,
+        imageUrl = "https://images.ygoprodeck.com/images/cards/46986421.jpg",
+        imageUrlSmall = "https://images.ygoprodeck.com/images/cards_small/46986421.jpg",
+        imageUrlCropped = "https://images.ygoprodeck.com/images/cards_cropped/46986421.jpg",
     )
 
     private val yugiohCardPrice: YugiohCardPrice = YugiohCardPrice(
@@ -31,18 +31,18 @@ object PreviewParameterData {
     )
 
     val yugiohCardData: YugiohCardData = YugiohCardData(
-        id = 1,
-        name = "Test Name",
-        type = "Effect Monster",
-        frameType = "effect",
-        desc = "Card Description",
-        atk = 100,
-        def = 100,
-        level = 5,
-        race = "Dragon",
-        attribute = "Test Attribute",
-        archetype = "Text Archetype",
-        ygoprodeckUrl = "Ygoprodeck Url",
+        id = 46986421,
+        name = "\"Infernoble Arms - Durendal\"",
+        type = "Normal Monster",
+        frameType = "normal",
+        desc = "''The ultimate wizard in terms of attack and defense.''",
+        atk = 2500,
+        def = 2100,
+        level = 7,
+        race = "Spellcaster",
+        attribute = "DARK",
+        archetype = "Dark Magician",
+        ygoprodeckUrl = "https://ygoprodeck.com/card/dark-magician-4003",
         cardImages = listOf(yugiohCardImage),
         cardPrices = listOf(yugiohCardPrice)
 
