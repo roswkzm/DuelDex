@@ -1,6 +1,5 @@
 package com.example.loldex.core.ui
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -46,8 +45,7 @@ fun YugiohCardItem(
             AsyncImageView(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clip(RoundedCornerShape(8.dp))
-                    .clickable { onClickedItem(yugiohCardData.id) },
+                    .clip(RoundedCornerShape(8.dp)),
                 url = yugiohCardData.cardImages[0].imageUrl,
                 contentDescription = null,
                 contentScale = ContentScale.Fit,
