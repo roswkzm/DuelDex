@@ -19,12 +19,12 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.loldex.core.designsystem.theme.ThemePreviews
 import com.example.loldex.core.model.YugiohCardData
-import com.example.loldex.feature.home.ui.YugiohCardItem
+import com.example.loldex.core.ui.pagingLoadStateHandler
+import com.example.loldex.core.ui.YugiohCardItem
 import com.example.loldex.feature.home.ui.component.LoadStateAppendError
 import com.example.loldex.feature.home.ui.component.LoadStateAppendSkeletonLoading
 import com.example.loldex.feature.home.ui.component.LoadStateRefreshError
 import com.example.loldex.feature.home.ui.component.LoadStateRefreshSkeletonLoading
-import com.example.loldex.feature.home.ui.component.pagingLoadStateHandler
 
 @Composable
 internal fun HomeRoute(

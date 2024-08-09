@@ -1,4 +1,4 @@
-package com.example.loldex.core.designsystem.component
+package com.example.loldex.core.ui
 
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.RepeatMode
@@ -18,6 +18,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.TileMode
+
+@Composable
+fun SkeletonBox(
+    modifier: Modifier = Modifier
+) {
+    SkeletonContent {
+        Box(
+            modifier = modifier
+        )
+    }
+}
 
 @Composable
 fun SkeletonContent(

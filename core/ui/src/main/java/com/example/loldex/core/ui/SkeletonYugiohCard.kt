@@ -1,4 +1,4 @@
-package com.example.loldex.feature.home.ui.component
+package com.example.loldex.core.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -15,11 +15,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.loldex.core.designsystem.component.SkeletonContent
-import com.example.loldex.feature.home.R
 
 @Composable
-fun YugiohSkeletonCard() {
+fun YugiohSkeletonCardBack() {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -47,19 +45,8 @@ fun YugiohSkeletonCard() {
     }
 }
 
-@Composable
-fun SkeletonBox(
-    modifier: Modifier = Modifier
-) {
-    SkeletonContent {
-        Box(
-            modifier = modifier
-        )
-    }
-}
-
 @Preview(showBackground = true)
 @Composable
 fun YugiohSkeletonCardPreview() {
-    YugiohSkeletonCard()
+    YugiohSkeletonCardBack()
 }

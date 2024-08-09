@@ -6,13 +6,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.paging.LoadState
 import com.example.loldex.core.designsystem.component.paging.ErrorMessage
+import com.example.loldex.core.ui.YugiohSkeletonCardBack
 
 // Paging Data 처음 가져올 시 Skeleton Loading Ui
 @Composable
 fun LazyGridScope.LoadStateRefreshSkeletonLoading() {
     item(span = { GridItemSpan(1) }) {
         this@LoadStateRefreshSkeletonLoading.items(20) {
-            YugiohSkeletonCard()
+            YugiohSkeletonCardBack()
         }
     }
 }
@@ -39,7 +40,7 @@ fun LazyGridScope.LoadStateRefreshError(
 fun LazyGridScope.LoadStateAppendSkeletonLoading() {
     item(span = { GridItemSpan(2) }) {
         this@LoadStateAppendSkeletonLoading.items(2) {
-            YugiohSkeletonCard()
+            YugiohSkeletonCardBack()
         }
     }
 }

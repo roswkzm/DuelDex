@@ -1,4 +1,4 @@
-package com.example.loldex.feature.home.ui
+package com.example.loldex.core.ui
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -23,7 +23,6 @@ import com.example.loldex.core.designsystem.component.AsyncImageView
 import com.example.loldex.core.designsystem.theme.ThemePreviews
 import com.example.loldex.core.designsystem.theme.ldTypography
 import com.example.loldex.core.model.YugiohCardData
-import com.example.loldex.feature.home.ui.component.SkeletonBox
 
 @Composable
 fun YugiohCardItem(

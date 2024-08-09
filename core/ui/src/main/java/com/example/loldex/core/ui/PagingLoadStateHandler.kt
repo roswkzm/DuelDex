@@ -1,4 +1,4 @@
-package com.example.loldex.feature.home.ui.component
+package com.example.loldex.core.ui
 
 import androidx.compose.foundation.lazy.grid.LazyGridItemScope
 import androidx.compose.foundation.lazy.grid.LazyGridScope
