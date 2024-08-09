@@ -1,9 +1,9 @@
 package com.example.loldex.core.data.mapper
 
 import com.example.loldex.core.model.YugiohCardData
-import com.example.loldex.core.network.model.response.CardResponse
+import com.example.loldex.core.network.model.response.CardDataResponse
 
-fun CardResponse.toData() = YugiohCardData(
+fun CardDataResponse.toData() = YugiohCardData(
     id = id,
     name = name,
     type = type,

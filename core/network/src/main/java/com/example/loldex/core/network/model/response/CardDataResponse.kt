@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class CardResponse(
+data class CardDataResponse(
     val id: Long,
     val name: String,
     val type: String, // 예시: "Effect Monster", "Spell Card", "Trap Card"

@@ -2,8 +2,12 @@ package com.example.loldex.core.data.repository
 
 import com.example.loldex.core.common.network.Dispatcher
 import com.example.loldex.core.common.network.LdDispatchers
+import com.example.loldex.core.data.mapper.toData
+import com.example.loldex.core.model.YugiohCardData
 import com.example.loldex.core.network.YugiohNetworkDataSource
-import com.example.loldex.core.network.model.response.CardListResponse
+import com.example.loldex.core.network.model.mapper.ErrorResponseMapper
+import com.example.loldex.core.network.model.response.CardPagingListResponse
+import com.skydoves.sandwich.map
 import com.skydoves.sandwich.onError
 import com.skydoves.sandwich.onException
 import com.skydoves.sandwich.suspendOnSuccess
@@ -11,6 +15,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import timber.log.Timber
 import javax.inject.Inject
 
 class YugiohRepositoryImpl @Inject constructor(
@@ -18,18 +23,32 @@ class YugiohRepositoryImpl @Inject constructor(
     private val dataSource: YugiohNetworkDataSource
 ) : YugiohRepository {
 
-    override fun getYugiohCardList(
+    override fun getYugiohPagingList(
         num: Int,
         offset: Int
-    ): Flow<CardListResponse> =
+    ): Flow<CardPagingListResponse> =
         flow {
-            val response = dataSource.getYugiohList(num, offset)
+            val response = dataSource.getYugiohPagingList(num, offset)
             response.suspendOnSuccess {
                 emit(data)
             }.onError {
 
             }.onException {
 
+            }
+        }.flowOn(ioDispatcher)
+
+    override fun getYugiohCardDataById(
+        id: Long
+    ): Flow<YugiohCardData> =
+        flow {
+            val response = dataSource.getYugiohCardDataById(id)
+            response.suspendOnSuccess {
+                emit(data.data[0].toData())
+            }.onError {
+                map(ErrorResponseMapper) { Timber.e("[Error] : $error") }
+            }.onException {
+                Timber.e(message)
             }
         }.flowOn(ioDispatcher)
 }

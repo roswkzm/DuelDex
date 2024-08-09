@@ -23,7 +23,7 @@ class YugiohPagingSource(
         return try {
             val offset = params.key ?: 0
 
-            val response = yugiohRepository.getYugiohCardList(num, offset).first()
+            val response = yugiohRepository.getYugiohPagingList(num, offset).first()
             val totalRows = response.meta.totalRows
             val data = response.data.map { it.toData() }
 

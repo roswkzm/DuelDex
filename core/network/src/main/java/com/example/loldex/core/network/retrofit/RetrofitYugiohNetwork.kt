@@ -3,6 +3,7 @@ package com.example.loldex.core.network.retrofit
 import androidx.tracing.trace
 import com.example.loldex.core.network.YugiohNetworkDataSource
 import com.example.loldex.core.network.model.response.CardListResponse
+import com.example.loldex.core.network.model.response.CardPagingListResponse
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.skydoves.sandwich.ApiResponse
 import com.skydoves.sandwich.retrofit.adapters.ApiResponseCallAdapterFactory
@@ -16,9 +17,14 @@ import javax.inject.Inject
 
 private interface RetrofitYugiohNetworkApi {
     @GET("cardinfo.php")
-    suspend fun getYugiohList(
+    suspend fun getYugiohPagingList(
         @Query("num") num: Int,
         @Query("offset") offset: Int,
+    ): ApiResponse<CardPagingListResponse>
+
+    @GET("cardinfo.php")
+    suspend fun getYugiohCardDataById(
+        @Query("id") id: Long,
     ): ApiResponse<CardListResponse>
 }
 
@@ -41,8 +47,12 @@ class RetrofitYugiohNetwork @Inject constructor(
             .create(RetrofitYugiohNetworkApi::class.java)
     }
 
-    override suspend fun getYugiohList(num: Int, offset: Int): ApiResponse<CardListResponse> =
-        networkApi.getYugiohList(num = num, offset = offset)
+    override suspend fun getYugiohPagingList(
+        num: Int,
+        offset: Int
+    ): ApiResponse<CardPagingListResponse> =
+        networkApi.getYugiohPagingList(num = num, offset = offset)
 
-
+    override suspend fun getYugiohCardDataById(id: Long): ApiResponse<CardListResponse> =
+        networkApi.getYugiohCardDataById(id)
 }
