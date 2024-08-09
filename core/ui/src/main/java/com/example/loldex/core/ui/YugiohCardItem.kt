@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.example.loldex.core.designsystem.component.AsyncImageView
 import com.example.loldex.core.designsystem.theme.ThemePreviews
@@ -74,5 +75,12 @@ fun YugiohCardItem(
 
 @ThemePreviews
 @Composable
-fun YugiohCardItemPreview() {
+fun YugiohCardItemPreview(
+    @PreviewParameter(YugiohCardDataPreviewParameterProvider::class) yugiohCardList: List<YugiohCardData>
+) {
+    val yugiohCardData = yugiohCardList[0]
+    YugiohCardItem(
+        onClickedItem = {},
+        yugiohCardData = yugiohCardData
+    )
 }

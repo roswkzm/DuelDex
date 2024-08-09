@@ -13,18 +13,22 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.loldex.core.designsystem.theme.ThemePreviews
 import com.example.loldex.core.model.YugiohCardData
-import com.example.loldex.core.ui.pagingLoadStateHandler
+import com.example.loldex.core.ui.YugiohCardDataPreviewParameterProvider
 import com.example.loldex.core.ui.YugiohCardItem
+import com.example.loldex.core.ui.pagingLoadStateHandler
 import com.example.loldex.feature.home.ui.component.LoadStateAppendError
 import com.example.loldex.feature.home.ui.component.LoadStateAppendSkeletonLoading
 import com.example.loldex.feature.home.ui.component.LoadStateRefreshError
 import com.example.loldex.feature.home.ui.component.LoadStateRefreshSkeletonLoading
+import kotlinx.coroutines.flow.flowOf
 
 @Composable
 internal fun HomeRoute(
@@ -113,5 +117,18 @@ private fun LazyGridScope.handlePagingLoadState(
 
 @ThemePreviews
 @Composable
-fun HomeScreenPreview() {
+fun HomeScreenPreview(
+    @PreviewParameter(YugiohCardDataPreviewParameterProvider::class) yugiohCardList: List<YugiohCardData>
+) {
+    val yugiohPagingData = PagingData.from(yugiohCardList)
+    val yugiohPagingItems = flowOf(yugiohPagingData).collectAsLazyPagingItems()
+    val scrollState = rememberLazyGridState()
+    val hasAppendErrorShown = remember { mutableStateOf(false) }
+
+    HomeScreen(
+        yugiohListPagingItems = yugiohPagingItems,
+        scrollState = scrollState,
+        onClickedCardItem = {},
+        hasAppendErrorShown = hasAppendErrorShown,
+    )
 }
