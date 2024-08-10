@@ -27,3 +27,12 @@ val Neutral_Blue = Color(0xFF242440)
 val Opacity10 = Color(0x1AFFFFFF)
 val Opacity20 = Color(0x33FFFFFF)
 val Opacity50 = Color(0x80FFFFFF)
+
+// Attribute Color
+val AttributeDark = Color(0xFF2B292C)
+val AttributeLight = Color(0xFFF8EBD2)
+val AttributeFire = Color(0xFFD53B47)
+val AttributeWater = Color(0xFF2648DD)
+val AttributeWind = Color(0xFFC1D9E5)
+val AttributeEarth = Color(0xFF978282)
+val AttributeDivine = Color(0xFFF0CF98)

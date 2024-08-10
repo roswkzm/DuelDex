@@ -1,31 +1,37 @@
 package com.example.loldex.feature.detail
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.loldex.core.designsystem.component.AsyncImageView
 import com.example.loldex.core.designsystem.component.LdBackGround
 import com.example.loldex.core.designsystem.theme.LolDexTheme
 import com.example.loldex.core.designsystem.theme.ThemePreviews
+import com.example.loldex.core.designsystem.theme.ldTypography
 import com.example.loldex.core.model.YugiohCardData
-import com.example.loldex.core.ui.SkeletonBox
 import com.example.loldex.core.ui.YugiohCardDataPreviewParameterProvider
+import com.example.loldex.core.ui.attribute.AttributeTag
+import com.example.loldex.core.designsystem.R as DesignR
 
 @Composable
 internal fun CardDetailRoute(
@@ -40,10 +46,10 @@ internal fun CardDetailRoute(
     )
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 internal fun CardDetailScreen(
-    cardDetailUiState: CardDetailUiState,
-    scrollState: ScrollState
+    cardDetailUiState: CardDetailUiState, scrollState: ScrollState
 ) {
     when (cardDetailUiState) {
         CardDetailUiState.Error -> {
@@ -61,26 +67,127 @@ internal fun CardDetailScreen(
                     .fillMaxSize()
                     .verticalScroll(scrollState)
             ) {
-                LazyRow(
+//                LazyRow(
+//                    modifier = Modifier
+//                ) {
+//                    items(yugiohCardData.cardImages.size) { index ->
+//                        AsyncImageView(modifier = Modifier.fillMaxWidth()
+//                            .clip(RoundedCornerShape(8.dp)),
+//                            url = yugiohCardData.cardImages[index].imageUrl,
+//                            contentDescription = null,
+//                            contentScale = ContentScale.Fit,
+//                            placeholderContent = {
+//                                SkeletonBox(
+//                                    modifier = Modifier.fillMaxWidth().aspectRatio(2f / 3f)
+//                                )
+//                            })
+//                    }
+//                }
+
+                Column(
                     modifier = Modifier
+                        .padding(horizontal = 10.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    items(yugiohCardData.cardImages.size) { index ->
-                        AsyncImageView(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clip(RoundedCornerShape(8.dp)),
-                            url = yugiohCardData.cardImages[index].imageUrl,
-                            contentDescription = null,
-                            contentScale = ContentScale.Fit,
-                            placeholderContent = {
-                                SkeletonBox(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .aspectRatio(2f / 3f)
+                    yugiohCardData.level?.let {
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(2.dp)
+                        ) {
+                            repeat(it) {
+                                Image(
+                                    modifier = Modifier.size(20.dp),
+                                    painter = painterResource(id = DesignR.drawable.level_star),
+                                    contentDescription = "Level Icon",
                                 )
                             }
-                        )
+                        }
                     }
+
+                    Text(
+                        text = yugiohCardData.name,
+                        style = MaterialTheme.ldTypography.fontTitleL,
+                        color = Color.Black
+                    )
+
+                    AttackDefensePowerLayout(yugiohCardData.atk, yugiohCardData.def)
+
+                    FlowRow {
+                        yugiohCardData.attribute?.let {
+                            AttributeTag(
+                                modifier = Modifier,
+                                attribute = it,
+                                onClickedAttribute = {}
+                            )
+                        }
+                    }
+
+                    Text(
+                        text = yugiohCardData.desc,
+                        style = MaterialTheme.ldTypography.fontBodyL,
+                        color = Color.Black
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun AttackDefensePowerLayout(
+    atk: Int?,
+    def: Int?,
+) {
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(20.dp)
+    ) {
+        atk?.let {
+            Column {
+                Text(
+                    text = "ATK",
+                    style = MaterialTheme.ldTypography.fontTitleM,
+                    color = Color.Black
+                )
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Image(
+                        modifier = Modifier.size(20.dp),
+                        painter = painterResource(id = DesignR.drawable.atk),
+                        contentDescription = "Attack Power",
+                    )
+
+                    Text(
+                        text = "$it",
+                        style = MaterialTheme.ldTypography.fontTitleL,
+                        color = Color.Black
+                    )
+                }
+            }
+        }
+
+        def?.let {
+            Column {
+                Text(
+                    text = "DEF",
+                    style = MaterialTheme.ldTypography.fontTitleM,
+                    color = Color.Black
+                )
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Image(
+                        modifier = Modifier.size(20.dp),
+                        painter = painterResource(id = DesignR.drawable.def),
+                        contentDescription = "Attack Power",
+                    )
+
+                    Text(
+                        text = "$it",
+                        style = MaterialTheme.ldTypography.fontTitleL,
+                        color = Color.Black
+                    )
                 }
             }
         }
