@@ -16,7 +16,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -25,12 +24,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.loldex.core.designsystem.component.LdBackGround
+import com.example.loldex.core.designsystem.component.SimpleTag
 import com.example.loldex.core.designsystem.theme.LolDexTheme
 import com.example.loldex.core.designsystem.theme.ThemePreviews
 import com.example.loldex.core.designsystem.theme.ldTypography
 import com.example.loldex.core.model.YugiohCardData
 import com.example.loldex.core.ui.YugiohCardDataPreviewParameterProvider
 import com.example.loldex.core.ui.attribute.AttributeTag
+import com.example.loldex.feature.detail.ui.AttackDefensePowerLayout
 import com.example.loldex.core.designsystem.R as DesignR
 
 @Composable
@@ -111,12 +112,40 @@ internal fun CardDetailScreen(
 
                     AttackDefensePowerLayout(yugiohCardData.atk, yugiohCardData.def)
 
-                    FlowRow {
+                    FlowRow(
+                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
                         yugiohCardData.attribute?.let {
                             AttributeTag(
                                 modifier = Modifier,
                                 attribute = it,
                                 onClickedAttribute = {}
+                            )
+                        }
+
+                        SimpleTag(
+                            color = Color.Magenta,
+                            title = yugiohCardData.race,
+                            onClickedTag = {}
+                        )
+
+                        SimpleTag(
+                            color = Color.Blue,
+                            title = yugiohCardData.type,
+                            onClickedTag = {}
+                        )
+
+                        SimpleTag(
+                            color = Color.Cyan,
+                            title = yugiohCardData.frameType,
+                            onClickedTag = {}
+                        )
+
+                        yugiohCardData.archetype?.let {
+                            SimpleTag(
+                                color = Color.DarkGray,
+                                title = it,
+                                onClickedTag = {}
                             )
                         }
                     }
@@ -132,67 +161,6 @@ internal fun CardDetailScreen(
     }
 }
 
-@Composable
-fun AttackDefensePowerLayout(
-    atk: Int?,
-    def: Int?,
-) {
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(20.dp)
-    ) {
-        atk?.let {
-            Column {
-                Text(
-                    text = "ATK",
-                    style = MaterialTheme.ldTypography.fontTitleM,
-                    color = Color.Black
-                )
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Image(
-                        modifier = Modifier.size(20.dp),
-                        painter = painterResource(id = DesignR.drawable.atk),
-                        contentDescription = "Attack Power",
-                    )
-
-                    Text(
-                        text = "$it",
-                        style = MaterialTheme.ldTypography.fontTitleL,
-                        color = Color.Black
-                    )
-                }
-            }
-        }
-
-        def?.let {
-            Column {
-                Text(
-                    text = "DEF",
-                    style = MaterialTheme.ldTypography.fontTitleM,
-                    color = Color.Black
-                )
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Image(
-                        modifier = Modifier.size(20.dp),
-                        painter = painterResource(id = DesignR.drawable.def),
-                        contentDescription = "Attack Power",
-                    )
-
-                    Text(
-                        text = "$it",
-                        style = MaterialTheme.ldTypography.fontTitleL,
-                        color = Color.Black
-                    )
-                }
-            }
-        }
-    }
-}
 
 @ThemePreviews
 @Composable
