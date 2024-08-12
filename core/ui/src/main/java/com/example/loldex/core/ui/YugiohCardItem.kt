@@ -53,7 +53,7 @@ fun YugiohCardItem(
                     SkeletonBox(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .aspectRatio(2f / 3f)
+                            .aspectRatio(268f / 391f)
                     )
                 }
             )

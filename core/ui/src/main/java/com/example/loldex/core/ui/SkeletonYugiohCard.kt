@@ -26,7 +26,7 @@ fun YugiohSkeletonCardBack() {
     ) {
         val modifier = Modifier
             .fillMaxWidth()
-            .aspectRatio(2f / 3f)
+            .aspectRatio(268f / 391f)
         Box(
             contentAlignment = Alignment.Center
         ) {
