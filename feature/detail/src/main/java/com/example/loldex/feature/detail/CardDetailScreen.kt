@@ -7,7 +7,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -29,6 +32,7 @@ import com.example.loldex.core.designsystem.theme.LolDexTheme
 import com.example.loldex.core.designsystem.theme.ThemePreviews
 import com.example.loldex.core.designsystem.theme.ldTypography
 import com.example.loldex.core.model.YugiohCardData
+import com.example.loldex.core.ui.CarouselPager
 import com.example.loldex.core.ui.YugiohCardDataPreviewParameterProvider
 import com.example.loldex.core.ui.attribute.AttributeTag
 import com.example.loldex.feature.detail.ui.AttackDefensePowerLayout
@@ -68,35 +72,25 @@ internal fun CardDetailScreen(
                     .fillMaxSize()
                     .verticalScroll(scrollState)
             ) {
-//                LazyRow(
-//                    modifier = Modifier
-//                ) {
-//                    items(yugiohCardData.cardImages.size) { index ->
-//                        AsyncImageView(modifier = Modifier.fillMaxWidth()
-//                            .clip(RoundedCornerShape(8.dp)),
-//                            url = yugiohCardData.cardImages[index].imageUrl,
-//                            contentDescription = null,
-//                            contentScale = ContentScale.Fit,
-//                            placeholderContent = {
-//                                SkeletonBox(
-//                                    modifier = Modifier.fillMaxWidth().aspectRatio(2f / 3f)
-//                                )
-//                            })
-//                    }
-//                }
+                CarouselPager(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalPaddingWeight = 0.1f,
+                    imageList = yugiohCardData.cardImages.map { it.imageUrl },
+                )
 
                 Column(
                     modifier = Modifier
                         .padding(horizontal = 10.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
+                    Spacer(modifier = Modifier.height(10.dp))
                     yugiohCardData.level?.let {
                         Row(
                             horizontalArrangement = Arrangement.spacedBy(2.dp)
                         ) {
                             repeat(it) {
                                 Image(
-                                    modifier = Modifier.size(20.dp),
+                                    modifier = Modifier.size(26.dp),
                                     painter = painterResource(id = DesignR.drawable.level_star),
                                     contentDescription = "Level Icon",
                                 )
