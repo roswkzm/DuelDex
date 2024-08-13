@@ -1,5 +1,7 @@
 package com.example.loldex.feature.detail
 
+import android.net.Uri
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
@@ -18,9 +20,14 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
@@ -58,6 +65,16 @@ internal fun CardDetailRoute(
 internal fun CardDetailScreen(
     cardDetailUiState: CardDetailUiState, scrollState: ScrollState
 ) {
+    val context = LocalContext.current
+    var webUrlString by remember { mutableStateOf("") }
+
+    LaunchedEffect(webUrlString) {
+        if (webUrlString.isNotEmpty()) {
+            val customTabsIntent = CustomTabsIntent.Builder().build()
+            customTabsIntent.launchUrl(context, Uri.parse(webUrlString))
+        }
+    }
+
     when (cardDetailUiState) {
         CardDetailUiState.Error -> {
             Text(text = "CardDetailUiState.Error")
@@ -158,23 +175,27 @@ internal fun CardDetailScreen(
                         cardPrice = yugiohCardData.cardPrices[0],
                         priceRowClickListener = object : OnPriceRowClickListener {
                             override fun onCardMarketClick() {
-
+                                webUrlString =
+                                    "https://www.cardmarket.com/en/YuGiOh/Products/Search?searchString=${yugiohCardData.name}"
                             }
 
                             override fun onTcgPlayerClick() {
-                                
+                                webUrlString =
+                                    "https://www.tcgplayer.com/search/yugioh/product?productLineName=yugioh&q=${yugiohCardData.name}"
                             }
 
                             override fun onEbayClick() {
-
+                                webUrlString =
+                                    "https://www.ebay.com/sch/i.html?_nkw=${yugiohCardData.name}"
                             }
 
                             override fun onAmazonClick() {
-
+                                webUrlString = "https://www.amazon.com/s?k=${yugiohCardData.name}"
                             }
 
                             override fun onCoolStuffIncClick() {
-
+                                webUrlString =
+                                    "https://www.coolstuffinc.com/main_search.php?pa=searchOnName&page=1&resultsPerPage=25&q=${yugiohCardData.name}"
                             }
                         }
                     )
