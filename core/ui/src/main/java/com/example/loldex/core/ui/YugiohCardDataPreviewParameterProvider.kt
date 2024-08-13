@@ -23,11 +23,11 @@ object PreviewParameterData {
     )
 
     private val yugiohCardPrice: YugiohCardPrice = YugiohCardPrice(
-        cardmarketPrice = "1000",
-        tcgplayerPrice = "1000",
+        cardMarketPrice = "1000",
+        tcgPlayerPrice = "1000",
         ebayPrice = "1000",
         amazonPrice = "1000",
-        coolstuffincPrice = "1000",
+        coolStuffIncPrice = "1000",
     )
 
     val yugiohCardData: YugiohCardData = YugiohCardData(

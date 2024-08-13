@@ -36,6 +36,8 @@ import com.example.loldex.core.ui.CarouselPager
 import com.example.loldex.core.ui.YugiohCardDataPreviewParameterProvider
 import com.example.loldex.core.ui.attribute.AttributeTag
 import com.example.loldex.feature.detail.ui.AttackDefensePowerLayout
+import com.example.loldex.feature.detail.ui.CardPriceLayout
+import com.example.loldex.feature.detail.ui.OnPriceRowClickListener
 import com.example.loldex.core.designsystem.R as DesignR
 
 @Composable
@@ -149,12 +151,38 @@ internal fun CardDetailScreen(
                         style = MaterialTheme.ldTypography.fontBodyL,
                         color = Color.Black
                     )
+
+                    CardPriceLayout(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        cardPrice = yugiohCardData.cardPrices[0],
+                        priceRowClickListener = object : OnPriceRowClickListener {
+                            override fun onCardMarketClick() {
+
+                            }
+
+                            override fun onTcgPlayerClick() {
+                                
+                            }
+
+                            override fun onEbayClick() {
+
+                            }
+
+                            override fun onAmazonClick() {
+
+                            }
+
+                            override fun onCoolStuffIncClick() {
+
+                            }
+                        }
+                    )
                 }
             }
         }
     }
 }
-
 
 @ThemePreviews
 @Composable

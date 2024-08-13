@@ -4,9 +4,9 @@ import com.example.loldex.core.model.YugiohCardPrice
 import com.example.loldex.core.network.model.response.CardPriceResponse
 
 fun CardPriceResponse.toData() = YugiohCardPrice(
-    cardmarketPrice = cardmarketPrice,
-    tcgplayerPrice = tcgplayerPrice,
+    cardMarketPrice = cardmarketPrice,
+    tcgPlayerPrice = tcgplayerPrice,
     ebayPrice = ebayPrice,
     amazonPrice = amazonPrice,
-    coolstuffincPrice = coolstuffincPrice,
+    coolStuffIncPrice = coolstuffincPrice,
 )
