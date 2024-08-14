@@ -31,7 +31,7 @@ class CardDetailViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             getYugiohCardDataByNameUseCase.invoke(
-                cardName = cardName
+                cardName = "Dark Magician"// cardName
             ).asResult()
                 .map { yugiohCardDataResult ->
                     when (yugiohCardDataResult) {

@@ -18,4 +18,8 @@ interface YugiohRepository {
     fun getYugiohCardDataByName(
         name: String
     ): Flow<YugiohCardData>
+
+    fun getYugiohCardDataBySearchString(
+        searchString: String
+    ): Flow<YugiohCardData>
 }

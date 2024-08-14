@@ -18,4 +18,8 @@ interface YugiohNetworkDataSource {
     suspend fun getYugiohCardDataByName(
         name: String
     ): ApiResponse<CardListResponse>
+
+    suspend fun getYugiohCardDataBySearchString(
+        searchString: String
+    ): ApiResponse<CardListResponse>
 }

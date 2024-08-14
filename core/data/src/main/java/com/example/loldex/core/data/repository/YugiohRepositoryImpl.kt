@@ -65,4 +65,18 @@ class YugiohRepositoryImpl @Inject constructor(
                 Timber.e(message)
             }
         }.flowOn(ioDispatcher)
+
+    override fun getYugiohCardDataBySearchString(
+        searchString: String
+    ): Flow<YugiohCardData> =
+        flow {
+            val response = dataSource.getYugiohCardDataBySearchString(searchString)
+            response.suspendOnSuccess {
+                emit(data.data[0].toData())
+            }.onError {
+                map(ErrorResponseMapper) { Timber.e("[Error] : $error") }
+            }.onException {
+                Timber.e(message)
+            }
+        }.flowOn(ioDispatcher)
 }
