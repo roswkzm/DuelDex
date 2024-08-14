@@ -19,3 +19,5 @@ fun CardDataResponse.toData() = YugiohCardData(
     cardImages = cardImages.map { it.toData() },
     cardPrices = cardPrices.map { it.toData() },
 )
+
+fun List<CardDataResponse>.toData() = this.map { it.toData() }

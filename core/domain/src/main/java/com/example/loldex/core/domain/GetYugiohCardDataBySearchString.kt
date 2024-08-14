@@ -7,6 +7,10 @@ class GetYugiohCardDataBySearchString @Inject constructor(
     private val yugiohRepository: YugiohRepository
 ) {
     operator fun invoke(
-        searchString: String
-    ) = yugiohRepository.getYugiohCardDataBySearchString(searchString)
+        searchString: String,
+        onError: (String) -> Unit,
+    ) = yugiohRepository.getYugiohCardDataBySearchString(
+        searchString = searchString,
+        onError = onError
+    )
 }

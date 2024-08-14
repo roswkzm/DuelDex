@@ -20,6 +20,7 @@ interface YugiohRepository {
     ): Flow<YugiohCardData>
 
     fun getYugiohCardDataBySearchString(
-        searchString: String
-    ): Flow<YugiohCardData>
+        searchString: String,
+        onError: (String) -> Unit,
+    ): Flow<List<YugiohCardData>>
 }
