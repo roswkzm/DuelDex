@@ -66,7 +66,7 @@ fun RectangleTag(
 ) {
     Button(
         onClick = { onClickedTag(name) },
-        enabled = false,
+        enabled = true,
         shape = RoundedCornerShape(8.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = Neutral20,
@@ -85,12 +85,14 @@ fun RectangleTag(
 @Composable
 fun TagWithDeleteButton(
     name: String,
+    color: Color,
     onClickedTag: (String) -> Unit,
     onClickedDelete: (String) -> Unit,
 ) {
     Button(
         onClick = { onClickedTag(name) },
-        enabled = false,
+        enabled = true,
+        colors = ButtonDefaults.buttonColors(color),
         shape = RoundedCornerShape(60.dp),
         border = BorderStroke(1.dp, Neutral20),
         contentPadding = PaddingValues(horizontal = 12.dp, vertical = 5.dp)
@@ -137,6 +139,7 @@ fun RectangleTagPreview() {
 fun TagWithDeleteButtonPreview() {
     TagWithDeleteButton(
         name = "Yh-Gi-Oh",
+        color = Color.Transparent,
         onClickedTag = {},
         onClickedDelete = {}
     )

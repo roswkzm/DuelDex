@@ -30,6 +30,8 @@ fun LdNavHost(
         )
         bookmarksScreen()
         detailGraph()
-        searchScreen()
+        searchScreen(
+            onClickedCardItem = navController::navigateToCardDetail,
+        )
     }
 }

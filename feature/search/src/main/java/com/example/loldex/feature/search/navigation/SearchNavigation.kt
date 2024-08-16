@@ -9,10 +9,14 @@ const val SEARCH_ROUTE = "search"
 
 fun NavController.navigateToSearch() = navigate(SEARCH_ROUTE)
 
-fun NavGraphBuilder.searchScreen() {
+fun NavGraphBuilder.searchScreen(
+    onClickedCardItem: (String) -> Unit,
+) {
     composable(
         route = SEARCH_ROUTE
     ) {
-        SearchRoute()
+        SearchRoute(
+            onClickedCardItem = onClickedCardItem,
+        )
     }
 }

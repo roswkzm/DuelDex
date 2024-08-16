@@ -22,12 +22,14 @@ import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.material.icons.filled.ErrorOutline
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -59,32 +61,36 @@ import kotlinx.coroutines.launch
 
 @Composable
 internal fun SearchRoute(
-    viewModel: SearchViewModel = hiltViewModel()
+    viewModel: SearchViewModel = hiltViewModel(),
+    onClickedCardItem: (String) -> Unit,
 ) {
     val cardSearchResult by viewModel.cardSearchResult.collectAsStateWithLifecycle()
     val scrollState = rememberLazyGridState()
 
     var searchValue by remember { mutableStateOf("") }
-    val recentSearchList = listOf("가나다", "가나다", "가나다", "가나다", "가나다", "가나다")
+    var recentSearchList = listOf("가나다", "라마바", "사아자", "차카타", "파하")
     val recommendedKeywordList = listOf("Dark Magician")
+
+    LaunchedEffect(searchValue) {
+        if (searchValue.isEmpty()) {
+            viewModel.cardSearchStateIdle()
+        } else {
+            viewModel.cardSearchToQuery(searchValue)
+        }
+    }
 
     SearchScreen(
         cardSearchResult = cardSearchResult,
         scrollState = scrollState,
         searchValue = searchValue,
         onSearchValueChange = { searchValue = it },
-        onSearch = {
-            if (searchValue.isEmpty()) {
-                viewModel.cardSearchStateIdle()
-            } else {
-                viewModel.cardSearchToQuery(searchValue)
-            }
-        },
+        onSearch = viewModel::cardSearchToQuery,
         recentSearchList = recentSearchList,
         recommendedKeywordList = recommendedKeywordList,
-        onClickedTag = {},
-        onClickedDelete = {},
-        onClickedCardItem = {},
+        onClickedTag = { searchValue = it },
+        onClickedDeleteTag = {},
+        onClickedDeleteAll = {},
+        onClickedCardItem = onClickedCardItem,
         onClickedDeleteString = { searchValue = "" }
     )
 }
@@ -99,7 +105,8 @@ internal fun SearchScreen(
     recentSearchList: List<String>,
     recommendedKeywordList: List<String>,
     onClickedTag: (String) -> Unit,
-    onClickedDelete: (String) -> Unit,
+    onClickedDeleteTag: (String) -> Unit,
+    onClickedDeleteAll: () -> Unit,
     onClickedCardItem: (String) -> Unit,
     onClickedDeleteString: () -> Unit,
 ) {
@@ -116,72 +123,84 @@ internal fun SearchScreen(
             onClickedDeleteString = onClickedDeleteString
         )
 
-        if (recentSearchList.isNotEmpty()) {
-            RecentSearches(
-                recentSearchList = recentSearchList,
-                onClickedTag = onClickedTag,
-                onClickedDelete = onClickedDelete
-            )
-        }
+        Column(
 
-        if (recommendedKeywordList.isNotEmpty()) {
-            RecommendedKeywords(
-                recommendedKeywordList = recommendedKeywordList,
-                onClickedTag = onClickedTag
-            )
-        }
-
-        when (cardSearchResult) {
-            SearchResultUiState.Idle -> {}
-
-            SearchResultUiState.Loading -> {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator(modifier = Modifier)
-                }
+        ) {
+            if (recentSearchList.isNotEmpty()) {
+                RecentSearches(
+                    recentSearchList = recentSearchList,
+                    onClickedTag = onClickedTag,
+                    onClickedDeleteTag = onClickedDeleteTag,
+                    onClickedDeleteAll = onClickedDeleteAll,
+                )
             }
 
-            is SearchResultUiState.Error -> {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(12.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Icon(
-                        modifier = Modifier.size(90.dp),
-                        imageVector = Icons.Filled.ErrorOutline,
-                        contentDescription = "Error Icon",
-                        tint = Color.Red,
-                    )
-                    Text(
-                        text = cardSearchResult.errorMessage,
-                        style = MaterialTheme.ldTypography.fontTitleM,
-                        color = Color.Red
-                    )
-                }
+            if (recommendedKeywordList.isNotEmpty()) {
+                RecommendedKeywords(
+                    recommendedKeywordList = recommendedKeywordList,
+                    onClickedTag = onClickedTag
+                )
             }
 
-            is SearchResultUiState.Success -> {
-                LazyVerticalGrid(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 10.dp),
-                    columns = GridCells.Fixed(2),
-                    state = scrollState,
-                    verticalArrangement = Arrangement.spacedBy(15.dp),
-                    horizontalArrangement = Arrangement.spacedBy(15.dp)
-                ) {
-                    val yugiohCardList = cardSearchResult.yugiohCardList
-                    items(yugiohCardList.size) { index ->
-                        YugiohCardItem(
-                            onClickedItem = onClickedCardItem,
-                            yugiohCardData = yugiohCardList[index],
+            HorizontalDivider(
+                modifier = Modifier
+                    .padding(start = 6.dp, top = 10.dp, end = 6.dp),
+                thickness = 1.dp,
+                color = Text20
+            )
+
+            when (cardSearchResult) {
+                SearchResultUiState.Idle -> {}
+
+                SearchResultUiState.Loading -> {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator(modifier = Modifier)
+                    }
+                }
+
+                is SearchResultUiState.Error -> {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(12.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Icon(
+                            modifier = Modifier.size(90.dp),
+                            imageVector = Icons.Filled.ErrorOutline,
+                            contentDescription = "Error Icon",
+                            tint = Color.Red,
                         )
+                        Text(
+                            text = cardSearchResult.errorMessage,
+                            style = MaterialTheme.ldTypography.fontTitleM,
+                            color = Color.Red
+                        )
+                    }
+                }
+
+                is SearchResultUiState.Success -> {
+                    LazyVerticalGrid(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 10.dp, top = 12.dp, end = 10.dp),
+                        columns = GridCells.Fixed(2),
+                        state = scrollState,
+                        verticalArrangement = Arrangement.spacedBy(15.dp),
+                        horizontalArrangement = Arrangement.spacedBy(15.dp)
+                    ) {
+                        val yugiohCardList = cardSearchResult.yugiohCardList
+                        items(yugiohCardList.size) { index ->
+                            YugiohCardItem(
+                                onClickedItem = onClickedCardItem,
+                                yugiohCardData = yugiohCardList[index],
+                            )
+                        }
                     }
                 }
             }
@@ -283,7 +302,8 @@ fun SearchTextField(
 fun RecentSearches(
     recentSearchList: List<String>,
     onClickedTag: (String) -> Unit,
-    onClickedDelete: (String) -> Unit,
+    onClickedDeleteTag: (String) -> Unit,
+    onClickedDeleteAll: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -303,7 +323,8 @@ fun RecentSearches(
 
             Text(
                 modifier = Modifier
-                    .padding(end = 20.dp),
+                    .padding(end = 20.dp)
+                    .clickable { onClickedDeleteAll() },
                 text = stringResource(id = R.string.recent_searches_delete_all),
                 style = MaterialTheme.ldTypography.fontLabelL,
                 color = Text20
@@ -319,8 +340,9 @@ fun RecentSearches(
             items(recentSearchList.size) { index ->
                 TagWithDeleteButton(
                     name = recentSearchList[index],
+                    color = Color.Transparent,
                     onClickedTag = onClickedTag,
-                    onClickedDelete = onClickedDelete
+                    onClickedDelete = onClickedDeleteTag
                 )
             }
         }
@@ -383,7 +405,8 @@ fun SearchScreenPreview(
         recentSearchList = recentSearchList,
         recommendedKeywordList = recommendedKeywordList,
         onClickedTag = {},
-        onClickedDelete = {},
+        onClickedDeleteTag = {},
+        onClickedDeleteAll = {},
         onClickedCardItem = {},
         onClickedDeleteString = {},
     )
