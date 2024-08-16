@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search_bar_placeholder">Search by card name</string>
+    <string name="recent_searches">Recent Searches</string>
+    <string name="recent_searches_delete_all">Delete All</string>
+    <string name="recommended_keywords">Recommended Keywords</string>
+</resources>

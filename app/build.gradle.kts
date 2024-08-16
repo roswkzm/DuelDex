@@ -35,6 +35,7 @@ dependencies {
     implementation(projects.feature.bookmarks)
     implementation(projects.feature.settings)
     implementation(projects.feature.detail)
+    implementation(projects.feature.search)
 
     implementation(projects.core.designsystem)
 
