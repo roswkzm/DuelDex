@@ -5,6 +5,7 @@ import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
@@ -42,6 +43,7 @@ import com.example.loldex.core.model.YugiohCardData
 import com.example.loldex.core.ui.CarouselPager
 import com.example.loldex.core.ui.YugiohCardDataPreviewParameterProvider
 import com.example.loldex.core.ui.attribute.AttributeTag
+import com.example.loldex.core.ui.util.statusBarPadding
 import com.example.loldex.feature.detail.ui.AttackDefensePowerLayout
 import com.example.loldex.feature.detail.ui.CardPriceLayout
 import com.example.loldex.feature.detail.ui.OnPriceRowClickListener
@@ -75,130 +77,137 @@ internal fun CardDetailScreen(
         }
     }
 
-    when (cardDetailUiState) {
-        CardDetailUiState.Error -> {
-            Text(text = "CardDetailUiState.Error")
-        }
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .statusBarPadding()
+    ) {
+        when (cardDetailUiState) {
+            CardDetailUiState.Error -> {
+                Text(text = "CardDetailUiState.Error")
+            }
 
-        CardDetailUiState.Loading -> {
-            Text(text = "CardDetailUiState.Loading")
-        }
+            CardDetailUiState.Loading -> {
+                Text(text = "CardDetailUiState.Loading")
+            }
 
-        is CardDetailUiState.Success -> {
-            val yugiohCardData = cardDetailUiState.yugiohCardDat
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(scrollState)
-            ) {
-                CarouselPager(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalPaddingWeight = 0.1f,
-                    imageList = yugiohCardData.cardImages.map { it.imageUrl },
-                )
-
+            is CardDetailUiState.Success -> {
+                val yugiohCardData = cardDetailUiState.yugiohCardDat
                 Column(
                     modifier = Modifier
-                        .padding(horizontal = 10.dp),
-                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                        .fillMaxSize()
+                        .verticalScroll(scrollState)
                 ) {
-                    Spacer(modifier = Modifier.height(10.dp))
-                    yugiohCardData.level?.let {
-                        Row(
-                            horizontalArrangement = Arrangement.spacedBy(2.dp)
+                    CarouselPager(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalPaddingWeight = 0.1f,
+                        imageList = yugiohCardData.cardImages.map { it.imageUrl },
+                    )
+
+                    Column(
+                        modifier = Modifier
+                            .padding(horizontal = 10.dp),
+                        verticalArrangement = Arrangement.spacedBy(10.dp)
+                    ) {
+                        Spacer(modifier = Modifier.height(10.dp))
+                        yugiohCardData.level?.let {
+                            Row(
+                                horizontalArrangement = Arrangement.spacedBy(2.dp)
+                            ) {
+                                repeat(it) {
+                                    Image(
+                                        modifier = Modifier.size(26.dp),
+                                        painter = painterResource(id = DesignR.drawable.level_star),
+                                        contentDescription = "Level Icon",
+                                    )
+                                }
+                            }
+                        }
+
+                        Text(
+                            text = yugiohCardData.name,
+                            style = MaterialTheme.ldTypography.fontTitleL,
+                            color = Color.Black
+                        )
+
+                        AttackDefensePowerLayout(yugiohCardData.atk, yugiohCardData.def)
+
+                        FlowRow(
+                            horizontalArrangement = Arrangement.spacedBy(4.dp)
                         ) {
-                            repeat(it) {
-                                Image(
-                                    modifier = Modifier.size(26.dp),
-                                    painter = painterResource(id = DesignR.drawable.level_star),
-                                    contentDescription = "Level Icon",
+                            yugiohCardData.attribute?.let {
+                                AttributeTag(
+                                    modifier = Modifier,
+                                    attribute = it,
+                                    onClickedAttribute = {}
+                                )
+                            }
+
+                            SimpleTag(
+                                color = Color.Magenta,
+                                title = yugiohCardData.race,
+                                onClickedTag = {}
+                            )
+
+                            SimpleTag(
+                                color = Color.Blue,
+                                title = yugiohCardData.type,
+                                onClickedTag = {}
+                            )
+
+                            SimpleTag(
+                                color = Color.Cyan,
+                                title = yugiohCardData.frameType,
+                                onClickedTag = {}
+                            )
+
+                            yugiohCardData.archetype?.let {
+                                SimpleTag(
+                                    color = Color.DarkGray,
+                                    title = it,
+                                    onClickedTag = {}
                                 )
                             }
                         }
+
+                        Text(
+                            text = yugiohCardData.desc,
+                            style = MaterialTheme.ldTypography.fontBodyL,
+                            color = Color.Black
+                        )
+
+                        CardPriceLayout(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            cardPrice = yugiohCardData.cardPrices[0],
+                            priceRowClickListener = object : OnPriceRowClickListener {
+                                override fun onCardMarketClick() {
+                                    webUrlString =
+                                        "https://www.cardmarket.com/en/YuGiOh/Products/Search?searchString=${yugiohCardData.name}"
+                                }
+
+                                override fun onTcgPlayerClick() {
+                                    webUrlString =
+                                        "https://www.tcgplayer.com/search/yugioh/product?productLineName=yugioh&q=${yugiohCardData.name}"
+                                }
+
+                                override fun onEbayClick() {
+                                    webUrlString =
+                                        "https://www.ebay.com/sch/i.html?_nkw=${yugiohCardData.name}"
+                                }
+
+                                override fun onAmazonClick() {
+                                    webUrlString =
+                                        "https://www.amazon.com/s?k=${yugiohCardData.name}"
+                                }
+
+                                override fun onCoolStuffIncClick() {
+                                    webUrlString =
+                                        "https://www.coolstuffinc.com/main_search.php?pa=searchOnName&page=1&resultsPerPage=25&q=${yugiohCardData.name}"
+                                }
+                            }
+                        )
                     }
-
-                    Text(
-                        text = yugiohCardData.name,
-                        style = MaterialTheme.ldTypography.fontTitleL,
-                        color = Color.Black
-                    )
-
-                    AttackDefensePowerLayout(yugiohCardData.atk, yugiohCardData.def)
-
-                    FlowRow(
-                        horizontalArrangement = Arrangement.spacedBy(4.dp)
-                    ) {
-                        yugiohCardData.attribute?.let {
-                            AttributeTag(
-                                modifier = Modifier,
-                                attribute = it,
-                                onClickedAttribute = {}
-                            )
-                        }
-
-                        SimpleTag(
-                            color = Color.Magenta,
-                            title = yugiohCardData.race,
-                            onClickedTag = {}
-                        )
-
-                        SimpleTag(
-                            color = Color.Blue,
-                            title = yugiohCardData.type,
-                            onClickedTag = {}
-                        )
-
-                        SimpleTag(
-                            color = Color.Cyan,
-                            title = yugiohCardData.frameType,
-                            onClickedTag = {}
-                        )
-
-                        yugiohCardData.archetype?.let {
-                            SimpleTag(
-                                color = Color.DarkGray,
-                                title = it,
-                                onClickedTag = {}
-                            )
-                        }
-                    }
-
-                    Text(
-                        text = yugiohCardData.desc,
-                        style = MaterialTheme.ldTypography.fontBodyL,
-                        color = Color.Black
-                    )
-
-                    CardPriceLayout(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        cardPrice = yugiohCardData.cardPrices[0],
-                        priceRowClickListener = object : OnPriceRowClickListener {
-                            override fun onCardMarketClick() {
-                                webUrlString =
-                                    "https://www.cardmarket.com/en/YuGiOh/Products/Search?searchString=${yugiohCardData.name}"
-                            }
-
-                            override fun onTcgPlayerClick() {
-                                webUrlString =
-                                    "https://www.tcgplayer.com/search/yugioh/product?productLineName=yugioh&q=${yugiohCardData.name}"
-                            }
-
-                            override fun onEbayClick() {
-                                webUrlString =
-                                    "https://www.ebay.com/sch/i.html?_nkw=${yugiohCardData.name}"
-                            }
-
-                            override fun onAmazonClick() {
-                                webUrlString = "https://www.amazon.com/s?k=${yugiohCardData.name}"
-                            }
-
-                            override fun onCoolStuffIncClick() {
-                                webUrlString =
-                                    "https://www.coolstuffinc.com/main_search.php?pa=searchOnName&page=1&resultsPerPage=25&q=${yugiohCardData.name}"
-                            }
-                        }
-                    )
                 }
             }
         }

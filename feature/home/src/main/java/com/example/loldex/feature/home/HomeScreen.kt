@@ -40,6 +40,7 @@ import com.example.loldex.core.model.YugiohCardData
 import com.example.loldex.core.ui.YugiohCardDataPreviewParameterProvider
 import com.example.loldex.core.ui.YugiohCardItem
 import com.example.loldex.core.ui.pagingLoadStateHandler
+import com.example.loldex.core.ui.util.statusBarPadding
 import com.example.loldex.feature.home.ui.component.LoadStateAppendError
 import com.example.loldex.feature.home.ui.component.LoadStateAppendSkeletonLoading
 import com.example.loldex.feature.home.ui.component.LoadStateRefreshError
@@ -77,7 +78,8 @@ internal fun HomeScreen(
 ) {
     Column(
         modifier = Modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .statusBarPadding(),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         HomeTopBar(

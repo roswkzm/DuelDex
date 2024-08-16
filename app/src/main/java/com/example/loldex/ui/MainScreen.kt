@@ -1,15 +1,14 @@
 package com.example.loldex.ui
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -40,6 +39,8 @@ fun MainScreen(
         windowSizeClass = windowSizeClass
     )
 ) {
+    val destination = appState.currentTopLevelDestination
+
     val snackBarHostState = remember {
         SnackbarHostState()
     }
@@ -49,48 +50,30 @@ fun MainScreen(
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
         snackbarHost = { SnackbarHost(hostState = snackBarHostState) },
         bottomBar = {
-            LdBottomBar(
-                destinations = appState.topLevelDestinations,
-                onNavigateToDestination = appState::navigateToTopLevelDestination,
-                currentDestination = appState.currentDestination,
-                modifier = Modifier.testTag("LdBottomBar")
-            )
+            if (destination != null) {
+                LdBottomBar(
+                    destinations = appState.topLevelDestinations,
+                    onNavigateToDestination = appState::navigateToTopLevelDestination,
+                    currentDestination = appState.currentDestination,
+                    modifier = Modifier.testTag("LdBottomBar")
+                )
+            }
         }
-    ) { padding ->
-        Row(
-            Modifier
+    ) { paddingValues ->
+
+        Box(
+            modifier = Modifier
                 .fillMaxSize()
-                .padding(padding)
-                .consumeWindowInsets(padding)
+                .padding(paddingValues)
+                .consumeWindowInsets(paddingValues)
                 .windowInsetsPadding(
                     WindowInsets.safeDrawing.only(
                         WindowInsetsSides.Horizontal
                     )
                 )
-                .statusBarsPadding()
+                .navigationBarsPadding()
         ) {
-            Column(Modifier.fillMaxSize()) {
-                val destination = appState.currentTopLevelDestination
-                if (destination != null) {
-//                    LdTopAppBar(
-//                        titleRes = destination.titleTextId,
-//                        navigationIcon = Icons.Rounded.Search,
-//                        navigationIconContentDescription = stringResource(
-//                            id = settingsR.string.feature_settings_top_app_bar_navigation_icon_description
-//                        ),
-//                        actionIcon = Icons.Rounded.Settings,
-//                        actionIconContentDescription = stringResource(
-//                            id = settingsR.string.feature_settings_top_app_bar_action_icon_description
-//                        ),
-//                        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-//                            containerColor = Color.Transparent,
-//                        ),
-//                        onActionClick = {},
-//                        onNavigationClick = {}
-//                    )
-                }
-                LdNavHost(appState = appState)
-            }
+            LdNavHost(appState = appState)
         }
     }
 }

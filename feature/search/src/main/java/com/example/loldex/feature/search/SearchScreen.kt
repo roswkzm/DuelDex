@@ -52,6 +52,7 @@ import com.example.loldex.core.designsystem.theme.ldTypography
 import com.example.loldex.core.model.YugiohCardData
 import com.example.loldex.core.ui.YugiohCardDataPreviewParameterProvider
 import com.example.loldex.core.ui.YugiohCardItem
+import com.example.loldex.core.ui.util.statusBarPadding
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -106,6 +107,7 @@ internal fun SearchScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(Neutral10)
+            .statusBarPadding()
     ) {
         SearchTextField(
             searchValue = searchValue,
