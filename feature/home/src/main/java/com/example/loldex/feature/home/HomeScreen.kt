@@ -1,10 +1,14 @@
 package com.example.loldex.feature.home
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -13,33 +17,26 @@ import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ErrorOutline
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.example.loldex.core.designsystem.theme.Neutral10
+import com.example.loldex.core.designsystem.component.LdBackGround
+import com.example.loldex.core.designsystem.theme.LolDexTheme
+import com.example.loldex.core.designsystem.theme.Text0
 import com.example.loldex.core.designsystem.theme.ThemePreviews
-import com.example.loldex.core.designsystem.theme.ldTypography
 import com.example.loldex.core.model.YugiohCardData
-import com.example.loldex.core.ui.DebouncingSearchBar
 import com.example.loldex.core.ui.YugiohCardDataPreviewParameterProvider
 import com.example.loldex.core.ui.YugiohCardItem
 import com.example.loldex.core.ui.pagingLoadStateHandler
@@ -48,128 +45,48 @@ import com.example.loldex.feature.home.ui.component.LoadStateAppendSkeletonLoadi
 import com.example.loldex.feature.home.ui.component.LoadStateRefreshError
 import com.example.loldex.feature.home.ui.component.LoadStateRefreshSkeletonLoading
 import kotlinx.coroutines.flow.flowOf
+import com.example.loldex.core.designsystem.R as DesignR
 
 @Composable
 internal fun HomeRoute(
     viewModel: HomeViewModel = hiltViewModel(),
     onClickedCardItem: (String) -> Unit,
+    onClickedSearchIcon: () -> Unit,
 ) {
     val yugiohListPagingItems: LazyPagingItems<YugiohCardData> =
         viewModel.yugiohListState.collectAsLazyPagingItems()
-    val cardSearchResult by viewModel.cardSearchResult.collectAsStateWithLifecycle()
-    val searchScrollState = rememberLazyGridState()
     val pagingScrollState = rememberLazyGridState()
     var hasAppendErrorShown = remember { mutableStateOf(false) }
 
-    var searchQuery by rememberSaveable { mutableStateOf("") }
-    var isSearchBarActive by rememberSaveable { mutableStateOf(false) }
-
     HomeScreen(
-        cardSearchResult = cardSearchResult,
         yugiohListPagingItems = yugiohListPagingItems,
         pagingScrollState = pagingScrollState,
         onClickedCardItem = onClickedCardItem,
         hasAppendErrorShown = hasAppendErrorShown,
-        searchScrollState = searchScrollState,
-        searchQuery = searchQuery,
-        onQueryChange = { searchQuery = it },
-        isSearchBarActive = isSearchBarActive,
-        onActiveChange = { isSearchBarActive = it },
-        onSearch = {
-            if (searchQuery.isEmpty()) {
-                viewModel.cardSearchStateIdle()
-            } else {
-                viewModel.cardSearchToQuery(searchQuery)
-            }
-        }
+        onClickedSearchIcon = onClickedSearchIcon,
     )
 }
 
 @Composable
 internal fun HomeScreen(
-    cardSearchResult: SearchResultUiState,
     yugiohListPagingItems: LazyPagingItems<YugiohCardData>,
     pagingScrollState: LazyGridState,
     onClickedCardItem: (String) -> Unit,
     hasAppendErrorShown: MutableState<Boolean>,
-    searchScrollState: LazyGridState,
-    searchQuery: String,
-    onQueryChange: (String) -> Unit,
-    isSearchBarActive: Boolean,
-    onActiveChange: (Boolean) -> Unit,
-    onSearch: (String) -> Unit,
+    onClickedSearchIcon: () -> Unit,
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        DebouncingSearchBar(
+        HomeTopBar(
             modifier = Modifier
-                .fillMaxWidth(),
-            searchQuery = searchQuery,
-            onQueryChange = onQueryChange,
-            active = isSearchBarActive,
-            onActiveChange = onActiveChange,
-            onSearch = onSearch,
-            color = Neutral10
-        ) {
-            when (cardSearchResult) {
-                SearchResultUiState.Idle -> {}
-
-                SearchResultUiState.Loading -> {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        CircularProgressIndicator(modifier = Modifier)
-                    }
-                }
-
-                is SearchResultUiState.Error -> {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(12.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        Icon(
-                            modifier = Modifier.size(90.dp),
-                            imageVector = Icons.Filled.ErrorOutline,
-                            contentDescription = "Error Icon",
-                            tint = Color.Red,
-                        )
-                        Text(
-                            text = cardSearchResult.errorMessage,
-                            style = MaterialTheme.ldTypography.fontTitleM,
-                            color = Color.Red
-                        )
-                    }
-                }
-
-                is SearchResultUiState.Success -> {
-                    LazyVerticalGrid(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 10.dp),
-                        columns = GridCells.Fixed(2),
-                        state = searchScrollState,
-                        verticalArrangement = Arrangement.spacedBy(15.dp),
-                        horizontalArrangement = Arrangement.spacedBy(15.dp)
-                    ) {
-                        val yugiohCardList = cardSearchResult.yugiohCardList
-                        items(yugiohCardList.size) { index ->
-                            YugiohCardItem(
-                                onClickedItem = onClickedCardItem,
-                                yugiohCardData = yugiohCardList[index],
-                            )
-                        }
-                    }
-                }
-            }
-        }
+                .fillMaxWidth()
+                .height(50.dp)
+                .padding(start = 10.dp, end = 20.dp),
+            onClickedSearchIcon = onClickedSearchIcon,
+        )
 
         LazyVerticalGrid(
             modifier = Modifier
@@ -193,6 +110,33 @@ internal fun HomeScreen(
                 hasAppendErrorShown = hasAppendErrorShown
             )
         }
+    }
+}
+
+@Composable
+fun HomeTopBar(
+    modifier: Modifier = Modifier,
+    onClickedSearchIcon: () -> Unit,
+) {
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Image(
+            modifier = Modifier
+                .fillMaxHeight(),
+            painter = painterResource(id = DesignR.drawable.yugioh_logo),
+            contentDescription = "Logo Image",
+        )
+        Icon(
+            modifier = Modifier
+                .size(28.dp)
+                .clickable { onClickedSearchIcon() },
+            imageVector = Icons.Filled.Search,
+            contentDescription = "Search Icon",
+            tint = Text0
+        )
     }
 }
 
@@ -239,24 +183,18 @@ fun HomeScreenPreview(
 ) {
     val yugiohPagingData = PagingData.from(yugiohCardList)
     val yugiohPagingItems = flowOf(yugiohPagingData).collectAsLazyPagingItems()
-    val searchScrollState = rememberLazyGridState()
     val pagingScrollState = rememberLazyGridState()
     val hasAppendErrorShown = remember { mutableStateOf(false) }
 
-    var searchQuery by remember { mutableStateOf("") }
-    var isSearchBarActive by remember { mutableStateOf(false) }
-
-    HomeScreen(
-        cardSearchResult = SearchResultUiState.Success(yugiohCardList),
-        yugiohListPagingItems = yugiohPagingItems,
-        pagingScrollState = pagingScrollState,
-        onClickedCardItem = {},
-        hasAppendErrorShown = hasAppendErrorShown,
-        searchScrollState = searchScrollState,
-        searchQuery = searchQuery,
-        onQueryChange = {},
-        isSearchBarActive = isSearchBarActive,
-        onActiveChange = {},
-        onSearch = {}
-    )
+    LolDexTheme {
+        LdBackGround {
+            HomeScreen(
+                yugiohListPagingItems = yugiohPagingItems,
+                pagingScrollState = pagingScrollState,
+                onClickedCardItem = {},
+                hasAppendErrorShown = hasAppendErrorShown,
+                onClickedSearchIcon = {},
+            )
+        }
+    }
 }

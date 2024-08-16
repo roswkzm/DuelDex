@@ -14,6 +14,7 @@ fun NavController.navigateToHome(navOptions: NavOptions) = navigate(HOME_GRAPH_R
 
 fun NavGraphBuilder.homeGraph(
     onClickedCardItem: (String) -> Unit,
+    onClickedSearchIcon: () -> Unit,
 ) {
     navigation(
         route = HOME_GRAPH_ROUTE,
@@ -21,7 +22,8 @@ fun NavGraphBuilder.homeGraph(
     ) {
         composable(route = HOME_ROUTE) {
             HomeRoute(
-                onClickedCardItem = onClickedCardItem
+                onClickedCardItem = onClickedCardItem,
+                onClickedSearchIcon = onClickedSearchIcon
             )
         }
     }

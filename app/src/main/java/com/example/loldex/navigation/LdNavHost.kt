@@ -8,6 +8,8 @@ import com.example.loldex.feature.detail.navigation.detailGraph
 import com.example.loldex.feature.detail.navigation.navigateToCardDetail
 import com.example.loldex.feature.home.navigation.HOME_GRAPH_ROUTE
 import com.example.loldex.feature.home.navigation.homeGraph
+import com.example.loldex.feature.search.navigation.navigateToSearch
+import com.example.loldex.feature.search.navigation.searchScreen
 import com.example.loldex.ui.AppState
 
 @Composable
@@ -23,9 +25,11 @@ fun LdNavHost(
         startDestination = startDestination
     ) {
         homeGraph(
-            onClickedCardItem = navController::navigateToCardDetail
+            onClickedCardItem = navController::navigateToCardDetail,
+            onClickedSearchIcon = navController::navigateToSearch,
         )
         bookmarksScreen()
         detailGraph()
+        searchScreen()
     }
 }
