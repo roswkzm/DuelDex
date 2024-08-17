@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.loldex.core.common.result.Result
 import com.example.loldex.core.common.result.asResult
+import com.example.loldex.core.data.repository.RecentSearchRepository
 import com.example.loldex.core.domain.GetYugiohCardDataBySearchString
 import com.example.loldex.core.model.YugiohCardData
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,6 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val getYugiohCardDataBySearchString: GetYugiohCardDataBySearchString,
+    private val recentSearchRepository: RecentSearchRepository,
 ) : ViewModel() {
 
     private val _cardSearchResult: MutableStateFlow<SearchResultUiState> =
@@ -48,6 +50,26 @@ class SearchViewModel @Inject constructor(
 
     fun cardSearchStateIdle() {
         _cardSearchResult.value = SearchResultUiState.Idle
+    }
+
+    val recentSearchList = recentSearchRepository.recentSearchList
+
+    fun addRecentSearch(searchText: String) {
+        viewModelScope.launch {
+            recentSearchRepository.addRecentSearch(searchText)
+        }
+    }
+
+    fun removeRecentSearch(searchText: String) {
+        viewModelScope.launch {
+            recentSearchRepository.removeRecentSearch(searchText)
+        }
+    }
+
+    fun clearAllRecentSearches() {
+        viewModelScope.launch {
+            recentSearchRepository.clearAllRecentSearches()
+        }
     }
 }
 

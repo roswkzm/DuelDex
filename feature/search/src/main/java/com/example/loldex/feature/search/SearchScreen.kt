@@ -64,6 +64,7 @@ internal fun SearchRoute(
     viewModel: SearchViewModel = hiltViewModel(),
     onClickedCardItem: (String) -> Unit,
 ) {
+    val recentSearchList by viewModel.recentSearchList.collectAsStateWithLifecycle(initialValue = emptyList())
     val cardSearchResult by viewModel.cardSearchResult.collectAsStateWithLifecycle()
     val scrollState = rememberLazyGridState()
 
@@ -71,7 +72,6 @@ internal fun SearchRoute(
     val scope = rememberCoroutineScope()
 
     var searchValue by remember { mutableStateOf("") }
-    var recentSearchList = listOf("가나다", "라마바", "사아자", "차카타", "파하")
     val recommendedKeywordList = listOf("Dark Magician")
 
     LaunchedEffect(searchValue) {
@@ -91,12 +91,15 @@ internal fun SearchRoute(
         scrollState = scrollState,
         searchValue = searchValue,
         onSearchValueChange = { searchValue = it },
-        onSearch = viewModel::cardSearchToQuery,
+        onSearch = {
+            viewModel.addRecentSearch(it)
+            viewModel.cardSearchToQuery(it)
+        },
         recentSearchList = recentSearchList,
         recommendedKeywordList = recommendedKeywordList,
         onClickedTag = { searchValue = it },
-        onClickedDeleteTag = {},
-        onClickedDeleteAll = {},
+        onClickedDeleteTag = viewModel::removeRecentSearch,
+        onClickedDeleteAll = viewModel::clearAllRecentSearches,
         onClickedCardItem = onClickedCardItem,
         onClickedDeleteString = { searchValue = "" }
     )
