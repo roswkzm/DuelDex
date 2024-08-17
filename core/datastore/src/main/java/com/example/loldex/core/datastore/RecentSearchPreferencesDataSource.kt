@@ -7,6 +7,9 @@ import javax.inject.Inject
 class RecentSearchPreferencesDataSource @Inject constructor(
     private val recentSearchPreferences: DataStore<RecentSearchPreferences>
 ) {
+    companion object {
+        private const val MAX_RECENT_SEARCHES_SIZE = 10  // 최대 크기를 상수로 정의
+    }
 
     val getRecentSearchList = recentSearchPreferences.data
         .map { preferences ->
@@ -21,6 +24,9 @@ class RecentSearchPreferencesDataSource @Inject constructor(
                 return@updateData preferences
             }
             val updatedList = currentList.toMutableList().apply {
+                if (size >= MAX_RECENT_SEARCHES_SIZE) {
+                    removeAt(0)
+                }
                 add(searchText)
             }
             preferences.toBuilder().clearRecentSearches().addAllRecentSearches(updatedList).build()

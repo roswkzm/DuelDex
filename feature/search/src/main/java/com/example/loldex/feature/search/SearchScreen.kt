@@ -16,6 +16,8 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.Cancel
@@ -39,6 +41,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -63,6 +66,7 @@ import kotlinx.coroutines.launch
 internal fun SearchRoute(
     viewModel: SearchViewModel = hiltViewModel(),
     onClickedCardItem: (String) -> Unit,
+    onClickedClose: () -> Unit,
 ) {
     val recentSearchList by viewModel.recentSearchList.collectAsStateWithLifecycle(initialValue = emptyList())
     val cardSearchResult by viewModel.cardSearchResult.collectAsStateWithLifecycle()
@@ -101,7 +105,8 @@ internal fun SearchRoute(
         onClickedDeleteTag = viewModel::removeRecentSearch,
         onClickedDeleteAll = viewModel::clearAllRecentSearches,
         onClickedCardItem = onClickedCardItem,
-        onClickedDeleteString = { searchValue = "" }
+        onClickedDeleteString = { searchValue = "" },
+        onClickedClose = onClickedClose
     )
 }
 
@@ -119,6 +124,7 @@ internal fun SearchScreen(
     onClickedDeleteAll: () -> Unit,
     onClickedCardItem: (String) -> Unit,
     onClickedDeleteString: () -> Unit,
+    onClickedClose: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -130,7 +136,8 @@ internal fun SearchScreen(
             searchValue = searchValue,
             onSearchValueChange = onSearchValueChange,
             onSearch = onSearch,
-            onClickedDeleteString = onClickedDeleteString
+            onClickedDeleteString = onClickedDeleteString,
+            onClickedClose = onClickedClose,
         )
 
         Column(
@@ -224,6 +231,7 @@ fun SearchTextField(
     onSearchValueChange: (String) -> Unit,
     onSearch: (String) -> Unit,
     onClickedDeleteString: () -> Unit,
+    onClickedClose: () -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -256,7 +264,8 @@ fun SearchTextField(
             leadingIcon = {
                 Box(
                     modifier = Modifier
-                        .size(48.dp),
+                        .size(48.dp)
+                        .clickable { onClickedClose() },
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
@@ -293,7 +302,15 @@ fun SearchTextField(
                         tint = Text20
                     )
                 }
-            }
+            },
+            keyboardOptions = KeyboardOptions.Default.copy(
+                imeAction = ImeAction.Search
+            ),
+            keyboardActions = KeyboardActions(
+                onSearch = {
+                    onSearch(searchValue)
+                }
+            )
         )
     }
 }
@@ -409,5 +426,6 @@ fun SearchScreenPreview(
         onClickedDeleteAll = {},
         onClickedCardItem = {},
         onClickedDeleteString = {},
+        onClickedClose = {},
     )
 }

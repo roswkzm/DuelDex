@@ -11,12 +11,14 @@ fun NavController.navigateToSearch() = navigate(SEARCH_ROUTE)
 
 fun NavGraphBuilder.searchScreen(
     onClickedCardItem: (String) -> Unit,
+    onClickedClose: () -> Unit,
 ) {
     composable(
         route = SEARCH_ROUTE
     ) {
         SearchRoute(
             onClickedCardItem = onClickedCardItem,
+            onClickedClose = onClickedClose,
         )
     }
 }

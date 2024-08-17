@@ -32,6 +32,7 @@ fun LdNavHost(
         detailGraph()
         searchScreen(
             onClickedCardItem = navController::navigateToCardDetail,
+            onClickedClose = navController::popBackStack
         )
     }
 }
