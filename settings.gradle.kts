@@ -29,6 +29,7 @@ include(":core:common")
 include(":core:datastore")
 include(":core:datastore-proto")
 include(":core:ui")
+include(":core:database")
 
 include(":feature:home")
 include(":feature:bookmarks")
