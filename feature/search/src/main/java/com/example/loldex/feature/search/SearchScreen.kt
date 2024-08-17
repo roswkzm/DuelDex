@@ -67,6 +67,9 @@ internal fun SearchRoute(
     val cardSearchResult by viewModel.cardSearchResult.collectAsStateWithLifecycle()
     val scrollState = rememberLazyGridState()
 
+    var debounceJob by remember { mutableStateOf<Job?>(null) }
+    val scope = rememberCoroutineScope()
+
     var searchValue by remember { mutableStateOf("") }
     var recentSearchList = listOf("가나다", "라마바", "사아자", "차카타", "파하")
     val recommendedKeywordList = listOf("Dark Magician")
@@ -75,7 +78,11 @@ internal fun SearchRoute(
         if (searchValue.isEmpty()) {
             viewModel.cardSearchStateIdle()
         } else {
-            viewModel.cardSearchToQuery(searchValue)
+            debounceJob?.cancel()
+            debounceJob = scope.launch {
+                delay(500)
+                viewModel.cardSearchToQuery(searchValue)
+            }
         }
     }
 
@@ -215,9 +222,6 @@ fun SearchTextField(
     onSearch: (String) -> Unit,
     onClickedDeleteString: () -> Unit,
 ) {
-    var debounceJob by remember { mutableStateOf<Job?>(null) }
-    val scope = rememberCoroutineScope()
-
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -229,14 +233,7 @@ fun SearchTextField(
             modifier = Modifier
                 .fillMaxWidth(),
             value = searchValue,
-            onValueChange = {
-                onSearchValueChange(it)
-                debounceJob?.cancel()
-                debounceJob = scope.launch {
-                    delay(500)
-                    onSearch(searchValue)
-                }
-            },
+            onValueChange = onSearchValueChange,
             textStyle = MaterialTheme.ldTypography.fontLabelL,
             colors = TextFieldDefaults.colors(
                 unfocusedContainerColor = Neutral10,
