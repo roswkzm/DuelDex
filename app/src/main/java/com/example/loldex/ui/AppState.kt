@@ -12,12 +12,12 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import androidx.tracing.trace
-import com.example.loldex.feature.bookmarks.navigation.BOOKMARKS_ROUTE
-import com.example.loldex.feature.bookmarks.navigation.navigateToBookmarks
+import com.example.loldex.feature.decks.navigation.DECKS_ROUTE
+import com.example.loldex.feature.decks.navigation.navigateToDecks
 import com.example.loldex.feature.home.navigation.HOME_ROUTE
 import com.example.loldex.feature.home.navigation.navigateToHome
 import com.example.loldex.navigation.TopLevelDestination
-import com.example.loldex.navigation.TopLevelDestination.BOOKMARKS
+import com.example.loldex.navigation.TopLevelDestination.DECKS
 import com.example.loldex.navigation.TopLevelDestination.HOME
 import kotlinx.coroutines.CoroutineScope
 
@@ -25,13 +25,13 @@ import kotlinx.coroutines.CoroutineScope
 fun rememberAppState(
     windowSizeClass: WindowSizeClass,
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
-    navController : NavHostController = rememberNavController(),
-): AppState{
+    navController: NavHostController = rememberNavController(),
+): AppState {
     return remember(
         navController,
         coroutineScope,
         windowSizeClass
-    ){
+    ) {
         AppState(
             navController,
             coroutineScope,
@@ -45,14 +45,14 @@ class AppState(
     val navController: NavHostController,
     val coroutineScope: CoroutineScope,
     val windowSizeClass: WindowSizeClass
-){
-    val currentDestination : NavDestination?
+) {
+    val currentDestination: NavDestination?
         @Composable get() = navController.currentBackStackEntryAsState().value?.destination
 
-    val currentTopLevelDestination : TopLevelDestination?
-        @Composable get() = when(currentDestination?.route){
+    val currentTopLevelDestination: TopLevelDestination?
+        @Composable get() = when (currentDestination?.route) {
             HOME_ROUTE -> HOME
-            BOOKMARKS_ROUTE -> BOOKMARKS
+            DECKS_ROUTE -> DECKS
             else -> null
         }
 
@@ -70,7 +70,7 @@ class AppState(
 
             when (topLevelDestination) {
                 HOME -> navController.navigateToHome(topLevelNavOptions)
-                BOOKMARKS -> navController.navigateToBookmarks(topLevelNavOptions)
+                DECKS -> navController.navigateToDecks(topLevelNavOptions)
             }
         }
     }

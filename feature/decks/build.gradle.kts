@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.loldex.feature.bookmarks"
+    namespace = "com.example.loldex.feature.decks"
 }
 
 dependencies {

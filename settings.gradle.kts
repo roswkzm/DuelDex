@@ -32,7 +32,7 @@ include(":core:ui")
 include(":core:database")
 
 include(":feature:home")
-include(":feature:bookmarks")
+include(":feature:decks")
 include(":feature:settings")
 include(":feature:detail")
 include(":feature:search")

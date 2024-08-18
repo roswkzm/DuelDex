@@ -1,4 +1,4 @@
-package com.example.loldex.feature.bookmarks
+package com.example.loldex.feature.decks
 
 import org.junit.Test
 

@@ -20,10 +20,10 @@ enum class TopLevelDestination(
         iconTextId = R.string.feature_home,
         titleTextId = R.string.app_name
     ),
-    BOOKMARKS(
+    DECKS(
         selectIcon = Icons.Rounded.Bookmarks,
         unselectIcon = Icons.Filled.Bookmarks,
-        iconTextId = R.string.feature_bookmarks,
-        titleTextId = R.string.feature_bookmarks
+        iconTextId = R.string.feature_decks,
+        titleTextId = R.string.feature_decks
     )
 }
