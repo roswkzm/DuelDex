@@ -1,5 +1,7 @@
 package com.example.loldex.core.data.di
 
+import com.example.loldex.core.data.repository.DecksRepository
+import com.example.loldex.core.data.repository.DecksRepositoryImpl
 import com.example.loldex.core.data.repository.RecentSearchRepository
 import com.example.loldex.core.data.repository.RecentSearchRepositoryImpl
 import com.example.loldex.core.data.repository.YugiohRepository
@@ -22,4 +24,9 @@ internal abstract class DataModule {
     abstract fun bindRecentSearchRepository(
         recentSearchRepositoryImpl: RecentSearchRepositoryImpl
     ): RecentSearchRepository
+
+    @Binds
+    abstract fun bindDecksRepository(
+        decksRepositoryImpl: DecksRepositoryImpl
+    ): DecksRepository
 }

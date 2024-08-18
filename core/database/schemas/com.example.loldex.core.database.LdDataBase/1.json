@@ -1,0 +1,112 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "e6ef838c312600541e0196213f7025f6",
+    "entities": [
+      {
+        "tableName": "yugioh_card_data",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `type` TEXT NOT NULL, `frame_type` TEXT NOT NULL, `desc` TEXT NOT NULL, `atk` INTEGER, `def` INTEGER, `level` INTEGER, `race` TEXT NOT NULL, `attribute` TEXT, `archetype` TEXT, `ygoprodeck_url` TEXT NOT NULL, `card_images` TEXT NOT NULL, `card_prices` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "frameType",
+            "columnName": "frame_type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "desc",
+            "columnName": "desc",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "atk",
+            "columnName": "atk",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "def",
+            "columnName": "def",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "level",
+            "columnName": "level",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "race",
+            "columnName": "race",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "attribute",
+            "columnName": "attribute",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "archetype",
+            "columnName": "archetype",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ygoprodeckUrl",
+            "columnName": "ygoprodeck_url",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cardImages",
+            "columnName": "card_images",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cardPrices",
+            "columnName": "card_prices",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e6ef838c312600541e0196213f7025f6')"
+    ]
+  }
+}
