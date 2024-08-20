@@ -1,5 +1,6 @@
 package com.example.loldex.core.database
 
+import com.example.loldex.core.database.dao.DeckDao
 import com.example.loldex.core.database.dao.YugiohCardDao
 import dagger.Module
 import dagger.Provides
@@ -14,4 +15,9 @@ internal object DaosModule {
     fun providesYugiohCardDao(
         dataBase: LdDataBase
     ): YugiohCardDao = dataBase.yugiohCardDao()
+
+    @Provides
+    fun providesDeckDao(
+        dataBase: LdDataBase
+    ): DeckDao = dataBase.deckDao()
 }

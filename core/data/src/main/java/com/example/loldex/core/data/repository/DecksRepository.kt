@@ -1,13 +1,21 @@
 package com.example.loldex.core.data.repository
 
+import com.example.loldex.core.model.DeckData
+import com.example.loldex.core.model.DeckWithCardData
 import com.example.loldex.core.model.YugiohCardData
 import kotlinx.coroutines.flow.Flow
 
 interface DecksRepository {
 
-    val allCards: Flow<List<YugiohCardData>>
+    val allDecks: Flow<List<DeckData>>
 
-    suspend fun insertYugiohCard(yugiohCardData: YugiohCardData)
+    suspend fun insertDeck(deckName: String)
 
-    suspend fun deleteYugiohCard(id: Long)
+    suspend fun deleteDeck(deckData: DeckData)
+
+    suspend fun getDeckWithCards(deckId: Long): Flow<DeckWithCardData>
+
+    suspend fun insertDeckCard(deckId: Long, yugiohCardData: YugiohCardData)
+
+    suspend fun deleteDeckCard(deckId: Long, cardId: Long)
 }
