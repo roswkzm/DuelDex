@@ -23,8 +23,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.loldex.core.designsystem.component.DefaultAlertDialog
 import com.example.loldex.core.designsystem.component.LdButton
-import com.example.loldex.core.designsystem.theme.Gray400
+import com.example.loldex.core.designsystem.theme.AttributeFire
 import com.example.loldex.core.designsystem.theme.Gray800
+import com.example.loldex.core.designsystem.theme.Text0
 import com.example.loldex.core.designsystem.theme.ThemePreviews
 import com.example.loldex.core.designsystem.theme.ldTypography
 import com.example.loldex.feature.decks.R
@@ -93,8 +94,8 @@ fun CreateDeckDialog(
                 modifier = Modifier,
                 onClick = onDismiss,
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Gray400,
-                    contentColor = Black
+                    containerColor = AttributeFire,
+                    contentColor = Text0
                 ),
                 text = {
                     Text(

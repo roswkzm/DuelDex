@@ -97,13 +97,14 @@ internal fun DecksScreen(
                         deckList = deckList,
                         onChangeIsShowCreateDeckDialog = onChangeIsShowCreateDeckDialog
                     )
-
+                    
                     if (deckList.isEmpty()) {
                         Text(text = "Deck Size 0")
                     } else {
                         LazyColumn(
                             modifier = Modifier
-                                .fillMaxSize()
+                                .fillMaxSize(),
+                            verticalArrangement = Arrangement.spacedBy(10.dp)
                         ) {
                             items(deckList.size) { index ->
                                 DeckListItem(

@@ -123,7 +123,6 @@ fun NotificationAlertDialogPreview() {
                     contentDescription = null,
                     modifier = Modifier.sizeIn(maxWidth = 20.dp, maxHeight = 20.dp),
                     tint = Red
-
                 )
                 Spacer(modifier = Modifier.size(4.dp))
                 Text(
