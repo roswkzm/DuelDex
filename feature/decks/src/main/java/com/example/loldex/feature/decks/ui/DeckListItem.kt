@@ -45,7 +45,7 @@ fun DeckListItem(
     }
 }
 
-@ThemePreviews
+@ThemePreviews()
 @Composable
 fun DeckListItemPreview() {
     val deckData = DeckData(deckName = "Deck Name")

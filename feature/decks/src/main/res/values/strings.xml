@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="total_deck_list">Total Deck List</string>
+    <string name="add_deck_btn_text">Add Deck</string>
+    <string name="insert_deck_dialog_title">Insert Create Deck Name</string>
+    <string name="insert_deck_dialog_placeholder">Insert Deck Name</string>
+    <string name="insert_deck_dialog_btn_confirm">Insert</string>
+    <string name="insert_deck_dialog_btn_cancel">Cancel</string>
+</resources>

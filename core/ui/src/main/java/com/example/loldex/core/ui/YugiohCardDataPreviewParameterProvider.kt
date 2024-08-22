@@ -4,7 +4,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.example.loldex.core.model.YugiohCardData
 import com.example.loldex.core.model.YugiohCardImage
 import com.example.loldex.core.model.YugiohCardPrice
-import com.example.loldex.core.ui.PreviewParameterData.yugiohCardData
+import com.example.loldex.core.ui.YugiohCardPreviewParameterData.yugiohCardData
 
 class YugiohCardDataPreviewParameterProvider : PreviewParameterProvider<List<YugiohCardData>> {
 
@@ -13,7 +13,7 @@ class YugiohCardDataPreviewParameterProvider : PreviewParameterProvider<List<Yug
     )
 }
 
-object PreviewParameterData {
+object YugiohCardPreviewParameterData {
 
     private val yugiohCardImage: YugiohCardImage = YugiohCardImage(
         id = 46986421,
