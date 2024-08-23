@@ -38,9 +38,9 @@ import com.example.loldex.core.designsystem.theme.ThemePreviews
 import com.example.loldex.core.designsystem.theme.ldTypography
 import com.example.loldex.core.model.DeckData
 import com.example.loldex.core.ui.DeckDataPreviewParameterProvider
+import com.example.loldex.core.ui.DeckListItem
 import com.example.loldex.core.ui.util.statusBarPadding
 import com.example.loldex.feature.decks.ui.CreateDeckDialog
-import com.example.loldex.feature.decks.ui.DeckListItem
 
 @Composable
 internal fun DecksRoute(
@@ -97,7 +97,7 @@ internal fun DecksScreen(
                         deckList = deckList,
                         onChangeIsShowCreateDeckDialog = onChangeIsShowCreateDeckDialog
                     )
-                    
+
                     if (deckList.isEmpty()) {
                         Text(text = "Deck Size 0")
                     } else {

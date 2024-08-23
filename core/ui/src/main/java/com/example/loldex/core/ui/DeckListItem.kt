@@ -1,4 +1,4 @@
-package com.example.loldex.feature.decks.ui
+package com.example.loldex.core.ui
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row

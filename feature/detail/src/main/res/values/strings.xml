@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="add_deck_btn_text">Add Deck</string>
+    <string name="saved_card_deck_title">Choose a deck to save your card</string>
+</resources>
