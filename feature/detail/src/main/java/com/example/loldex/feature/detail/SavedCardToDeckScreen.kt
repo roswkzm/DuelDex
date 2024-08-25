@@ -1,5 +1,6 @@
 package com.example.loldex.feature.detail
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,6 +19,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -25,6 +27,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -44,11 +47,22 @@ internal fun SavedCardToDeckScreen(
     yugiohCardData: YugiohCardData,
     viewModel: SavedCardToDeckViewModel = hiltViewModel(),
 ) {
+    val context = LocalContext.current
     val savedDecksUiState by viewModel.allDecks.collectAsStateWithLifecycle()
 
     // Create Deck State
     var isShowCreateDeckDialog by remember { mutableStateOf(false) }
     var insertDeckName by remember { mutableStateOf("") }
+
+    LaunchedEffect(Unit) {
+        viewModel.cardSaveResultFlow.collect { isSuccess ->
+            if (isSuccess) {
+                Toast.makeText(context, "Card saved successfully!", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, "Failed to save card.", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 
     SavedCardToDeckContent(
         isShowDialogChange = { isShowCreateDeckDialog = it },

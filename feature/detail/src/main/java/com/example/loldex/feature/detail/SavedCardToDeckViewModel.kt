@@ -6,7 +6,10 @@ import com.example.loldex.core.data.repository.DecksRepository
 import com.example.loldex.core.model.DeckData
 import com.example.loldex.core.model.YugiohCardData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -16,6 +19,10 @@ import javax.inject.Inject
 class SavedCardToDeckViewModel @Inject constructor(
     private val decksRepository: DecksRepository
 ) : ViewModel() {
+
+    private val _cardSaveResultFlow = MutableSharedFlow<Boolean>()
+    val cardSaveResultFlow: SharedFlow<Boolean> = _cardSaveResultFlow.asSharedFlow()
+
     val allDecks = decksRepository.allDecks.map {
         SavedDecksUiState.Success(it)
     }.stateIn(
@@ -41,7 +48,12 @@ class SavedCardToDeckViewModel @Inject constructor(
         yugiohCardData: YugiohCardData
     ) {
         viewModelScope.launch {
-            decksRepository.insertDeckCard(deckId, yugiohCardData)
+            try {
+                decksRepository.insertDeckCard(deckId, yugiohCardData)
+                _cardSaveResultFlow.emit(true)
+            } catch (e: Exception) {
+                _cardSaveResultFlow.emit(false)
+            }
         }
     }
 }
