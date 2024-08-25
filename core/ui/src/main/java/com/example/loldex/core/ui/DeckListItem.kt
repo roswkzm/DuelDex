@@ -28,12 +28,14 @@ import com.example.loldex.core.model.DeckData
 @Composable
 fun DeckListItem(
     deckData: DeckData,
+    onClickedDeck: (Long) -> Unit,
     onClickedDeleteDeck: (DeckData) -> Unit
 ) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .height(50.dp),
+            .height(50.dp)
+            .clickable { onClickedDeck(deckData.id) },
         color = Gray300,
         shape = RoundedCornerShape(12.dp),
         tonalElevation = 4.dp,
@@ -67,6 +69,7 @@ fun DeckListItemPreview() {
     val deckData = DeckData(deckName = "Deck Name")
     DeckListItem(
         deckData = deckData,
+        onClickedDeck = {},
         onClickedDeleteDeck = {}
     )
 }

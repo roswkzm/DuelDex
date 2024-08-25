@@ -52,12 +52,14 @@ internal fun SavedCardToDeckScreen(
 
     SavedCardToDeckContent(
         isShowDialogChange = { isShowCreateDeckDialog = it },
-        yugiohCardData = yugiohCardData,
         savedDecksUiState = savedDecksUiState,
         onClickedDeleteDeck = viewModel::deleteDeck,
         onClickedInsertDeck = {
             viewModel.insertDeck(it)
             isShowCreateDeckDialog = false
+        },
+        onClickedInsertCardToDeck = { deckId ->
+            viewModel.insertDeckCard(deckId, yugiohCardData)
         },
         isShowCreateDeckDialog = isShowCreateDeckDialog,
         onChangeIsShowCreateDeckDialog = { isShowCreateDeckDialog = it },
@@ -69,10 +71,10 @@ internal fun SavedCardToDeckScreen(
 @Composable
 internal fun SavedCardToDeckContent(
     isShowDialogChange: (Boolean) -> Unit,
-    yugiohCardData: YugiohCardData,
     savedDecksUiState: SavedDecksUiState,
     onClickedDeleteDeck: (DeckData) -> Unit,
     onClickedInsertDeck: (String) -> Unit,
+    onClickedInsertCardToDeck: (Long) -> Unit,
     isShowCreateDeckDialog: Boolean,
     onChangeIsShowCreateDeckDialog: (Boolean) -> Unit,
     insertDeckName: String,
@@ -116,6 +118,7 @@ internal fun SavedCardToDeckContent(
                             items(deckList.size) { index ->
                                 DeckListItem(
                                     deckData = deckList[index],
+                                    onClickedDeck = onClickedInsertCardToDeck,
                                     onClickedDeleteDeck = onClickedDeleteDeck
                                 )
                             }

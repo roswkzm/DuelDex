@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.loldex.core.data.repository.DecksRepository
 import com.example.loldex.core.model.DeckData
+import com.example.loldex.core.model.YugiohCardData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
@@ -32,6 +33,15 @@ class SavedCardToDeckViewModel @Inject constructor(
     fun deleteDeck(deckData: DeckData) {
         viewModelScope.launch {
             decksRepository.deleteDeck(deckData)
+        }
+    }
+
+    fun insertDeckCard(
+        deckId: Long,
+        yugiohCardData: YugiohCardData
+    ) {
+        viewModelScope.launch {
+            decksRepository.insertDeckCard(deckId, yugiohCardData)
         }
     }
 }

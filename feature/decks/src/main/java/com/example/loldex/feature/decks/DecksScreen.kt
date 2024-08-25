@@ -108,6 +108,7 @@ internal fun DecksScreen(
                             items(deckList.size) { index ->
                                 DeckListItem(
                                     deckData = deckList[index],
+                                    onClickedDeck = {},
                                     onClickedDeleteDeck = onClickedDeleteDeck
                                 )
                             }
