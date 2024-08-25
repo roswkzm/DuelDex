@@ -28,14 +28,14 @@ import com.example.loldex.core.model.DeckData
 @Composable
 fun DeckListItem(
     deckData: DeckData,
-    onClickedDeck: (Long) -> Unit,
+    onClickedDeck: (DeckData) -> Unit,
     onClickedDeleteDeck: (DeckData) -> Unit
 ) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
             .height(50.dp)
-            .clickable { onClickedDeck(deckData.id) },
+            .clickable { onClickedDeck(deckData) },
         color = Gray300,
         shape = RoundedCornerShape(12.dp),
         tonalElevation = 4.dp,

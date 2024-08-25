@@ -44,7 +44,8 @@ import com.example.loldex.core.ui.util.statusBarPadding
 
 @Composable
 internal fun DecksRoute(
-    viewModel: DecksViewModel = hiltViewModel()
+    viewModel: DecksViewModel = hiltViewModel(),
+    onClickedDeck: (DeckData) -> Unit,
 ) {
     val decksUiState by viewModel.allDecks.collectAsStateWithLifecycle()
     var insertDeckName by remember { mutableStateOf("") }
@@ -60,7 +61,8 @@ internal fun DecksRoute(
         insertDeckName = insertDeckName,
         onChangeValue = { insertDeckName = it },
         isShowCreateDeckDialog = isShowCreateDeckDialog,
-        onChangeIsShowCreateDeckDialog = { isShowCreateDeckDialog = it }
+        onChangeIsShowCreateDeckDialog = { isShowCreateDeckDialog = it },
+        onClickedDeck = onClickedDeck
     )
 }
 
@@ -73,6 +75,7 @@ internal fun DecksScreen(
     onChangeValue: (String) -> Unit,
     isShowCreateDeckDialog: Boolean,
     onChangeIsShowCreateDeckDialog: (Boolean) -> Unit,
+    onClickedDeck: (DeckData) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -108,7 +111,7 @@ internal fun DecksScreen(
                             items(deckList.size) { index ->
                                 DeckListItem(
                                     deckData = deckList[index],
-                                    onClickedDeck = {},
+                                    onClickedDeck = onClickedDeck,
                                     onClickedDeleteDeck = onClickedDeleteDeck
                                 )
                             }
@@ -207,7 +210,8 @@ fun DecksScreenPrewview(
                 insertDeckName = "",
                 onChangeValue = {},
                 isShowCreateDeckDialog = false,
-                onChangeIsShowCreateDeckDialog = {}
+                onChangeIsShowCreateDeckDialog = {},
+                onClickedDeck = {}
             )
         }
     }

@@ -72,8 +72,8 @@ internal fun SavedCardToDeckScreen(
             viewModel.insertDeck(it)
             isShowCreateDeckDialog = false
         },
-        onClickedInsertCardToDeck = { deckId ->
-            viewModel.insertDeckCard(deckId, yugiohCardData)
+        onClickedInsertCardToDeck = { deckData ->
+            viewModel.insertDeckCard(deckData.id, yugiohCardData)
         },
         isShowCreateDeckDialog = isShowCreateDeckDialog,
         onChangeIsShowCreateDeckDialog = { isShowCreateDeckDialog = it },
@@ -88,7 +88,7 @@ internal fun SavedCardToDeckContent(
     savedDecksUiState: SavedDecksUiState,
     onClickedDeleteDeck: (DeckData) -> Unit,
     onClickedInsertDeck: (String) -> Unit,
-    onClickedInsertCardToDeck: (Long) -> Unit,
+    onClickedInsertCardToDeck: (DeckData) -> Unit,
     isShowCreateDeckDialog: Boolean,
     onChangeIsShowCreateDeckDialog: (Boolean) -> Unit,
     insertDeckName: String,
