@@ -37,10 +37,10 @@ import com.example.loldex.core.designsystem.theme.Text0
 import com.example.loldex.core.designsystem.theme.ThemePreviews
 import com.example.loldex.core.designsystem.theme.ldTypography
 import com.example.loldex.core.model.DeckData
+import com.example.loldex.core.ui.CreateDeckDialog
 import com.example.loldex.core.ui.DeckDataPreviewParameterProvider
 import com.example.loldex.core.ui.DeckListItem
 import com.example.loldex.core.ui.util.statusBarPadding
-import com.example.loldex.feature.decks.ui.CreateDeckDialog
 
 @Composable
 internal fun DecksRoute(
@@ -56,7 +56,6 @@ internal fun DecksRoute(
         onClickedInsertDeck = {
             viewModel.insertDeck(it)
             isShowCreateDeckDialog = false
-            insertDeckName = ""
         },
         insertDeckName = insertDeckName,
         onChangeValue = { insertDeckName = it },
@@ -80,19 +79,19 @@ internal fun DecksScreen(
             .fillMaxSize()
             .statusBarPadding()
     ) {
+        var isError by remember { mutableStateOf(false) }
         when (decksUiState) {
             DecksUiState.Loading -> {
                 Text(text = "Loading")
             }
 
             is DecksUiState.Success -> {
+                val deckList = decksUiState.deckList
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(horizontal = 10.dp)
                 ) {
-                    val deckList = decksUiState.deckList
-
                     DeckTotalTitleLayout(
                         deckList = deckList,
                         onChangeIsShowCreateDeckDialog = onChangeIsShowCreateDeckDialog
@@ -115,18 +114,25 @@ internal fun DecksScreen(
                         }
                     }
                 }
-            }
-        }
 
-        if (isShowCreateDeckDialog) {
-            CreateDeckDialog(
-                onDismiss = { onChangeIsShowCreateDeckDialog(false) },
-                onClickedConfirm = {
-                    onClickedInsertDeck(it)
-                },
-                inputValue = insertDeckName,
-                onValueChange = onChangeValue,
-            )
+                if (isShowCreateDeckDialog) {
+                    // insertDeckName 상태에 따라 isError 상태 업데이트
+                    isError = insertDeckName.isEmpty() || deckList.any { it.deckName == insertDeckName }
+                    CreateDeckDialog(
+                        onDismiss = {
+                            onChangeValue("")
+                            onChangeIsShowCreateDeckDialog(false)
+                        },
+                        onClickedConfirm = {
+                            onChangeValue("")
+                            onClickedInsertDeck(it)
+                        },
+                        inputValue = insertDeckName,
+                        onValueChange = onChangeValue,
+                        isError = isError
+                    )
+                }
+            }
         }
     }
 }

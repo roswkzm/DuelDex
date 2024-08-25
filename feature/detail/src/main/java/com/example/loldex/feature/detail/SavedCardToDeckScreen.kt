@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.ButtonDefaults
@@ -18,6 +19,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,6 +36,7 @@ import com.example.loldex.core.designsystem.theme.Text0
 import com.example.loldex.core.designsystem.theme.ldTypography
 import com.example.loldex.core.model.DeckData
 import com.example.loldex.core.model.YugiohCardData
+import com.example.loldex.core.ui.CreateDeckDialog
 import com.example.loldex.core.ui.DeckListItem
 
 @Composable
@@ -41,39 +46,63 @@ internal fun SavedCardToDeckScreen(
 ) {
     val savedDecksUiState by viewModel.allDecks.collectAsStateWithLifecycle()
 
+    // Create Deck State
+    var isShowCreateDeckDialog by remember { mutableStateOf(false) }
+    var insertDeckName by remember { mutableStateOf("") }
+
     SavedCardToDeckContent(
+        isShowDialogChange = { isShowCreateDeckDialog = it },
         yugiohCardData = yugiohCardData,
         savedDecksUiState = savedDecksUiState,
         onClickedDeleteDeck = viewModel::deleteDeck,
+        onClickedInsertDeck = {
+            viewModel.insertDeck(it)
+            isShowCreateDeckDialog = false
+        },
+        isShowCreateDeckDialog = isShowCreateDeckDialog,
+        onChangeIsShowCreateDeckDialog = { isShowCreateDeckDialog = it },
+        insertDeckName = insertDeckName,
+        onChangeDeckNameValue = { insertDeckName = it },
     )
 }
 
 @Composable
 internal fun SavedCardToDeckContent(
+    isShowDialogChange: (Boolean) -> Unit,
     yugiohCardData: YugiohCardData,
     savedDecksUiState: SavedDecksUiState,
     onClickedDeleteDeck: (DeckData) -> Unit,
+    onClickedInsertDeck: (String) -> Unit,
+    isShowCreateDeckDialog: Boolean,
+    onChangeIsShowCreateDeckDialog: (Boolean) -> Unit,
+    insertDeckName: String,
+    onChangeDeckNameValue: (String) -> Unit,
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White)
+            .padding(vertical = 12.dp)
+            .background(Color.White, RoundedCornerShape(10.dp))
     ) {
+        // isError 상태를 위한 추가
+        var isError by remember { mutableStateOf(false) }
+
         when (savedDecksUiState) {
             SavedDecksUiState.Loading -> {
                 Text(text = "Loading")
             }
 
             is SavedDecksUiState.Success -> {
+                val deckList = savedDecksUiState.deckList
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(10.dp)
                 ) {
-                    val deckList = savedDecksUiState.deckList
-
                     SavedDeckTitleLayout(
-                        onChangeIsShowCreateDeckDialog = {}
+                        onChangeIsShowCreateDeckDialog = {
+                            isShowDialogChange(true)
+                        }
                     )
 
                     if (deckList.isEmpty()) {
@@ -92,6 +121,24 @@ internal fun SavedCardToDeckContent(
                             }
                         }
                     }
+                }
+
+                if (isShowCreateDeckDialog) {
+                    // insertDeckName 상태에 따라 isError 상태 업데이트
+                    isError = insertDeckName.isEmpty() || deckList.any { it.deckName == insertDeckName }
+                    CreateDeckDialog(
+                        onDismiss = {
+                            onChangeDeckNameValue("")
+                            onChangeIsShowCreateDeckDialog(false)
+                        },
+                        onClickedConfirm = {
+                            onChangeDeckNameValue("")
+                            onClickedInsertDeck(it)
+                        },
+                        inputValue = insertDeckName,
+                        onValueChange = onChangeDeckNameValue,
+                        isError = isError,
+                    )
                 }
             }
         }

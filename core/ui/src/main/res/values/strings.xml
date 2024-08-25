@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="insert_deck_dialog_title">Insert Create Deck Name</string>
+    <string name="insert_deck_dialog_placeholder">Insert Deck Name</string>
+    <string name="insert_deck_dialog_btn_confirm">Insert</string>
+    <string name="insert_deck_dialog_btn_cancel">Cancel</string>
+    <string name="insert_deck_dialog_empty_deck_name_error">Please enter the deck name.</string>
+    <string name="insert_deck_dialog_duplicate_deck_name_error">Deck with a duplicate name exists.</string>
+</resources>
