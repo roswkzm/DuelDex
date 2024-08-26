@@ -51,6 +51,7 @@ import com.example.loldex.core.designsystem.R as DesignR
 @Composable
 internal fun DeckDetailRoute(
     deckData: DeckData,
+    onClickedCardItem: (String) -> Unit,
     viewModel: DeckDetailViewModel = hiltViewModel()
 ) {
     val deckDetailUiState by viewModel.deckDetailUiState.collectAsStateWithLifecycle()
@@ -66,7 +67,7 @@ internal fun DeckDetailRoute(
         lazyGridState = lazyGridState,
         isCardViewMode = isCardViewMode,
         onClickedCardViewMode = { isCardViewMode = it },
-        onClickedCardItem = {}
+        onClickedCardItem = onClickedCardItem
     )
 }
 

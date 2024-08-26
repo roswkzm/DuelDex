@@ -30,7 +30,8 @@ fun LdNavHost(
             onClickedSearchIcon = navController::navigateToSearch,
         )
         decksGraph(
-            onClickedDeck = navController::navigateToDeckDetail
+            onClickedDeck = navController::navigateToDeckDetail,
+            onClickedCardItem = navController::navigateToCardDetail,
         )
         detailGraph()
         searchScreen(

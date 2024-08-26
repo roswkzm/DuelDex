@@ -19,6 +19,7 @@ fun NavController.navigateToDeckDetail(deckData: DeckData) = navigate(deckData)
 
 fun NavGraphBuilder.decksGraph(
     onClickedDeck: (DeckData) -> Unit,
+    onClickedCardItem: (String) -> Unit,
 ) {
     navigation(
         route = DECKS_GRAPH_ROUTE,
@@ -33,7 +34,8 @@ fun NavGraphBuilder.decksGraph(
         composable<DeckData> { backStackEntry ->
             val deckData: DeckData = backStackEntry.toRoute()
             DeckDetailRoute(
-                deckData = deckData
+                deckData = deckData,
+                onClickedCardItem = onClickedCardItem
             )
         }
     }
