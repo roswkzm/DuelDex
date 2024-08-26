@@ -38,7 +38,7 @@ fun CarouselPager(
     HorizontalPager(
         state = pagerState,
         modifier = modifier,
-        beyondBoundsPageCount = 2,
+        beyondViewportPageCount = 2,
         pageSpacing = 0.dp,
     ) { page ->
         val offset = pagerState.calculateOffsetForPage(page)
