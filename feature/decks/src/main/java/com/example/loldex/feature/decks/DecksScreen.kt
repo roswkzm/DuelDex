@@ -38,7 +38,7 @@ import com.example.loldex.core.designsystem.theme.ThemePreviews
 import com.example.loldex.core.designsystem.theme.ldTypography
 import com.example.loldex.core.model.DeckData
 import com.example.loldex.core.ui.CreateDeckDialog
-import com.example.loldex.core.ui.DeckDataPreviewParameterProvider
+import com.example.loldex.core.ui.preview_parameter_provider.DeckDataPreviewParameterProvider
 import com.example.loldex.core.ui.DeckListItem
 import com.example.loldex.core.ui.util.statusBarPadding
 

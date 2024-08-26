@@ -23,7 +23,7 @@ import com.example.loldex.core.designsystem.theme.ldTypography
 import com.example.loldex.core.model.YugiohCardData
 import com.example.loldex.core.model.YugiohCardPrice
 import com.example.loldex.core.ui.ExpandableCard
-import com.example.loldex.core.ui.YugiohCardDataPreviewParameterProvider
+import com.example.loldex.core.ui.preview_parameter_provider.YugiohCardDataPreviewParameterProvider
 import com.example.loldex.core.designsystem.R as DesignR
 
 @Composable

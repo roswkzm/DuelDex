@@ -37,8 +37,8 @@ import com.example.loldex.core.designsystem.theme.LolDexTheme
 import com.example.loldex.core.designsystem.theme.Text0
 import com.example.loldex.core.designsystem.theme.ThemePreviews
 import com.example.loldex.core.model.YugiohCardData
-import com.example.loldex.core.ui.YugiohCardDataPreviewParameterProvider
-import com.example.loldex.core.ui.YugiohCardItem
+import com.example.loldex.core.ui.preview_parameter_provider.YugiohCardDataPreviewParameterProvider
+import com.example.loldex.core.ui.GridYugiohCardItem
 import com.example.loldex.core.ui.pagingLoadStateHandler
 import com.example.loldex.core.ui.util.statusBarPadding
 import com.example.loldex.feature.home.ui.component.LoadStateAppendError
@@ -101,7 +101,7 @@ internal fun HomeScreen(
         ) {
             items(yugiohListPagingItems.itemCount) { index ->
                 yugiohListPagingItems[index]?.let { yugiohCardData ->
-                    YugiohCardItem(
+                    GridYugiohCardItem(
                         onClickedItem = onClickedCardItem,
                         yugiohCardData = yugiohCardData,
                     )

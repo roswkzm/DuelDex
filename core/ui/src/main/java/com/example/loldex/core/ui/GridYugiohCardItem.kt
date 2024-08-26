@@ -23,9 +23,10 @@ import com.example.loldex.core.designsystem.component.AsyncImageView
 import com.example.loldex.core.designsystem.theme.ThemePreviews
 import com.example.loldex.core.designsystem.theme.ldTypography
 import com.example.loldex.core.model.YugiohCardData
+import com.example.loldex.core.ui.preview_parameter_provider.YugiohCardDataPreviewParameterProvider
 
 @Composable
-fun YugiohCardItem(
+fun GridYugiohCardItem(
     onClickedItem: (String) -> Unit,
     yugiohCardData: YugiohCardData
 ) {
@@ -73,11 +74,11 @@ fun YugiohCardItem(
 
 @ThemePreviews
 @Composable
-fun YugiohCardItemPreview(
+fun GridYugiohCardItemPreview(
     @PreviewParameter(YugiohCardDataPreviewParameterProvider::class) yugiohCardList: List<YugiohCardData>
 ) {
     val yugiohCardData = yugiohCardList[0]
-    YugiohCardItem(
+    GridYugiohCardItem(
         onClickedItem = {},
         yugiohCardData = yugiohCardData
     )

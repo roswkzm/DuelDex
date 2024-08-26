@@ -1,10 +1,10 @@
-package com.example.loldex.core.ui
+package com.example.loldex.core.ui.preview_parameter_provider
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.example.loldex.core.model.YugiohCardData
 import com.example.loldex.core.model.YugiohCardImage
 import com.example.loldex.core.model.YugiohCardPrice
-import com.example.loldex.core.ui.YugiohCardPreviewParameterData.yugiohCardData
+import com.example.loldex.core.ui.preview_parameter_provider.YugiohCardPreviewParameterData.yugiohCardData
 
 class YugiohCardDataPreviewParameterProvider : PreviewParameterProvider<List<YugiohCardData>> {
 
