@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,13 +18,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.loldex.core.designsystem.theme.ThemePreviews
-import com.example.loldex.core.designsystem.theme.ldTypography
 import com.example.loldex.core.model.enums.AttributeType
 
 @Composable
 fun AttributeTag(
     modifier: Modifier = Modifier,
     attribute: String,
+    attributeSize: AttributeSize,
     onClickedAttribute: (String) -> Unit,
 ) {
     Button(
@@ -35,20 +34,23 @@ fun AttributeTag(
         colors = ButtonDefaults.buttonColors(getAttributeTagColor(attribute)),
         contentPadding = PaddingValues(horizontal = 8.dp)
     ) {
+        val attributeIconSize = getAttributeIconSize(attributeSize)
+        val attributeTextStyle = getAttributeTextStyle(attributeSize)
+
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
                 modifier = Modifier
-                    .size(28.dp),
+                    .size(attributeIconSize),
                 painter = painterResource(id = getAttributeTagImage(attribute)),
                 contentDescription = null
             )
 
             Text(
                 text = attribute,
-                style = MaterialTheme.ldTypography.fontLabelM,
+                style = attributeTextStyle,
                 color = Color.White
             )
         }
@@ -65,6 +67,7 @@ fun AttributeTagPreview() {
             AttributeTag(
                 modifier = Modifier,
                 attribute = it.name,
+                attributeSize = AttributeSize.L,
                 onClickedAttribute = {}
             )
         }

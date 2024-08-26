@@ -49,8 +49,9 @@ import com.example.loldex.core.designsystem.theme.ThemePreviews
 import com.example.loldex.core.designsystem.theme.ldTypography
 import com.example.loldex.core.model.YugiohCardData
 import com.example.loldex.core.ui.CarouselPager
-import com.example.loldex.core.ui.preview_parameter_provider.YugiohCardDataPreviewParameterProvider
+import com.example.loldex.core.ui.attribute.AttributeSize
 import com.example.loldex.core.ui.attribute.AttributeTag
+import com.example.loldex.core.ui.preview_parameter_provider.YugiohCardDataPreviewParameterProvider
 import com.example.loldex.core.ui.util.statusBarPadding
 import com.example.loldex.feature.detail.ui.AttackDefensePowerLayout
 import com.example.loldex.feature.detail.ui.CardPriceLayout
@@ -173,6 +174,7 @@ internal fun CardDetailScreen(
                                 AttributeTag(
                                     modifier = Modifier,
                                     attribute = it,
+                                    attributeSize = AttributeSize.L,
                                     onClickedAttribute = {}
                                 )
                             }

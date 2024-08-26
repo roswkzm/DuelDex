@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -34,6 +35,7 @@ import com.example.loldex.core.model.DeckData
 import com.example.loldex.core.model.DeckWithCardData
 import com.example.loldex.core.model.YugiohCardData
 import com.example.loldex.core.ui.GridYugiohCardItem
+import com.example.loldex.core.ui.ListYugiohCardItem
 import com.example.loldex.core.ui.preview_parameter_provider.DeckWithCardDataPreviewParameterProvider
 import com.example.loldex.core.ui.util.statusBarPadding
 
@@ -88,9 +90,13 @@ internal fun DeckDetailScreen(
                         onClickedDeckNameEdit = {}
                     )
 
-                    YugiohCardGridList(
+//                    YugiohCardGridList(
+//                        cardList = cardList,
+//                        lazyGridState = lazyGridState
+//                    )
+
+                    YugiohCardList(
                         cardList = cardList,
-                        lazyGridState = lazyGridState
                     )
                 }
             }
@@ -143,6 +149,25 @@ fun YugiohCardGridList(
     ) {
         items(cardList.count()) { index ->
             GridYugiohCardItem(
+                onClickedItem = {},
+                yugiohCardData = cardList[index],
+            )
+        }
+    }
+}
+
+@Composable
+fun YugiohCardList(
+    cardList: List<YugiohCardData>,
+) {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 10.dp),
+        verticalArrangement = Arrangement.spacedBy(15.dp)
+    ) {
+        items(cardList.count()) { index ->
+            ListYugiohCardItem(
                 onClickedItem = {},
                 yugiohCardData = cardList[index],
             )
