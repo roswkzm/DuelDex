@@ -2,4 +2,5 @@
 <resources>
     <string name="total_deck_list">Total Deck List</string>
     <string name="add_deck_btn_text">Add Deck</string>
+    <string name="deck_card_total_count">Total</string>
 </resources>

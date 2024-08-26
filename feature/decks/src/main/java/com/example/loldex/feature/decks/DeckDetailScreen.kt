@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridState
@@ -20,13 +21,20 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.loldex.core.designsystem.component.LdBackGround
+import com.example.loldex.core.designsystem.theme.Gray700
 import com.example.loldex.core.designsystem.theme.Gray900
 import com.example.loldex.core.designsystem.theme.LolDexTheme
 import com.example.loldex.core.designsystem.theme.ThemePreviews
@@ -38,6 +46,7 @@ import com.example.loldex.core.ui.GridYugiohCardItem
 import com.example.loldex.core.ui.ListYugiohCardItem
 import com.example.loldex.core.ui.preview_parameter_provider.DeckWithCardDataPreviewParameterProvider
 import com.example.loldex.core.ui.util.statusBarPadding
+import com.example.loldex.core.designsystem.R as DesignR
 
 @Composable
 internal fun DeckDetailRoute(
@@ -46,6 +55,7 @@ internal fun DeckDetailRoute(
 ) {
     val deckDetailUiState by viewModel.deckDetailUiState.collectAsStateWithLifecycle()
     val lazyGridState = rememberLazyGridState()
+    var isCardViewMode by remember { mutableStateOf(true) }
 
     LaunchedEffect(deckData.id) {
         viewModel.getDeckWithCards(deckData.id)
@@ -54,13 +64,19 @@ internal fun DeckDetailRoute(
     DeckDetailScreen(
         deckDetailUiState = deckDetailUiState,
         lazyGridState = lazyGridState,
+        isCardViewMode = isCardViewMode,
+        onClickedCardViewMode = { isCardViewMode = it },
+        onClickedCardItem = {}
     )
 }
 
 @Composable
 internal fun DeckDetailScreen(
     deckDetailUiState: DeckDetailUiState,
-    lazyGridState: LazyGridState
+    lazyGridState: LazyGridState,
+    isCardViewMode: Boolean,
+    onClickedCardViewMode: (Boolean) -> Unit,
+    onClickedCardItem: (String) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -84,20 +100,38 @@ internal fun DeckDetailScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxSize(),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     DeckNameTitleLayout(
                         deckData = deckData,
                         onClickedDeckNameEdit = {}
                     )
 
-//                    YugiohCardGridList(
-//                        cardList = cardList,
-//                        lazyGridState = lazyGridState
-//                    )
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(horizontal = 10.dp),
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        ViewModeChangeLayout(
+                            cardList = cardList,
+                            isCardViewMode = isCardViewMode,
+                            onClickCardViewMode = onClickedCardViewMode
+                        )
 
-                    YugiohCardList(
-                        cardList = cardList,
-                    )
+                        if (isCardViewMode) {
+                            YugiohCardGridList(
+                                cardList = cardList,
+                                lazyGridState = lazyGridState,
+                                onClickedItem = onClickedCardItem,
+                            )
+                        } else {
+                            YugiohCardList(
+                                cardList = cardList,
+                                onClickedItem = onClickedCardItem,
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -111,8 +145,7 @@ fun DeckNameTitleLayout(
 ) {
     Row(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(10.dp),
+            .fillMaxWidth(),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -134,14 +167,63 @@ fun DeckNameTitleLayout(
 }
 
 @Composable
+fun ViewModeChangeLayout(
+    cardList: List<YugiohCardData>,
+    isCardViewMode: Boolean,
+    onClickCardViewMode: (Boolean) -> Unit,
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            Text(
+                text = stringResource(id = R.string.deck_card_total_count),
+                style = MaterialTheme.ldTypography.fontTitleS,
+                color = Color.Black
+            )
+
+            Text(
+                text = "${cardList.size}",
+                style = MaterialTheme.ldTypography.fontTitleS,
+                color = Gray700
+            )
+
+
+        }
+
+        val viewModeIcon = if (isCardViewMode) {
+            DesignR.drawable.grid_view
+        } else {
+            DesignR.drawable.list_view
+        }
+
+        Icon(
+            modifier = Modifier
+                .size(20.dp)
+                .clickable {
+                    onClickCardViewMode(!isCardViewMode)
+                },
+            painter = painterResource(id = viewModeIcon),
+            contentDescription = null,
+            tint = Color.Black
+        )
+    }
+}
+
+@Composable
 fun YugiohCardGridList(
     cardList: List<YugiohCardData>,
-    lazyGridState: LazyGridState
+    lazyGridState: LazyGridState,
+    onClickedItem: (String) -> Unit,
 ) {
     LazyVerticalGrid(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 10.dp),
+            .fillMaxSize(),
         columns = GridCells.Fixed(2),
         state = lazyGridState,
         verticalArrangement = Arrangement.spacedBy(15.dp),
@@ -149,7 +231,7 @@ fun YugiohCardGridList(
     ) {
         items(cardList.count()) { index ->
             GridYugiohCardItem(
-                onClickedItem = {},
+                onClickedItem = onClickedItem,
                 yugiohCardData = cardList[index],
             )
         }
@@ -159,6 +241,7 @@ fun YugiohCardGridList(
 @Composable
 fun YugiohCardList(
     cardList: List<YugiohCardData>,
+    onClickedItem: (String) -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier
@@ -168,7 +251,7 @@ fun YugiohCardList(
     ) {
         items(cardList.count()) { index ->
             ListYugiohCardItem(
-                onClickedItem = {},
+                onClickedItem = onClickedItem,
                 yugiohCardData = cardList[index],
             )
         }
@@ -184,10 +267,14 @@ internal fun DeckDetailScreenPreview(
         LdBackGround {
             val deckDetailUiState = DeckDetailUiState.Success(deckWithCardData)
             val lazyGridState = rememberLazyGridState()
+            var isCardViewMode by remember { mutableStateOf(true) }
 
             DeckDetailScreen(
                 deckDetailUiState = deckDetailUiState,
                 lazyGridState = lazyGridState,
+                isCardViewMode = isCardViewMode,
+                onClickedCardViewMode = {},
+                onClickedCardItem = {},
             )
         }
     }
