@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import com.example.loldex.feature.decks.navigation.decksGraph
+import com.example.loldex.feature.decks.navigation.navigateToDeckDetail
 import com.example.loldex.feature.detail.navigation.detailGraph
 import com.example.loldex.feature.detail.navigation.navigateToCardDetail
 import com.example.loldex.feature.home.navigation.HOME_GRAPH_ROUTE
@@ -29,7 +30,7 @@ fun LdNavHost(
             onClickedSearchIcon = navController::navigateToSearch,
         )
         decksGraph(
-            onClickedDeck = {}
+            onClickedDeck = navController::navigateToDeckDetail
         )
         detailGraph()
         searchScreen(

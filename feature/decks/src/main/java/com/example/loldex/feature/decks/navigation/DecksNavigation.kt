@@ -5,14 +5,17 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
+import androidx.navigation.toRoute
 import com.example.loldex.core.model.DeckData
+import com.example.loldex.feature.decks.DeckDetailRoute
 import com.example.loldex.feature.decks.DecksRoute
 
 const val DECKS_GRAPH_ROUTE = "decks_graph"
 const val DECKS_ROUTE = "decks"
-const val DECK_DETAIL_ROUTE = "deck_detail"
 
 fun NavController.navigateToDecks(navOptions: NavOptions) = navigate(DECKS_ROUTE, navOptions)
+
+fun NavController.navigateToDeckDetail(deckData: DeckData) = navigate(deckData)
 
 fun NavGraphBuilder.decksGraph(
     onClickedDeck: (DeckData) -> Unit,
@@ -24,6 +27,13 @@ fun NavGraphBuilder.decksGraph(
         composable(route = DECKS_ROUTE) {
             DecksRoute(
                 onClickedDeck = onClickedDeck
+            )
+        }
+
+        composable<DeckData> { backStackEntry ->
+            val deckData: DeckData = backStackEntry.toRoute()
+            DeckDetailRoute(
+                deckData = deckData
             )
         }
     }
