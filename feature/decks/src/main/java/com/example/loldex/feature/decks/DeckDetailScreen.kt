@@ -230,7 +230,10 @@ fun YugiohCardGridList(
         verticalArrangement = Arrangement.spacedBy(15.dp),
         horizontalArrangement = Arrangement.spacedBy(15.dp)
     ) {
-        items(cardList.count()) { index ->
+        items(
+            key = { index -> cardList[index].id },
+            count = cardList.count()
+        ) { index ->
             GridYugiohCardItem(
                 onClickedItem = onClickedItem,
                 yugiohCardData = cardList[index],
@@ -250,7 +253,10 @@ fun YugiohCardList(
             .padding(horizontal = 10.dp),
         verticalArrangement = Arrangement.spacedBy(15.dp)
     ) {
-        items(cardList.count()) { index ->
+        items(
+            key = { index -> cardList[index].id },
+            count = cardList.count()
+        ) { index ->
             ListYugiohCardItem(
                 onClickedItem = onClickedItem,
                 yugiohCardData = cardList[index],

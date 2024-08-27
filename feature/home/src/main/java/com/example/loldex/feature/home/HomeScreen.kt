@@ -32,14 +32,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemKey
 import com.example.loldex.core.designsystem.component.LdBackGround
 import com.example.loldex.core.designsystem.theme.LolDexTheme
 import com.example.loldex.core.designsystem.theme.Text0
 import com.example.loldex.core.designsystem.theme.ThemePreviews
 import com.example.loldex.core.model.YugiohCardData
-import com.example.loldex.core.ui.preview_parameter_provider.YugiohCardDataPreviewParameterProvider
 import com.example.loldex.core.ui.GridYugiohCardItem
 import com.example.loldex.core.ui.pagingLoadStateHandler
+import com.example.loldex.core.ui.preview_parameter_provider.YugiohCardDataPreviewParameterProvider
 import com.example.loldex.core.ui.util.statusBarPadding
 import com.example.loldex.feature.home.ui.component.LoadStateAppendError
 import com.example.loldex.feature.home.ui.component.LoadStateAppendSkeletonLoading
@@ -99,7 +100,10 @@ internal fun HomeScreen(
             verticalArrangement = Arrangement.spacedBy(15.dp),
             horizontalArrangement = Arrangement.spacedBy(15.dp)
         ) {
-            items(yugiohListPagingItems.itemCount) { index ->
+            items(
+                key = yugiohListPagingItems.itemKey { it.id },
+                count = yugiohListPagingItems.itemCount
+            ) { index ->
                 yugiohListPagingItems[index]?.let { yugiohCardData ->
                     GridYugiohCardItem(
                         onClickedItem = onClickedCardItem,

@@ -55,8 +55,8 @@ import com.example.loldex.core.designsystem.theme.Text20
 import com.example.loldex.core.designsystem.theme.ThemePreviews
 import com.example.loldex.core.designsystem.theme.ldTypography
 import com.example.loldex.core.model.YugiohCardData
-import com.example.loldex.core.ui.preview_parameter_provider.YugiohCardDataPreviewParameterProvider
 import com.example.loldex.core.ui.GridYugiohCardItem
+import com.example.loldex.core.ui.preview_parameter_provider.YugiohCardDataPreviewParameterProvider
 import com.example.loldex.core.ui.util.statusBarPadding
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -212,7 +212,10 @@ internal fun SearchScreen(
                         horizontalArrangement = Arrangement.spacedBy(15.dp)
                     ) {
                         val yugiohCardList = cardSearchResult.yugiohCardList
-                        items(yugiohCardList.size) { index ->
+                        items(
+                            key = { index -> yugiohCardList[index].id },
+                            count = yugiohCardList.size
+                        ) { index ->
                             GridYugiohCardItem(
                                 onClickedItem = onClickedCardItem,
                                 yugiohCardData = yugiohCardList[index],

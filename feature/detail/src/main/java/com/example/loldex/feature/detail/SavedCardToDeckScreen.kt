@@ -129,7 +129,10 @@ internal fun SavedCardToDeckContent(
                                 .fillMaxSize(),
                             verticalArrangement = Arrangement.spacedBy(10.dp)
                         ) {
-                            items(deckList.size) { index ->
+                            items(
+                                key = { index -> deckList[index].id },
+                                count = deckList.size
+                            ) { index ->
                                 DeckListItem(
                                     deckData = deckList[index],
                                     onClickedDeck = onClickedInsertCardToDeck,
@@ -142,7 +145,8 @@ internal fun SavedCardToDeckContent(
 
                 if (isShowCreateDeckDialog) {
                     // insertDeckName 상태에 따라 isError 상태 업데이트
-                    isError = insertDeckName.isEmpty() || deckList.any { it.deckName == insertDeckName }
+                    isError =
+                        insertDeckName.isEmpty() || deckList.any { it.deckName == insertDeckName }
                     CreateDeckDialog(
                         onDismiss = {
                             onChangeDeckNameValue("")

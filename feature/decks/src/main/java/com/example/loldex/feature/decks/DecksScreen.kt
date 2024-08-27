@@ -38,8 +38,8 @@ import com.example.loldex.core.designsystem.theme.ThemePreviews
 import com.example.loldex.core.designsystem.theme.ldTypography
 import com.example.loldex.core.model.DeckData
 import com.example.loldex.core.ui.CreateDeckDialog
-import com.example.loldex.core.ui.preview_parameter_provider.DeckDataPreviewParameterProvider
 import com.example.loldex.core.ui.DeckListItem
+import com.example.loldex.core.ui.preview_parameter_provider.DeckDataPreviewParameterProvider
 import com.example.loldex.core.ui.util.statusBarPadding
 
 @Composable
@@ -108,7 +108,10 @@ internal fun DecksScreen(
                                 .fillMaxSize(),
                             verticalArrangement = Arrangement.spacedBy(10.dp)
                         ) {
-                            items(deckList.size) { index ->
+                            items(
+                                key = { index -> deckList[index].id },
+                                count = deckList.size
+                            ) { index ->
                                 DeckListItem(
                                     deckData = deckList[index],
                                     onClickedDeck = onClickedDeck,
@@ -121,7 +124,8 @@ internal fun DecksScreen(
 
                 if (isShowCreateDeckDialog) {
                     // insertDeckName 상태에 따라 isError 상태 업데이트
-                    isError = insertDeckName.isEmpty() || deckList.any { it.deckName == insertDeckName }
+                    isError =
+                        insertDeckName.isEmpty() || deckList.any { it.deckName == insertDeckName }
                     CreateDeckDialog(
                         onDismiss = {
                             onChangeValue("")
