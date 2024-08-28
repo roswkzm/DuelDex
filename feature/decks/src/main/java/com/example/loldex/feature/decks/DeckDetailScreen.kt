@@ -1,7 +1,9 @@
 package com.example.loldex.feature.decks
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,8 +15,10 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Icon
@@ -72,7 +76,7 @@ internal fun DeckDetailRoute(
         onClickedCardViewMode = { isCardViewMode = it },
         onClickedCardItem = onClickedCardItem,
         onClickedDeckNameEdit = viewModel::updateDeckName,
-        onSwipedDeleteEvent = viewModel::deleteDeckCard
+        onDeleteCard = viewModel::deleteDeckCard
     )
 }
 
@@ -84,7 +88,7 @@ internal fun DeckDetailScreen(
     onClickedCardViewMode: (Boolean) -> Unit,
     onClickedCardItem: (String) -> Unit,
     onClickedDeckNameEdit: (DeckData) -> Unit,
-    onSwipedDeleteEvent: (Long, Long) -> Unit,
+    onDeleteCard: (Long, Long) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -132,13 +136,16 @@ internal fun DeckDetailScreen(
                                 cardList = cardList,
                                 lazyGridState = lazyGridState,
                                 onClickedItem = onClickedCardItem,
+                                onDeleteCard = { cardId ->
+                                    onDeleteCard(deckData.id, cardId)
+                                }
                             )
                         } else {
                             YugiohCardList(
                                 cardList = cardList,
                                 onClickedItem = onClickedCardItem,
-                                onSwipedDeleteEvent = { cardId ->
-                                    onSwipedDeleteEvent(deckData.id, cardId)
+                                onDeleteCard = { cardId ->
+                                    onDeleteCard(deckData.id, cardId)
                                 }
                             )
                         }
@@ -268,6 +275,7 @@ fun YugiohCardGridList(
     cardList: List<YugiohCardData>,
     lazyGridState: LazyGridState,
     onClickedItem: (String) -> Unit,
+    onDeleteCard: (Long) -> Unit,
 ) {
     LazyVerticalGrid(
         modifier = Modifier
@@ -281,10 +289,27 @@ fun YugiohCardGridList(
             key = { index -> cardList[index].id },
             count = cardList.count()
         ) { index ->
-            GridYugiohCardItem(
-                onClickedItem = onClickedItem,
-                yugiohCardData = cardList[index],
-            )
+            Box {
+                GridYugiohCardItem(
+                    onClickedItem = onClickedItem,
+                    yugiohCardData = cardList[index],
+                )
+                Icon(
+                    modifier = Modifier
+                        .padding(top = 10.dp, end = 10.dp)
+                        .size(28.dp)
+                        .background(
+                            Color.White.copy(alpha = 0.5f),
+                            CircleShape
+                        )
+                        .padding(2.dp)
+                        .align(Alignment.TopEnd)
+                        .clickable { onDeleteCard(cardList[index].id) },
+                    imageVector = Icons.Filled.Delete,
+                    tint = Color.Red.copy(alpha = 0.8f),
+                    contentDescription = "Delete Card",
+                )
+            }
         }
     }
 }
@@ -293,7 +318,7 @@ fun YugiohCardGridList(
 fun YugiohCardList(
     cardList: List<YugiohCardData>,
     onClickedItem: (String) -> Unit,
-    onSwipedDeleteEvent: (Long) -> Unit,
+    onDeleteCard: (Long) -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier
@@ -308,7 +333,7 @@ fun YugiohCardList(
             ListYugiohCardItem(
                 onClickedItem = onClickedItem,
                 yugiohCardData = cardList[index],
-                onSwipedDeleteEvent = onSwipedDeleteEvent
+                onSwipedDeleteEvent = onDeleteCard
             )
         }
     }
@@ -332,7 +357,7 @@ internal fun DeckDetailScreenPreview(
                 onClickedCardViewMode = {},
                 onClickedCardItem = {},
                 onClickedDeckNameEdit = {},
-                onSwipedDeleteEvent = { _, _ -> },
+                onDeleteCard = { _, _ -> },
             )
         }
     }
