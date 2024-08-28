@@ -18,7 +18,11 @@ class DeckWithCardDataPreviewParameterProvider : PreviewParameterProvider<DeckWi
 
         val deckWithCardData: DeckWithCardData = DeckWithCardData(
             deckData = deckData,
-            yugiohCardList = List(10) { YugiohCardPreviewParameterData.yugiohCardData }
+            yugiohCardList = List(10) {
+                YugiohCardPreviewParameterData.yugiohCardData.copy(
+                    id = YugiohCardPreviewParameterData.yugiohCardData.id + it
+                )
+            }
         )
     }
 }

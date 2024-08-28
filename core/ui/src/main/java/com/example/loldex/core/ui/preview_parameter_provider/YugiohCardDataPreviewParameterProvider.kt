@@ -9,7 +9,11 @@ import com.example.loldex.core.ui.preview_parameter_provider.YugiohCardPreviewPa
 class YugiohCardDataPreviewParameterProvider : PreviewParameterProvider<List<YugiohCardData>> {
 
     override val values: Sequence<List<YugiohCardData>> = sequenceOf(
-        List(10) { yugiohCardData }
+        List(10) {
+            yugiohCardData.copy(
+                yugiohCardData.id + it
+            )
+        }
     )
 }
 
