@@ -72,6 +72,7 @@ internal fun DeckDetailRoute(
         onClickedCardViewMode = { isCardViewMode = it },
         onClickedCardItem = onClickedCardItem,
         onClickedDeckNameEdit = viewModel::updateDeckName,
+        onSwipedDeleteEvent = viewModel::deleteDeckCard
     )
 }
 
@@ -83,6 +84,7 @@ internal fun DeckDetailScreen(
     onClickedCardViewMode: (Boolean) -> Unit,
     onClickedCardItem: (String) -> Unit,
     onClickedDeckNameEdit: (DeckData) -> Unit,
+    onSwipedDeleteEvent: (Long, Long) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -135,6 +137,9 @@ internal fun DeckDetailScreen(
                             YugiohCardList(
                                 cardList = cardList,
                                 onClickedItem = onClickedCardItem,
+                                onSwipedDeleteEvent = { cardId ->
+                                    onSwipedDeleteEvent(deckData.id, cardId)
+                                }
                             )
                         }
                     }
@@ -288,6 +293,7 @@ fun YugiohCardGridList(
 fun YugiohCardList(
     cardList: List<YugiohCardData>,
     onClickedItem: (String) -> Unit,
+    onSwipedDeleteEvent: (Long) -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier
@@ -302,6 +308,7 @@ fun YugiohCardList(
             ListYugiohCardItem(
                 onClickedItem = onClickedItem,
                 yugiohCardData = cardList[index],
+                onSwipedDeleteEvent = onSwipedDeleteEvent
             )
         }
     }
@@ -324,7 +331,8 @@ internal fun DeckDetailScreenPreview(
                 isCardViewMode = isCardViewMode,
                 onClickedCardViewMode = {},
                 onClickedCardItem = {},
-                onClickedDeckNameEdit = {}
+                onClickedDeckNameEdit = {},
+                onSwipedDeleteEvent = { _, _ -> },
             )
         }
     }

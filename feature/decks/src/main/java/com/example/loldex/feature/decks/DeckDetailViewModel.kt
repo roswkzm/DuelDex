@@ -38,6 +38,15 @@ class DeckDetailViewModel @Inject constructor(
             decksRepository.updateDeckName(deckData)
         }
     }
+
+    fun deleteDeckCard(
+        deckId: Long,
+        cardId: Long
+    ) {
+        viewModelScope.launch {
+            decksRepository.deleteDeckCard(deckId, cardId)
+        }
+    }
 }
 
 sealed interface DeckDetailUiState {
