@@ -14,10 +14,13 @@ import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBackIosNew
+import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -58,7 +61,7 @@ internal fun DeckDetailRoute(
     val lazyGridState = rememberLazyGridState()
     var isCardViewMode by remember { mutableStateOf(true) }
 
-    LaunchedEffect(deckData.id) {
+    LaunchedEffect(deckData) {
         viewModel.getDeckWithCards(deckData.id)
     }
 
@@ -67,7 +70,8 @@ internal fun DeckDetailRoute(
         lazyGridState = lazyGridState,
         isCardViewMode = isCardViewMode,
         onClickedCardViewMode = { isCardViewMode = it },
-        onClickedCardItem = onClickedCardItem
+        onClickedCardItem = onClickedCardItem,
+        onClickedDeckNameEdit = viewModel::updateDeckName,
     )
 }
 
@@ -78,6 +82,7 @@ internal fun DeckDetailScreen(
     isCardViewMode: Boolean,
     onClickedCardViewMode: (Boolean) -> Unit,
     onClickedCardItem: (String) -> Unit,
+    onClickedDeckNameEdit: (DeckData) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -105,7 +110,7 @@ internal fun DeckDetailScreen(
                 ) {
                     DeckNameTitleLayout(
                         deckData = deckData,
-                        onClickedDeckNameEdit = {}
+                        onClickedDeckNameEdit = onClickedDeckNameEdit,
                     )
 
                     Column(
@@ -142,28 +147,65 @@ internal fun DeckDetailScreen(
 @Composable
 fun DeckNameTitleLayout(
     deckData: DeckData,
-    onClickedDeckNameEdit: () -> Unit,
+    onClickedDeckNameEdit: (DeckData) -> Unit,
 ) {
+    var isEditMode by remember { mutableStateOf(false) }
+    var deckNameValue by remember { mutableStateOf(deckData.deckName) }
+
     Row(
         modifier = Modifier
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(
-            text = deckData.deckName,
-            style = MaterialTheme.ldTypography.fontTitleM,
-            color = Gray900
-        )
+        if (isEditMode) {
+            TextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 10.dp),
+                value = deckNameValue,
+                onValueChange = { deckNameValue = it },
+                singleLine = true,
+                leadingIcon = {
+                    Icon(
+                        modifier = Modifier
+                            .size(20.dp)
+                            .clickable { isEditMode = false },
+                        imageVector = Icons.Filled.ArrowBackIosNew,
+                        contentDescription = "Edit Deck Name",
+                    )
+                },
+                trailingIcon = {
+                    Icon(
+                        modifier = Modifier
+                            .size(20.dp)
+                            .clickable {
+                                isEditMode = false
+                                onClickedDeckNameEdit(
+                                    deckData.copy(deckName = deckNameValue)
+                                )
+                            },
+                        imageVector = Icons.Filled.Done,
+                        contentDescription = "Edit Deck Name",
+                    )
+                }
+            )
+        } else {
+            Text(
+                text = deckData.deckName,
+                style = MaterialTheme.ldTypography.fontTitleM,
+                color = Gray900
+            )
 
-        Icon(
-            modifier = Modifier
-                .padding(start = 4.dp)
-                .clickable { onClickedDeckNameEdit() },
-            imageVector = Icons.Filled.Edit,
-            contentDescription = null,
-            tint = Gray900
-        )
+            Icon(
+                modifier = Modifier
+                    .padding(start = 4.dp)
+                    .clickable { isEditMode = true },
+                imageVector = Icons.Filled.Edit,
+                contentDescription = null,
+                tint = Gray900
+            )
+        }
     }
 }
 
@@ -282,6 +324,7 @@ internal fun DeckDetailScreenPreview(
                 isCardViewMode = isCardViewMode,
                 onClickedCardViewMode = {},
                 onClickedCardItem = {},
+                onClickedDeckNameEdit = {}
             )
         }
     }

@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import androidx.room.Update
 import com.example.loldex.core.database.model.DeckCardCrossRef
 import com.example.loldex.core.database.model.DeckEntity
 import com.example.loldex.core.database.model.DeckWithCards
@@ -26,6 +27,10 @@ interface DeckDao {
     // Deck 삭제
     @Delete
     suspend fun deleteDeck(deckEntity: DeckEntity)
+
+    // Deck의 이름 업데이트
+    @Update
+    suspend fun updateDeck(deckEntity: DeckEntity)
 
     // 특정 Deck에 존재하는 Card 조회
     @Transaction

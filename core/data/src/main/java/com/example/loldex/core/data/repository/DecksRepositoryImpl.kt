@@ -30,6 +30,10 @@ internal class DecksRepositoryImpl @Inject constructor(
         deckDao.deleteDeck(deckData.asEntity())
     }
 
+    override suspend fun updateDeckName(deckData: DeckData) {
+        deckDao.updateDeck(deckData.asEntity())
+    }
+
     override suspend fun getDeckWithCards(deckId: Long): Flow<DeckWithCardData> {
         return deckDao.getDeckWithCards(deckId).map { it.asExternalModel() }
     }

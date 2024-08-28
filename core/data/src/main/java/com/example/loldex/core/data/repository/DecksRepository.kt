@@ -13,6 +13,8 @@ interface DecksRepository {
 
     suspend fun deleteDeck(deckData: DeckData)
 
+    suspend fun updateDeckName(deckData: DeckData)
+
     suspend fun getDeckWithCards(deckId: Long): Flow<DeckWithCardData>
 
     suspend fun insertDeckCard(deckId: Long, yugiohCardData: YugiohCardData)

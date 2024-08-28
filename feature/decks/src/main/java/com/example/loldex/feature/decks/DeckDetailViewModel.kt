@@ -3,6 +3,7 @@ package com.example.loldex.feature.decks
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.loldex.core.data.repository.DecksRepository
+import com.example.loldex.core.model.DeckData
 import com.example.loldex.core.model.DeckWithCardData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,6 +30,12 @@ class DeckDetailViewModel @Inject constructor(
             } catch (e: Exception) {
                 _deckDetailUiState.value = DeckDetailUiState.Error(e)
             }
+        }
+    }
+
+    fun updateDeckName(deckData: DeckData) {
+        viewModelScope.launch {
+            decksRepository.updateDeckName(deckData)
         }
     }
 }
