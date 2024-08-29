@@ -1,12 +1,9 @@
 package com.example.loldex.core.ui
 
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
-import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,17 +12,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SwipeToDismissBox
-import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -34,7 +25,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -43,7 +33,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.util.lerp
 import com.example.loldex.core.designsystem.R
 import com.example.loldex.core.designsystem.component.AsyncImageView
 import com.example.loldex.core.designsystem.component.SimpleTag
@@ -66,135 +55,78 @@ fun ListYugiohCardItem(
     val density = LocalDensity.current
     val scrollState = rememberScrollState()
     var cardContentHeight by remember { mutableStateOf(0.dp) }
-    var lastDismissedValue by remember { mutableStateOf(SwipeToDismissBoxValue.Settled) }
-    val swipeDismissState = rememberSwipeToDismissBoxState(
-        confirmValueChange = { dismissBoxValue ->
-            // 상태가 변경될 때만 처리(중복호출 방지)
-            if (lastDismissedValue == dismissBoxValue) return@rememberSwipeToDismissBoxState false
-            lastDismissedValue = dismissBoxValue
 
-            when (dismissBoxValue) {
-                SwipeToDismissBoxValue.StartToEnd -> {
-                    false
-                }
+    CustomSwipeToDismissBox(
+        modifier = Modifier
+            .fillMaxWidth(),
+        backgroundContent = { swipeDismissState ->
+            DefaultSwipeToDismissBackgroundBox(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(cardContentHeight)
+                    .clip(RoundedCornerShape(8.dp)),
+                swipeDismissState = swipeDismissState
+            )
+        },
+        enableDismissFromStartToEnd = false,
+        enableDismissFromEndToStart = true,
+        onEndToStartEvent = {
+            onSwipedDeleteEvent(yugiohCardData.id)
+        },
+        content = {
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .onGloballyPositioned { coordinates ->
+                        cardContentHeight = with(density) { coordinates.size.height.toDp() }
+                    },
+                onClick = { onClickedItem(yugiohCardData.name) },
+                shape = RoundedCornerShape(8.dp),
+                colors = CardDefaults.cardColors(),
+                elevation = CardDefaults.elevatedCardElevation(12.dp)
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(10.dp)
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        AsyncImageView(
+                            modifier = Modifier
+                                .size(100.dp)
+                                .clip(RoundedCornerShape(8.dp)),
+                            url = yugiohCardData.cardImages[0].imageUrlCropped,
+                            contentDescription = null,
+                            contentScale = ContentScale.Crop,
+                            placeholderContent = {
+                                SkeletonBox(
+                                    modifier = Modifier
+                                        .size(100.dp)
+                                )
+                            }
+                        )
 
-                SwipeToDismissBoxValue.EndToStart -> {
-                    onSwipedDeleteEvent(yugiohCardData.id)
-                    true
-                }
+                        LevelNameDescriptionLayout(
+                            yugiohCardData = yugiohCardData
+                        )
+                    }
 
-                SwipeToDismissBoxValue.Settled -> {
-                    false
+                    AttackDefensePowerLayout(
+                        yugiohCardData = yugiohCardData
+                    )
+
+                    CardAttributeLayout(
+                        scrollState = scrollState,
+                        yugiohCardData = yugiohCardData
+                    )
                 }
             }
         }
     )
-
-    SwipeToDismissBox(
-        modifier = Modifier
-            .fillMaxWidth(),
-        state = swipeDismissState,
-        enableDismissFromStartToEnd = false,
-        enableDismissFromEndToStart = true,
-        backgroundContent = {
-            val direction = swipeDismissState.dismissDirection
-
-            val color by animateColorAsState(
-                when (direction) {
-                    SwipeToDismissBoxValue.EndToStart -> {
-                        val alpha = lerp(0.2f, 0.8f, swipeDismissState.progress)
-                        Color.Red.copy(alpha = alpha)
-                    }
-
-                    else -> {
-                        Color.Unspecified
-                    }
-                },
-                label = "SwipeBackGroundColor"
-            )
-
-            val alignment = when (direction) {
-                SwipeToDismissBoxValue.EndToStart -> {
-                    Alignment.CenterEnd
-                }
-
-                else -> {
-                    Alignment.Center
-                }
-            }
-
-            val iconScale = lerp(1.0f, 1.8f, swipeDismissState.progress)
-
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(cardContentHeight)
-                    .background(color, RoundedCornerShape(8.dp))
-                    .clip(RoundedCornerShape(8.dp)),
-                contentAlignment = alignment
-            ) {
-                Icon(
-                    modifier = Modifier
-                        .padding(end = 20.dp)
-                        .scale(iconScale),
-                    imageVector = Icons.Filled.Delete,
-                    contentDescription = "Delete Card",
-                )
-            }
-        }
-    ) {
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .onGloballyPositioned { coordinates ->
-                    cardContentHeight = with(density) { coordinates.size.height.toDp() }
-                },
-            onClick = { onClickedItem(yugiohCardData.name) },
-            shape = RoundedCornerShape(8.dp),
-            colors = CardDefaults.cardColors(),
-            elevation = CardDefaults.elevatedCardElevation(12.dp)
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(10.dp)
-            ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    AsyncImageView(
-                        modifier = Modifier
-                            .size(100.dp)
-                            .clip(RoundedCornerShape(8.dp)),
-                        url = yugiohCardData.cardImages[0].imageUrlCropped,
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop,
-                        placeholderContent = {
-                            SkeletonBox(
-                                modifier = Modifier
-                                    .size(100.dp)
-                            )
-                        }
-                    )
-
-                    LevelNameDescriptionLayout(
-                        yugiohCardData = yugiohCardData
-                    )
-                }
-
-                AttackDefensePowerLayout(
-                    yugiohCardData = yugiohCardData
-                )
-
-                CardAttributeLayout(
-                    scrollState = scrollState,
-                    yugiohCardData = yugiohCardData
-                )
-            }
-        }
-    }
 }
 
 @Composable
