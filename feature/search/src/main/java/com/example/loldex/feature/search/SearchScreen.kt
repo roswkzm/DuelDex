@@ -1,35 +1,24 @@
 package com.example.loldex.feature.search
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBackIosNew
-import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.material.icons.filled.ErrorOutline
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -40,17 +29,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.loldex.core.designsystem.component.RectangleTag
-import com.example.loldex.core.designsystem.component.TagWithDeleteButton
 import com.example.loldex.core.designsystem.theme.Neutral10
-import com.example.loldex.core.designsystem.theme.Text0
-import com.example.loldex.core.designsystem.theme.Text10
 import com.example.loldex.core.designsystem.theme.Text20
 import com.example.loldex.core.designsystem.theme.ThemePreviews
 import com.example.loldex.core.designsystem.theme.ldTypography
@@ -58,6 +41,9 @@ import com.example.loldex.core.model.YugiohCardData
 import com.example.loldex.core.ui.GridYugiohCardItem
 import com.example.loldex.core.ui.preview_parameter_provider.YugiohCardDataPreviewParameterProvider
 import com.example.loldex.core.ui.util.statusBarPadding
+import com.example.loldex.feature.search.ui.RecentSearches
+import com.example.loldex.feature.search.ui.RecommendedKeywords
+import com.example.loldex.feature.search.ui.SearchTextField
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -140,9 +126,7 @@ internal fun SearchScreen(
             onClickedClose = onClickedClose,
         )
 
-        Column(
-
-        ) {
+        Column {
             if (recentSearchList.isNotEmpty()) {
                 RecentSearches(
                     recentSearchList = recentSearchList,
@@ -228,185 +212,6 @@ internal fun SearchScreen(
     }
 }
 
-@Composable
-fun SearchTextField(
-    searchValue: String,
-    onSearchValueChange: (String) -> Unit,
-    onSearch: (String) -> Unit,
-    onClickedDeleteString: () -> Unit,
-    onClickedClose: () -> Unit,
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(56.dp)
-            .padding(horizontal = 6.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        TextField(
-            modifier = Modifier
-                .fillMaxWidth(),
-            value = searchValue,
-            onValueChange = onSearchValueChange,
-            textStyle = MaterialTheme.ldTypography.fontLabelL,
-            colors = TextFieldDefaults.colors(
-                unfocusedContainerColor = Neutral10,
-                focusedContainerColor = Neutral10,
-                unfocusedTextColor = Text0,
-                focusedTextColor = Text0
-            ),
-            placeholder = {
-                Text(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    text = stringResource(id = R.string.search_bar_placeholder),
-                    style = MaterialTheme.ldTypography.fontLabelL,
-                    color = Text20
-                )
-            },
-            leadingIcon = {
-                Box(
-                    modifier = Modifier
-                        .size(48.dp)
-                        .clickable { onClickedClose() },
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.ArrowBackIosNew,
-                        contentDescription = null,
-                        modifier = Modifier.size(28.dp),
-                        tint = Color.White
-                    )
-                }
-            },
-            trailingIcon = {
-                Box(
-                    modifier = Modifier
-                        .size(48.dp)
-                        .clickable { onSearch(searchValue) },
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.Search,
-                        contentDescription = null,
-                        modifier = Modifier.size(28.dp),
-                        tint = Color.White
-                    )
-                }
-            },
-            suffix = {
-                if (searchValue.isNotEmpty()) {
-                    Icon(
-                        modifier = Modifier
-                            .size(20.dp)
-                            .clickable { onClickedDeleteString() },
-                        imageVector = Icons.Filled.Cancel,
-                        contentDescription = null,
-                        tint = Text20
-                    )
-                }
-            },
-            keyboardOptions = KeyboardOptions.Default.copy(
-                imeAction = ImeAction.Search
-            ),
-            keyboardActions = KeyboardActions(
-                onSearch = {
-                    onSearch(searchValue)
-                }
-            )
-        )
-    }
-}
-
-@Composable
-fun RecentSearches(
-    recentSearchList: List<String>,
-    onClickedTag: (String) -> Unit,
-    onClickedDeleteTag: (String) -> Unit,
-    onClickedDeleteAll: () -> Unit,
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 20.dp, top = 24.dp)
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(
-                text = stringResource(id = R.string.recent_searches),
-                style = MaterialTheme.ldTypography.fontLabelL,
-                color = Text10
-            )
-
-            Text(
-                modifier = Modifier
-                    .padding(end = 20.dp)
-                    .clickable { onClickedDeleteAll() },
-                text = stringResource(id = R.string.recent_searches_delete_all),
-                style = MaterialTheme.ldTypography.fontLabelL,
-                color = Text20
-            )
-        }
-
-        LazyRow(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 12.dp),
-            horizontalArrangement = Arrangement.spacedBy(6.dp)
-        ) {
-            items(recentSearchList.size) { index ->
-                TagWithDeleteButton(
-                    name = recentSearchList[index],
-                    color = Color.Transparent,
-                    onClickedTag = onClickedTag,
-                    onClickedDelete = onClickedDeleteTag
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun RecommendedKeywords(
-    recommendedKeywordList: List<String>,
-    onClickedTag: (String) -> Unit,
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 20.dp, top = 24.dp)
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(
-                text = stringResource(id = R.string.recommended_keywords),
-                style = MaterialTheme.ldTypography.fontLabelL,
-                color = Text10
-            )
-        }
-
-        LazyRow(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 12.dp),
-            horizontalArrangement = Arrangement.spacedBy(6.dp)
-        ) {
-            items(recommendedKeywordList.size) { index ->
-                RectangleTag(
-                    name = recommendedKeywordList[index],
-                    onClickedTag = onClickedTag,
-                )
-            }
-        }
-    }
-}
-
 @ThemePreviews
 @Composable
 fun SearchScreenPreview(
@@ -414,7 +219,7 @@ fun SearchScreenPreview(
 ) {
     val scrollState = rememberLazyGridState()
     var searchValue by remember { mutableStateOf("") }
-    var recentSearchList = listOf("가나다", "라마바", "사아자", "차카타", "파하")
+    val recentSearchList = listOf("가나다", "라마바", "사아자", "차카타", "파하")
     val recommendedKeywordList = listOf("Dark Magician")
     SearchScreen(
         cardSearchResult = SearchResultUiState.Success(yugiohCardList),
