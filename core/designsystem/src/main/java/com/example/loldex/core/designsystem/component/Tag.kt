@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -19,6 +20,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.loldex.core.designsystem.R
@@ -114,6 +116,37 @@ fun TagWithDeleteButton(
     }
 }
 
+@Composable
+fun TagButton(
+    name: String,
+    color: Color,
+    icon: ImageVector,
+    onClickedTag: (String) -> Unit,
+) {
+    Button(
+        onClick = { onClickedTag(name) },
+        enabled = true,
+        colors = ButtonDefaults.buttonColors(color),
+        shape = RoundedCornerShape(60.dp),
+        border = BorderStroke(1.dp, Neutral20),
+        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 5.dp)
+    ) {
+        Text(
+            text = name,
+            style = MaterialTheme.ldTypography.fontBodyM,
+            color = Text0
+        )
+        Spacer(modifier = Modifier.width(4.dp))
+        Icon(
+            modifier = Modifier
+                .size(18.dp),
+            imageVector = icon,
+            contentDescription = null,
+            tint = Text20
+        )
+    }
+}
+
 @ThemePreviews
 @Composable
 fun SimpleTagPreview() {
@@ -142,5 +175,16 @@ fun TagWithDeleteButtonPreview() {
         color = Color.Transparent,
         onClickedTag = {},
         onClickedDelete = {}
+    )
+}
+
+@ThemePreviews
+@Composable
+fun TagButtonPreview() {
+    TagButton(
+        name = "Yh-Gi-Oh",
+        color = Color.Transparent,
+        icon = Icons.Filled.KeyboardArrowDown,
+        onClickedTag = {}
     )
 }
