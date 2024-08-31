@@ -4,4 +4,10 @@
     <string name="recent_searches">Recent Searches</string>
     <string name="recent_searches_delete_all">Delete All</string>
     <string name="recommended_keywords">Recommended Keywords</string>
+    <string name="search_filters">Filter</string>
+    <string name="tag_filter_title_type">Select Type</string>
+    <string name="tag_filter_title_attribute">Select Attribute</string>
+    <string name="tag_filter_title_race">Select Race</string>
+    <string name="tag_filter_title_effect">Select Effect</string>
+    <string name="search_filter_bottom_sheet_reset">Reset</string>
 </resources>
