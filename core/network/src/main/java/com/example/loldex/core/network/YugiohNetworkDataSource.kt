@@ -20,6 +20,10 @@ interface YugiohNetworkDataSource {
     ): ApiResponse<CardListResponse>
 
     suspend fun getYugiohCardDataBySearchString(
-        searchString: String
+        searchString: String,
+        type: String?,
+        attribute: String?,
+        race: String?,
+        effect: String?,
     ): ApiResponse<CardListResponse>
 }

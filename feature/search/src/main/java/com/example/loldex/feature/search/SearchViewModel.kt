@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.loldex.core.common.result.Result
 import com.example.loldex.core.common.result.asResult
 import com.example.loldex.core.data.repository.RecentSearchRepository
-import com.example.loldex.core.domain.GetYugiohCardDataBySearchString
+import com.example.loldex.core.domain.GetYugiohCardDataBySearchStringUseCase
 import com.example.loldex.core.model.YugiohCardData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val getYugiohCardDataBySearchString: GetYugiohCardDataBySearchString,
+    private val getYugiohCardDataBySearchStringUseCase: GetYugiohCardDataBySearchStringUseCase,
     private val recentSearchRepository: RecentSearchRepository,
 ) : ViewModel() {
 
@@ -24,10 +24,20 @@ class SearchViewModel @Inject constructor(
         MutableStateFlow(SearchResultUiState.Idle)
     val cardSearchResult: StateFlow<SearchResultUiState> = _cardSearchResult
 
-    fun cardSearchToQuery(searchQuery: String) {
+    fun cardSearchToQuery(
+        searchQuery: String,
+        type: String? = null,
+        attribute: String? = null,
+        race: String? = null,
+        effect: String? = null,
+    ) {
         viewModelScope.launch {
-            getYugiohCardDataBySearchString.invoke(
+            getYugiohCardDataBySearchStringUseCase.invoke(
                 searchString = searchQuery,
+                type = type,
+                attribute = attribute,
+                race = race,
+                effect = effect,
                 onError = {
                     _cardSearchResult.value = SearchResultUiState.Error(it)
                 }

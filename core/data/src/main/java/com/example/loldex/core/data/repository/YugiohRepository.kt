@@ -21,6 +21,10 @@ interface YugiohRepository {
 
     fun getYugiohCardDataBySearchString(
         searchString: String,
+        type: String?,
+        attribute: String?,
+        race: String?,
+        effect: String?,
         onError: (String) -> Unit,
     ): Flow<List<YugiohCardData>>
 }

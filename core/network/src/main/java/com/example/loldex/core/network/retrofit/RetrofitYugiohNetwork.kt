@@ -35,6 +35,10 @@ private interface RetrofitYugiohNetworkApi {
     @GET("cardinfo.php")
     suspend fun getYugiohCardDataBySearchString(
         @Query("fname") searchString: String,
+        @Query("type") cardType: String?,
+        @Query("attribute") attribute: String?,
+        @Query("race") race: String?,
+        @Query("effect") effect: String?,
     ): ApiResponse<CardListResponse>
 }
 
@@ -69,6 +73,18 @@ class RetrofitYugiohNetwork @Inject constructor(
     override suspend fun getYugiohCardDataByName(name: String): ApiResponse<CardListResponse> =
         networkApi.getYugiohCardDataByName(name)
 
-    override suspend fun getYugiohCardDataBySearchString(searchString: String): ApiResponse<CardListResponse> =
-        networkApi.getYugiohCardDataBySearchString(searchString)
+    override suspend fun getYugiohCardDataBySearchString(
+        searchString: String,
+        type: String?,
+        attribute: String?,
+        race: String?,
+        effect: String?,
+    ): ApiResponse<CardListResponse> =
+        networkApi.getYugiohCardDataBySearchString(
+            searchString = searchString,
+            cardType = type,
+            attribute = attribute,
+            race = race,
+            effect = effect,
+        )
 }

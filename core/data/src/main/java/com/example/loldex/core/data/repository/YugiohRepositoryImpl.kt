@@ -68,10 +68,20 @@ class YugiohRepositoryImpl @Inject constructor(
 
     override fun getYugiohCardDataBySearchString(
         searchString: String,
+        type: String?,
+        attribute: String?,
+        race: String?,
+        effect: String?,
         onError: (String) -> Unit
     ): Flow<List<YugiohCardData>> =
         flow {
-            val response = dataSource.getYugiohCardDataBySearchString(searchString)
+            val response = dataSource.getYugiohCardDataBySearchString(
+                searchString = searchString,
+                type = type,
+                attribute = attribute,
+                race = race,
+                effect = effect,
+            )
             response.suspendOnSuccess {
                 emit(data.data.toData())
             }.onError {
