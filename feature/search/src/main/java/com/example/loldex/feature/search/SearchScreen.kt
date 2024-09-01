@@ -70,11 +70,13 @@ internal fun SearchRoute(
 
     var searchValue by remember { mutableStateOf("") }
     val selectedFilterValues = remember { mutableStateMapOf<SearchFilterType, String?>() }
+    var levelValue by remember { mutableStateOf(0f) }
     val recommendedKeywordList = listOf("Dark Magician")
 
-    LaunchedEffect(searchValue, selectedFilterValues.toMap()) {
+    LaunchedEffect(searchValue, selectedFilterValues.toMap(), levelValue) {
         // 모든 Filters가 꺼져있는지 판단하는 Boolean ( Filter가 하나라도 살아있으면 해당 Filter로 검색이 되어야한다.)
         val areAllFiltersEmpty = selectedFilterValues.values.all { it.isNullOrEmpty() }
+                && levelValue == 0f
 
         if (searchValue.isEmpty() && areAllFiltersEmpty) {
             debounceJob?.cancel()
@@ -86,6 +88,7 @@ internal fun SearchRoute(
                 cardSearchQueryToFilter(
                     searchValue = searchValue,
                     selectedFilterValues = selectedFilterValues,
+                    levelValue = levelValue,
                     viewModel = viewModel
                 )
             }
@@ -102,11 +105,14 @@ internal fun SearchRoute(
             cardSearchQueryToFilter(
                 searchValue = it,
                 selectedFilterValues = selectedFilterValues,
+                levelValue = levelValue,
                 viewModel = viewModel
             )
         },
         selectedFilterValues = selectedFilterValues,
         onFilterValueChange = { selectedFilterValues[it.first] = it.second },
+        levelValue = levelValue,
+        onLevelValueChange = { levelValue = it },
         recentSearchList = recentSearchList,
         recommendedKeywordList = recommendedKeywordList,
         onClickedTag = { searchValue = it },
@@ -127,6 +133,8 @@ internal fun SearchScreen(
     onSearch: (String) -> Unit,
     selectedFilterValues: MutableMap<SearchFilterType, String?>,
     onFilterValueChange: (Pair<SearchFilterType, String?>) -> Unit,
+    levelValue: Float,
+    onLevelValueChange: (Float) -> Unit,
     recentSearchList: List<String>,
     recommendedKeywordList: List<String>,
     onClickedTag: (String) -> Unit,
@@ -153,7 +161,9 @@ internal fun SearchScreen(
         Column {
             SearchFilters(
                 selectedFilterValues = selectedFilterValues,
-                onFilterValueChange = onFilterValueChange
+                onFilterValueChange = onFilterValueChange,
+                levelValue = levelValue,
+                onLevelValueChange = onLevelValueChange
             )
 
             if (recentSearchList.isNotEmpty()) {
@@ -244,6 +254,7 @@ internal fun SearchScreen(
 fun cardSearchQueryToFilter(
     searchValue: String,
     selectedFilterValues: MutableMap<SearchFilterType, String?>,
+    levelValue: Float,
     viewModel: SearchViewModel,
 ) {
     viewModel.cardSearchToQuery(
@@ -272,6 +283,7 @@ fun SearchScreenPreview(
     val scrollState = rememberLazyGridState()
     var searchValue by remember { mutableStateOf("") }
     val selectedFilterValues = remember { mutableStateMapOf<SearchFilterType, String?>() }
+    var levelValue by remember { mutableStateOf(0f) }
     val recentSearchList = listOf("가나다", "라마바", "사아자", "차카타", "파하")
     val recommendedKeywordList = listOf("Dark Magician")
     SearchScreen(
@@ -282,6 +294,8 @@ fun SearchScreenPreview(
         onSearch = {},
         selectedFilterValues = selectedFilterValues,
         onFilterValueChange = {},
+        levelValue = levelValue,
+        onLevelValueChange = {},
         recentSearchList = recentSearchList,
         recommendedKeywordList = recommendedKeywordList,
         onClickedTag = {},

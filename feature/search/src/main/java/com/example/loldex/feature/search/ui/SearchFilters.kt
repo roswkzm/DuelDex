@@ -16,9 +16,12 @@ import androidx.compose.material.icons.filled.FilterAltOff
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -28,6 +31,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.loldex.core.designsystem.component.TagButton
 import com.example.loldex.core.designsystem.theme.Text10
+import com.example.loldex.core.designsystem.theme.ThemePreviews
 import com.example.loldex.core.designsystem.theme.ldTypography
 import com.example.loldex.feature.search.R
 import com.example.loldex.feature.search.setFilterTagText
@@ -37,6 +41,8 @@ import com.example.loldex.feature.search.ui.SearchFilterType.CARD_TYPE
 fun SearchFilters(
     selectedFilterValues: MutableMap<SearchFilterType, String?>,
     onFilterValueChange: (Pair<SearchFilterType, String?>) -> Unit,
+    levelValue: Float,
+    onLevelValueChange: (Float) -> Unit,
 ) {
     var isExpanded by remember { mutableStateOf(false) }
     var isShowFilterBottomSheet by remember { mutableStateOf(false) }
@@ -77,27 +83,37 @@ fun SearchFilters(
                 .fillMaxWidth(),
             visible = isExpanded
         ) {
-            LazyRow(
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(6.dp)
+                    .fillMaxWidth()
             ) {
-                items(SearchFilterType.entries.size) { index ->
-                    val currentSearchFilterType = SearchFilterType.entries[index]
-                    val selectedValue = selectedFilterValues[currentSearchFilterType]
-                    val buttonText = selectedValue ?: stringResource(
-                        id = setFilterTagText(currentSearchFilterType)
-                    )
-                    TagButton(
-                        name = buttonText,
-                        color = Color.Transparent,
-                        icon = Icons.Filled.KeyboardArrowDown,
-                        onClickedTag = {
-                            filterType = currentSearchFilterType
-                            isShowFilterBottomSheet = true
-                        }
-                    )
+                LazyRow(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                ) {
+                    items(SearchFilterType.entries.size) { index ->
+                        val currentSearchFilterType = SearchFilterType.entries[index]
+                        val selectedValue = selectedFilterValues[currentSearchFilterType]
+                        val buttonText = selectedValue ?: stringResource(
+                            id = setFilterTagText(currentSearchFilterType)
+                        )
+                        TagButton(
+                            name = buttonText,
+                            color = Color.Transparent,
+                            icon = Icons.Filled.KeyboardArrowDown,
+                            onClickedTag = {
+                                filterType = currentSearchFilterType
+                                isShowFilterBottomSheet = true
+                            }
+                        )
+                    }
                 }
+
+                LevelFilter(
+                    levelValue = levelValue,
+                    onLevelValueChange = onLevelValueChange
+                )
             }
         }
 
@@ -112,4 +128,42 @@ fun SearchFilters(
             )
         }
     }
+}
+
+@Composable
+internal fun LevelFilter(
+    levelValue: Float,
+    onLevelValueChange: (Float) -> Unit
+) {
+    Column(
+        modifier = Modifier.padding(top = 10.dp)
+    ) {
+        val displayValue = if (levelValue == 0f) "Select Level" else "${levelValue.toInt()} Level"
+        Text(
+            text = displayValue,
+            style = MaterialTheme.ldTypography.fontLabelL,
+            color = Text10
+        )
+
+        Slider(
+            value = levelValue,
+            onValueChange = onLevelValueChange,
+            valueRange = 0f..12f,
+            steps = 11,
+            colors = SliderDefaults.colors(Text10)
+        )
+    }
+}
+
+@ThemePreviews
+@Composable
+internal fun SearchFilterPreview() {
+    val selectedFilterValues = remember { mutableStateMapOf<SearchFilterType, String?>() }
+    var levelValue by remember { mutableStateOf(0f) }
+    SearchFilters(
+        selectedFilterValues = selectedFilterValues,
+        onFilterValueChange = {},
+        levelValue = levelValue,
+        onLevelValueChange = {},
+    )
 }
