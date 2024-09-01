@@ -73,7 +73,11 @@ internal fun SearchRoute(
     val recommendedKeywordList = listOf("Dark Magician")
 
     LaunchedEffect(searchValue, selectedFilterValues.toMap()) {
-        if (searchValue.isEmpty()) {
+        // 모든 Filters가 꺼져있는지 판단하는 Boolean ( Filter가 하나라도 살아있으면 해당 Filter로 검색이 되어야한다.)
+        val areAllFiltersEmpty = selectedFilterValues.values.all { it.isNullOrEmpty() }
+
+        if (searchValue.isEmpty() && areAllFiltersEmpty) {
+            debounceJob?.cancel()
             viewModel.cardSearchStateIdle()
         } else {
             debounceJob?.cancel()

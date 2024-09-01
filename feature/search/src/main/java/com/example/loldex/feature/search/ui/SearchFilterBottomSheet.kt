@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -58,6 +59,9 @@ fun SearchFilterBottomSheet(
         shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
         containerColor = Neutral10,
         dragHandle = { BottomSheetDefaults.DragHandle() },
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(max = 500.dp)
     ) {
         SearchFilterBottomSheetContent(
             filterType = filterType,
@@ -81,12 +85,13 @@ fun SearchFilterBottomSheetContent(
         Text(
             text = filterType.name,
             style = MaterialTheme.ldTypography.fontTitleL.copy(fontWeight = FontWeight.Bold),
-            color = Text10
+            color = Text10,
         )
         HorizontalDivider(modifier = Modifier.padding(vertical = 10.dp))
 
         LazyColumn(
             modifier = Modifier
+                .weight(1f)
                 .fillMaxWidth()
                 .padding(horizontal = 10.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp)
@@ -104,27 +109,25 @@ fun SearchFilterBottomSheetContent(
                     )
                 }
             }
+        }
 
-            item {
-                LdButton(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 10.dp),
-                    onClick = { onClickedFilterValue(null) },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Neutral30,
-                        disabledContainerColor = Neutral30
-                    ),
-                    text = {
-                        Text(
-                            text = stringResource(id = R.string.search_filter_bottom_sheet_reset),
-                            style = MaterialTheme.ldTypography.fontBodyS,
-                            color = Text0
-                        )
-                    }
+        LdButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 10.dp),
+            onClick = { onClickedFilterValue(null) },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Neutral30,
+                disabledContainerColor = Neutral30
+            ),
+            text = {
+                Text(
+                    text = stringResource(id = R.string.search_filter_bottom_sheet_reset),
+                    style = MaterialTheme.ldTypography.fontBodyS,
+                    color = Text0
                 )
             }
-        }
+        )
     }
 }
 
