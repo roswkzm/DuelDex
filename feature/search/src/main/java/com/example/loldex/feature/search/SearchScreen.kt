@@ -257,12 +257,15 @@ fun cardSearchQueryToFilter(
     levelValue: Float,
     viewModel: SearchViewModel,
 ) {
+    val levelValueToPass: Int? = if (levelValue == 0f) null else levelValue.toInt()
+
     viewModel.cardSearchToQuery(
         searchQuery = searchValue,
         type = selectedFilterValues[CARD_TYPE],
         attribute = selectedFilterValues[ATTRIBUTE],
         race = selectedFilterValues[RACE],
         effect = selectedFilterValues[EFFECT],
+        level = levelValueToPass
     )
 }
 

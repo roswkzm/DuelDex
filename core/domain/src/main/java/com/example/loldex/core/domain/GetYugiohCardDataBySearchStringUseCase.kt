@@ -12,6 +12,7 @@ class GetYugiohCardDataBySearchStringUseCase @Inject constructor(
         attribute: String?,
         race: String?,
         effect: String?,
+        level: Int?,
         onError: (String) -> Unit,
     ) = yugiohRepository.getYugiohCardDataBySearchString(
         searchString = searchString,
@@ -19,6 +20,7 @@ class GetYugiohCardDataBySearchStringUseCase @Inject constructor(
         attribute = attribute,
         race = race,
         effect = effect,
+        level = level,
         onError = onError,
     )
 }

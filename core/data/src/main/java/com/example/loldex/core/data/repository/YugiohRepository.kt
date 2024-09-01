@@ -25,6 +25,7 @@ interface YugiohRepository {
         attribute: String?,
         race: String?,
         effect: String?,
+        level: Int?,
         onError: (String) -> Unit,
     ): Flow<List<YugiohCardData>>
 }

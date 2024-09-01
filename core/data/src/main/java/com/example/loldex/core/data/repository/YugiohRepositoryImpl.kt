@@ -72,6 +72,7 @@ class YugiohRepositoryImpl @Inject constructor(
         attribute: String?,
         race: String?,
         effect: String?,
+        level: Int?,
         onError: (String) -> Unit
     ): Flow<List<YugiohCardData>> =
         flow {
@@ -80,6 +81,7 @@ class YugiohRepositoryImpl @Inject constructor(
                 type = type,
                 attribute = attribute,
                 race = race,
+                level = level,
                 effect = effect,
             )
             response.suspendOnSuccess {

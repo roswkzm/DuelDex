@@ -30,6 +30,7 @@ class SearchViewModel @Inject constructor(
         attribute: String? = null,
         race: String? = null,
         effect: String? = null,
+        level: Int? = null,
     ) {
         viewModelScope.launch {
             getYugiohCardDataBySearchStringUseCase.invoke(
@@ -38,6 +39,7 @@ class SearchViewModel @Inject constructor(
                 attribute = attribute,
                 race = race,
                 effect = effect,
+                level = level,
                 onError = {
                     _cardSearchResult.value = SearchResultUiState.Error(it)
                 }

@@ -25,5 +25,6 @@ interface YugiohNetworkDataSource {
         attribute: String?,
         race: String?,
         effect: String?,
+        level: Int?,
     ): ApiResponse<CardListResponse>
 }

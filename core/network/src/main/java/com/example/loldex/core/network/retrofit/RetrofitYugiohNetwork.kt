@@ -39,6 +39,7 @@ private interface RetrofitYugiohNetworkApi {
         @Query("attribute") attribute: String?,
         @Query("race") race: String?,
         @Query("effect") effect: String?,
+        @Query("level") level: Int?,
     ): ApiResponse<CardListResponse>
 }
 
@@ -79,6 +80,7 @@ class RetrofitYugiohNetwork @Inject constructor(
         attribute: String?,
         race: String?,
         effect: String?,
+        level: Int?,
     ): ApiResponse<CardListResponse> =
         networkApi.getYugiohCardDataBySearchString(
             searchString = searchString,
@@ -86,5 +88,6 @@ class RetrofitYugiohNetwork @Inject constructor(
             attribute = attribute,
             race = race,
             effect = effect,
+            level = level,
         )
 }

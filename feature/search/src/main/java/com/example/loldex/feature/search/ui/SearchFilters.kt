@@ -30,7 +30,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.loldex.core.designsystem.component.TagButton
+import com.example.loldex.core.designsystem.theme.Text0
 import com.example.loldex.core.designsystem.theme.Text10
+import com.example.loldex.core.designsystem.theme.Text20
 import com.example.loldex.core.designsystem.theme.ThemePreviews
 import com.example.loldex.core.designsystem.theme.ldTypography
 import com.example.loldex.feature.search.R
@@ -150,7 +152,13 @@ internal fun LevelFilter(
             onValueChange = onLevelValueChange,
             valueRange = 0f..12f,
             steps = 11,
-            colors = SliderDefaults.colors(Text10)
+            colors = SliderDefaults.colors(
+                thumbColor = Text10,
+                activeTrackColor = Text20,
+                activeTickColor = Text0,
+                inactiveTrackColor = Text20,
+                inactiveTickColor = Text0
+            )
         )
     }
 }
