@@ -1,5 +1,6 @@
 package com.example.loldex.core.data.repository
 
+import com.example.loldex.core.model.UserEnvData
 import com.example.loldex.core.model.enums.ThemeConfig
 import kotlinx.coroutines.flow.Flow
 
@@ -13,7 +14,7 @@ interface UserDataRepository {
 
     suspend fun clearAllRecentSearches()
 
-    val themeConfig: Flow<ThemeConfig>
+    val userEnvData: Flow<UserEnvData>
 
     suspend fun setThemeConfig(themeConfig: ThemeConfig)
 }

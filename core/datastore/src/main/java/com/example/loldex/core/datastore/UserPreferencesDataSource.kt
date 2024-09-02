@@ -1,6 +1,7 @@
 package com.example.loldex.core.datastore
 
 import androidx.datastore.core.DataStore
+import com.example.loldex.core.model.UserEnvData
 import com.example.loldex.core.model.enums.ThemeConfig
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -54,18 +55,20 @@ class UserPreferencesDataSource @Inject constructor(
         }
     }
 
-    val themeConfig = userPreferences.data
+    val userEnvData = userPreferences.data
         .map { preferences ->
-            when (preferences.themeConfig) {
-                null,
-                ThemeConfigProto.THEME_CONFIG_UNSPECIFIED,
-                ThemeConfigProto.UNRECOGNIZED,
-                ThemeConfigProto.THEME_CONFIG_FOLLOW_SYSTEM,
-                -> ThemeConfig.FOLLOW_SYSTEM
+            UserEnvData(
+                themeConfig = when (preferences.themeConfig) {
+                    null,
+                    ThemeConfigProto.THEME_CONFIG_UNSPECIFIED,
+                    ThemeConfigProto.UNRECOGNIZED,
+                    ThemeConfigProto.THEME_CONFIG_FOLLOW_SYSTEM,
+                    -> ThemeConfig.FOLLOW_SYSTEM
 
-                ThemeConfigProto.THEME_CONFIG_LIGHT -> ThemeConfig.LIGHT
-                ThemeConfigProto.THEME_CONFIG_DARK -> ThemeConfig.DARK
-            }
+                    ThemeConfigProto.THEME_CONFIG_LIGHT -> ThemeConfig.LIGHT
+                    ThemeConfigProto.THEME_CONFIG_DARK -> ThemeConfig.DARK
+                }
+            )
         }
 
     suspend fun setThemeConfig(themeConfig: ThemeConfig) {
