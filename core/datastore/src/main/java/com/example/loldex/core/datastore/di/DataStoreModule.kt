@@ -7,8 +7,8 @@ import androidx.datastore.dataStoreFile
 import com.example.loldex.core.common.network.Dispatcher
 import com.example.loldex.core.common.network.LdDispatchers.IO
 import com.example.loldex.core.common.network.di.ApplicationScope
-import com.example.loldex.core.datastore.RecentSearchPreferences
-import com.example.loldex.core.datastore.RecentSearchPreferencesSerializer
+import com.example.loldex.core.datastore.UserPreferences
+import com.example.loldex.core.datastore.UserPreferencesSerializer
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,16 +24,16 @@ internal object DataStoreModule {
 
     @Provides
     @Singleton
-    internal fun providesRecentSearchPreferencesDataStore(
+    internal fun providesUserPreferencesDataStore(
         @ApplicationContext context: Context,
         @Dispatcher(IO) ioDispatcher: CoroutineDispatcher,
         @ApplicationScope scope: CoroutineScope,
-        recentSearchPreferencesSerializer: RecentSearchPreferencesSerializer,
-    ): DataStore<RecentSearchPreferences> =
+        userPreferencesSerializer: UserPreferencesSerializer,
+    ): DataStore<UserPreferences> =
         DataStoreFactory.create(
-            serializer = recentSearchPreferencesSerializer,
+            serializer = userPreferencesSerializer,
             scope = CoroutineScope(scope.coroutineContext + ioDispatcher),
         ) {
-            context.dataStoreFile("recent_search_preferences.pb")
+            context.dataStoreFile("user_preferences.pb")
         }
 }

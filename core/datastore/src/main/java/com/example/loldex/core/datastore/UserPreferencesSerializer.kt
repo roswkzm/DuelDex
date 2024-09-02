@@ -7,20 +7,20 @@ import java.io.InputStream
 import java.io.OutputStream
 import javax.inject.Inject
 
-class RecentSearchPreferencesSerializer @Inject constructor(
+class UserPreferencesSerializer @Inject constructor(
 
-) : Serializer<RecentSearchPreferences> {
-    override val defaultValue: RecentSearchPreferences =
-        RecentSearchPreferences.getDefaultInstance()
+) : Serializer<UserPreferences> {
+    override val defaultValue: UserPreferences =
+        UserPreferences.getDefaultInstance()
 
-    override suspend fun readFrom(input: InputStream): RecentSearchPreferences =
+    override suspend fun readFrom(input: InputStream): UserPreferences =
         try {
-            RecentSearchPreferences.parseFrom(input)
+            UserPreferences.parseFrom(input)
         } catch (exception: InvalidProtocolBufferException) {
             throw CorruptionException("Cannot read proto.", exception)
         }
 
-    override suspend fun writeTo(t: RecentSearchPreferences, output: OutputStream) {
+    override suspend fun writeTo(t: UserPreferences, output: OutputStream) {
         t.writeTo(output)
     }
 }
