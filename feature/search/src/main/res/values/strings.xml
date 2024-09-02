@@ -9,5 +9,7 @@
     <string name="tag_filter_title_attribute">Select Attribute</string>
     <string name="tag_filter_title_race">Select Race</string>
     <string name="tag_filter_title_effect">Select Effect</string>
+    <string name="tag_filter_title_level">Select Level</string>
+    <string name="tag_filter_title_level_tailing">Level</string>
     <string name="search_filter_bottom_sheet_reset">Reset</string>
 </resources>

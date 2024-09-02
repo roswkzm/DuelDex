@@ -140,7 +140,12 @@ internal fun LevelFilter(
     Column(
         modifier = Modifier.padding(top = 10.dp)
     ) {
-        val displayValue = if (levelValue == 0f) "Select Level" else "${levelValue.toInt()} Level"
+        val displayValue = if (levelValue == 0f) {
+            stringResource(id = R.string.tag_filter_title_level)
+        } else {
+            "${levelValue.toInt()} ${stringResource(id = R.string.tag_filter_title_level_tailing)}"
+        }
+
         Text(
             text = displayValue,
             style = MaterialTheme.ldTypography.fontLabelL,
