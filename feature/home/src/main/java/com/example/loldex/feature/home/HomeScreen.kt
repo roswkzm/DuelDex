@@ -5,12 +5,14 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyGridState
@@ -18,11 +20,15 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -35,7 +41,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import com.example.loldex.core.designsystem.component.LdBackGround
 import com.example.loldex.core.designsystem.theme.LolDexTheme
-import com.example.loldex.core.designsystem.theme.Text0
+import com.example.loldex.core.designsystem.theme.Text20
 import com.example.loldex.core.designsystem.theme.ThemePreviews
 import com.example.loldex.core.model.YugiohCardData
 import com.example.loldex.core.ui.GridYugiohCardItem
@@ -59,6 +65,7 @@ internal fun HomeRoute(
         viewModel.yugiohListState.collectAsLazyPagingItems()
     val pagingScrollState = rememberLazyGridState()
     var hasAppendErrorShown = remember { mutableStateOf(false) }
+    var showSettingsDialog by rememberSaveable { mutableStateOf(false) }
 
     HomeScreen(
         yugiohListPagingItems = yugiohListPagingItems,
@@ -66,7 +73,14 @@ internal fun HomeRoute(
         onClickedCardItem = onClickedCardItem,
         hasAppendErrorShown = hasAppendErrorShown,
         onClickedSearchIcon = onClickedSearchIcon,
+        onClickedSettingsIcon = { showSettingsDialog = true }
     )
+
+    if (showSettingsDialog) {
+        SettingsDialog(
+            onDismiss = { showSettingsDialog = false }
+        )
+    }
 }
 
 @Composable
@@ -76,6 +90,7 @@ internal fun HomeScreen(
     onClickedCardItem: (String) -> Unit,
     hasAppendErrorShown: MutableState<Boolean>,
     onClickedSearchIcon: () -> Unit,
+    onClickedSettingsIcon: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -89,6 +104,7 @@ internal fun HomeScreen(
                 .height(50.dp)
                 .padding(start = 10.dp, end = 20.dp),
             onClickedSearchIcon = onClickedSearchIcon,
+            onClickedSettingsIcon = onClickedSettingsIcon,
         )
 
         LazyVerticalGrid(
@@ -123,11 +139,11 @@ internal fun HomeScreen(
 fun HomeTopBar(
     modifier: Modifier = Modifier,
     onClickedSearchIcon: () -> Unit,
+    onClickedSettingsIcon: () -> Unit,
 ) {
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Image(
             modifier = Modifier
@@ -135,13 +151,23 @@ fun HomeTopBar(
             painter = painterResource(id = DesignR.drawable.yugioh_logo),
             contentDescription = "Logo Image",
         )
+        Spacer(modifier = Modifier.weight(1f))
         Icon(
             modifier = Modifier
                 .size(28.dp)
                 .clickable { onClickedSearchIcon() },
             imageVector = Icons.Filled.Search,
             contentDescription = "Search Icon",
-            tint = Text0
+            tint = Text20
+        )
+        Spacer(modifier = Modifier.width(10.dp))
+        Icon(
+            modifier = Modifier
+                .size(28.dp)
+                .clickable { onClickedSettingsIcon() },
+            imageVector = Icons.Filled.Settings,
+            contentDescription = "Search Icon",
+            tint = Text20
         )
     }
 }
@@ -200,6 +226,7 @@ fun HomeScreenPreview(
                 onClickedCardItem = {},
                 hasAppendErrorShown = hasAppendErrorShown,
                 onClickedSearchIcon = {},
+                onClickedSettingsIcon = {},
             )
         }
     }

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_dialog_title">Settings</string>
+    <string name="settings_dialog_dark_mode_theme">Dark Mode Theme</string>
+    <string name="settings_dialog_btn_confirm">OK</string>
+</resources>

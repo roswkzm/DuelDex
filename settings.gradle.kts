@@ -33,6 +33,5 @@ include(":core:database")
 
 include(":feature:home")
 include(":feature:decks")
-include(":feature:settings")
 include(":feature:detail")
 include(":feature:search")

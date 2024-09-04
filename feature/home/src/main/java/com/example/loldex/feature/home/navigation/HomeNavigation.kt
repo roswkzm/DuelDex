@@ -23,7 +23,7 @@ fun NavGraphBuilder.homeGraph(
         composable(route = HOME_ROUTE) {
             HomeRoute(
                 onClickedCardItem = onClickedCardItem,
-                onClickedSearchIcon = onClickedSearchIcon
+                onClickedSearchIcon = onClickedSearchIcon,
             )
         }
     }

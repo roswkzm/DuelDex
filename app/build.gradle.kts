@@ -33,7 +33,6 @@ android {
 dependencies {
     implementation(projects.feature.home)
     implementation(projects.feature.decks)
-    implementation(projects.feature.settings)
     implementation(projects.feature.detail)
     implementation(projects.feature.search)
 
