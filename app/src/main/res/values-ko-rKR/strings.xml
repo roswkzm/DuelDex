@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LolDex</string>
+    <string name="feature_home">홈</string>
+    <string name="feature_decks">덱 정보</string>
+</resources>

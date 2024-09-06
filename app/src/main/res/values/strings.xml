@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">LolDex</string>
     <string name="feature_home">Home</string>
-    <string name="feature_decks">Saved</string>
+    <string name="feature_decks">Decks</string>
 </resources>

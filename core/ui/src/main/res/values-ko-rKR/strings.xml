@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="insert_deck_dialog_title">생성할 덱 이름을 입력하세요.</string>
+    <string name="insert_deck_dialog_placeholder">덱 이름 입력</string>
+    <string name="insert_deck_dialog_btn_confirm">생성</string>
+    <string name="insert_deck_dialog_btn_cancel">취소</string>
+    <string name="insert_deck_dialog_empty_deck_name_error">덱 이름을 입력하세요.</string>
+    <string name="insert_deck_dialog_duplicate_deck_name_error">중복된 이름의 덱이 존재합니다.</string>
+</resources>

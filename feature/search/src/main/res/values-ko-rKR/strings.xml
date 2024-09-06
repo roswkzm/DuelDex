@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search_bar_placeholder">카드명으로 검색</string>
+    <string name="recent_searches">최근 검색</string>
+    <string name="recent_searches_delete_all">모두 삭제</string>
+    <string name="recommended_keywords">추천 키워드</string>
+    <string name="search_filters">필터</string>
+    <string name="tag_filter_title_type">유형 선택</string>
+    <string name="tag_filter_title_attribute">속성 선택</string>
+    <string name="tag_filter_title_race">인종 선택</string>
+    <string name="tag_filter_title_effect">효과 선택</string>
+    <string name="tag_filter_title_level">레벨 선택</string>
+    <string name="tag_filter_title_level_tailing">레벨</string>
+    <string name="search_filter_bottom_sheet_reset">초기화</string>
+</resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="total_deck_list">통합 덱 목록</string>
+    <string name="add_deck_btn_text">덱 추가</string>
+    <string name="deck_card_total_count">통합</string>
+</resources>
