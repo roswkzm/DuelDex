@@ -1,6 +1,5 @@
 package com.example.loldex.core.ui
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,7 +19,6 @@ import com.example.loldex.core.designsystem.component.AsyncImageView
 import kotlin.math.abs
 import kotlin.math.absoluteValue
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CarouselPager(
     modifier: Modifier = Modifier,
@@ -79,7 +77,6 @@ fun CarouselPager(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 fun PagerState.calculateOffsetForPage(page: Int): Float {
     return (currentPage - page) + currentPageOffsetFraction
 }

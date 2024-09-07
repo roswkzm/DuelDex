@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,10 +16,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,18 +28,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.loldex.core.designsystem.component.LdBackGround
-import com.example.loldex.core.designsystem.component.LdButton
 import com.example.loldex.core.designsystem.component.SimpleTag
 import com.example.loldex.core.designsystem.theme.LolDexTheme
-import com.example.loldex.core.designsystem.theme.Secondary
-import com.example.loldex.core.designsystem.theme.Text0
 import com.example.loldex.core.designsystem.theme.ThemePreviews
 import com.example.loldex.core.designsystem.theme.ldTypography
 import com.example.loldex.core.model.YugiohCardData
@@ -53,7 +44,9 @@ import com.example.loldex.core.ui.attribute.AttributeSize
 import com.example.loldex.core.ui.attribute.AttributeTag
 import com.example.loldex.core.ui.preview_parameter_provider.YugiohCardDataPreviewParameterProvider
 import com.example.loldex.core.ui.util.statusBarPadding
+import com.example.loldex.feature.detail.ui.AddDeckButton
 import com.example.loldex.feature.detail.ui.AttackDefensePowerLayout
+import com.example.loldex.feature.detail.ui.CardDetailScreenSkeleton
 import com.example.loldex.feature.detail.ui.CardPriceLayout
 import com.example.loldex.feature.detail.ui.OnPriceRowClickListener
 import com.example.loldex.core.designsystem.R as DesignR
@@ -120,7 +113,7 @@ internal fun CardDetailScreen(
             }
 
             CardDetailUiState.Loading -> {
-                Text(text = "CardDetailUiState.Loading")
+                CardDetailScreenSkeleton()
             }
 
             is CardDetailUiState.Success -> {
@@ -248,37 +241,6 @@ internal fun CardDetailScreen(
             }
         }
     }
-}
-
-@Composable
-fun AddDeckButton(
-    onClickedSavedCard: () -> Unit
-) {
-    LdButton(
-        modifier = Modifier
-            .fillMaxWidth(),
-        onClick = onClickedSavedCard,
-        colors = ButtonDefaults.buttonColors(
-            containerColor = Secondary,
-            disabledContainerColor = Secondary
-        ),
-        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 5.dp),
-        leadingIcon = {
-            Icon(
-                modifier = Modifier.size(20.dp),
-                imageVector = Icons.Filled.Add,
-                contentDescription = "Add Deck",
-                tint = Text0
-            )
-        },
-        text = {
-            Text(
-                text = stringResource(id = R.string.add_deck_btn_text),
-                style = MaterialTheme.ldTypography.fontBodyS,
-                color = Text0
-            )
-        }
-    )
 }
 
 @ThemePreviews

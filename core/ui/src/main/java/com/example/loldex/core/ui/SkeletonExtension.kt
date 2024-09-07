@@ -23,7 +23,9 @@ import androidx.compose.ui.graphics.TileMode
 fun SkeletonBox(
     modifier: Modifier = Modifier
 ) {
-    SkeletonContent {
+    SkeletonContent(
+        modifier = modifier
+    ) {
         Box(
             modifier = modifier
         )
@@ -32,10 +34,11 @@ fun SkeletonBox(
 
 @Composable
 fun SkeletonContent(
+    modifier: Modifier = Modifier,
     content: @Composable () -> Unit
 ) {
     Box(
-        modifier = Modifier.shimmerBackground()
+        modifier = modifier.shimmerBackground()
     ) {
         content()
     }
