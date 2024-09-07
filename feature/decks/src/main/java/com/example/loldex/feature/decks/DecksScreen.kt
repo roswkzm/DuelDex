@@ -1,6 +1,7 @@
 package com.example.loldex.feature.decks
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -12,6 +13,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -85,7 +87,13 @@ internal fun DecksScreen(
         var isError by remember { mutableStateOf(false) }
         when (decksUiState) {
             DecksUiState.Loading -> {
-                Text(text = "Loading")
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator(modifier = Modifier)
+                }
             }
 
             is DecksUiState.Success -> {
@@ -201,7 +209,7 @@ fun DeckTotalTitleLayout(
 
 @ThemePreviews
 @Composable
-fun DecksScreenPrewview(
+fun DecksScreenPreview(
     @PreviewParameter(DeckDataPreviewParameterProvider::class) deckList: List<DeckData>
 ) {
     val decksUiState = DecksUiState.Success(deckList)
