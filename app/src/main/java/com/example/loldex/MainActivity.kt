@@ -66,10 +66,11 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val darkTheme = shouldUseDarkTheme(uiState = uiState)
-            ShouldUseLocalization(uiState = uiState)
+            val locale = shouldUseLocalization(uiState = uiState)
 
             LolDexTheme(
                 darkTheme = darkTheme,
+                locale = locale,
             ) {
                 LdBackGround {
                     MainScreen(
@@ -94,9 +95,9 @@ private fun shouldUseDarkTheme(
 }
 
 @Composable
-private fun ShouldUseLocalization(
+private fun shouldUseLocalization(
     uiState: MainActivityUiState,
-) {
+): Locale {
     val context = LocalContext.current
     val resources = context.resources
     val config = resources.configuration
@@ -109,7 +110,6 @@ private fun ShouldUseLocalization(
         is Success -> {
             when (val localeConfig = uiState.appEnvData.localizationConfig) {
                 LocalizationConfig.FOLLOW_SYSTEM -> systemLocale
-                LocalizationConfig.ENGLISH -> Locale("en", "US")
                 else -> Locale.forLanguageTag(localeConfig.languageCode)
             }
         }
@@ -120,4 +120,6 @@ private fun ShouldUseLocalization(
         val updatedContext = context.createConfigurationContext(config)
         resources.updateConfiguration(config, updatedContext.resources.displayMetrics)
     }
+
+    return locale
 }

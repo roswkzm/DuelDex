@@ -12,8 +12,10 @@ import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import java.util.Locale
 
 private val LocalTypography = staticCompositionLocalOf { LdTypography(typography = Typography()) }
+val LocalLocale = staticCompositionLocalOf { Locale.getDefault() }
 
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
@@ -34,6 +36,7 @@ private val LightColorScheme = lightColorScheme(
 @Composable
 fun LolDexTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
+    locale: Locale = Locale.getDefault(),
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
@@ -50,7 +53,8 @@ fun LolDexTheme(
 
     CompositionLocalProvider(
         LocalBackgroundTheme provides defaultBackgroundTheme,
-        LocalTypography provides typography
+        LocalTypography provides typography,
+        LocalLocale provides locale
     ) {
         MaterialTheme(
             colorScheme = colorScheme,
