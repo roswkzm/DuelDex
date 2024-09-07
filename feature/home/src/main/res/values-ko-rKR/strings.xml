@@ -2,5 +2,6 @@
 <resources>
     <string name="settings_dialog_title">설정</string>
     <string name="settings_dialog_dark_mode_theme">다크 모드 테마</string>
+    <string name="settings_dialog_localization_mode">언어 선택</string>
     <string name="settings_dialog_btn_confirm">확인</string>
 </resources>

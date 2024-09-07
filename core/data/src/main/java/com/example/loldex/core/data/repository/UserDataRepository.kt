@@ -1,6 +1,7 @@
 package com.example.loldex.core.data.repository
 
 import com.example.loldex.core.model.UserEnvData
+import com.example.loldex.core.model.enums.LocalizationConfig
 import com.example.loldex.core.model.enums.ThemeConfig
 import kotlinx.coroutines.flow.Flow
 
@@ -17,4 +18,6 @@ interface UserDataRepository {
     val userEnvData: Flow<UserEnvData>
 
     suspend fun setThemeConfig(themeConfig: ThemeConfig)
+
+    suspend fun setLocalizationConfig(localizationConfig: LocalizationConfig)
 }

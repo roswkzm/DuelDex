@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -22,12 +23,14 @@ import com.example.loldex.MainActivityUiState.Loading
 import com.example.loldex.MainActivityUiState.Success
 import com.example.loldex.core.designsystem.component.LdBackGround
 import com.example.loldex.core.designsystem.theme.LolDexTheme
+import com.example.loldex.core.model.enums.LocalizationConfig
 import com.example.loldex.core.model.enums.ThemeConfig
 import com.example.loldex.ui.MainScreen
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 @AndroidEntryPoint
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
@@ -42,7 +45,6 @@ class MainActivity : ComponentActivity() {
 
         var uiState: MainActivityUiState by mutableStateOf(Loading)
 
-        // Update the uiState
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState
@@ -64,9 +66,10 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val darkTheme = shouldUseDarkTheme(uiState = uiState)
+            ShouldUseLocalization(uiState = uiState)
 
             LolDexTheme(
-                darkTheme = darkTheme
+                darkTheme = darkTheme,
             ) {
                 LdBackGround {
                     MainScreen(
@@ -87,5 +90,34 @@ private fun shouldUseDarkTheme(
         ThemeConfig.FOLLOW_SYSTEM -> isSystemInDarkTheme()
         ThemeConfig.LIGHT -> false
         ThemeConfig.DARK -> true
+    }
+}
+
+@Composable
+private fun ShouldUseLocalization(
+    uiState: MainActivityUiState,
+) {
+    val context = LocalContext.current
+    val resources = context.resources
+    val config = resources.configuration
+
+    val systemLocale = Locale.getDefault()
+
+    val locale = when (uiState) {
+        Loading -> systemLocale
+
+        is Success -> {
+            when (val localeConfig = uiState.appEnvData.localizationConfig) {
+                LocalizationConfig.FOLLOW_SYSTEM -> systemLocale
+                LocalizationConfig.ENGLISH -> Locale("en", "US")
+                else -> Locale.forLanguageTag(localeConfig.languageCode)
+            }
+        }
+    }
+
+    if (config.locales[0] != locale) {
+        config.setLocale(locale)
+        val updatedContext = context.createConfigurationContext(config)
+        resources.updateConfiguration(config, updatedContext.resources.displayMetrics)
     }
 }

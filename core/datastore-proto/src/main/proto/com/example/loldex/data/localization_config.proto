@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+option java_package = "com.example.loldex.core.datastore";
+option java_multiple_files = true;
+
+enum LocalizationConfigProto {
+  LOCALIZATION_CONFIG_UNSPECIFIED = 0;
+  LOCALIZATION_CONFIG_FOLLOW_SYSTEM = 1;
+  LOCALIZATION_CONFIG_ENGLISH = 2;
+  LOCALIZATION_CONFIG_KOREAN = 3;
+}

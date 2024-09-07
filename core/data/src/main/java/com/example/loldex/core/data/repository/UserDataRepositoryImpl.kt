@@ -2,6 +2,7 @@ package com.example.loldex.core.data.repository
 
 import com.example.loldex.core.datastore.UserPreferencesDataSource
 import com.example.loldex.core.model.UserEnvData
+import com.example.loldex.core.model.enums.LocalizationConfig
 import com.example.loldex.core.model.enums.ThemeConfig
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -31,5 +32,9 @@ internal class UserDataRepositoryImpl @Inject constructor(
 
     override suspend fun setThemeConfig(themeConfig: ThemeConfig) {
         userPreferencesDataSource.setThemeConfig(themeConfig)
+    }
+
+    override suspend fun setLocalizationConfig(localizationConfig: LocalizationConfig) {
+        userPreferencesDataSource.setLocalizationConfig(localizationConfig)
     }
 }

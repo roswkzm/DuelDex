@@ -267,13 +267,13 @@ fun AddDeckButton(
             Icon(
                 modifier = Modifier.size(20.dp),
                 imageVector = Icons.Filled.Add,
-                contentDescription = stringResource(id = R.string.add_deck_btn_text),
+                contentDescription = "Add Deck",
                 tint = Text0
             )
         },
         text = {
             Text(
-                text = "Add Deck",
+                text = stringResource(id = R.string.add_deck_btn_text),
                 style = MaterialTheme.ldTypography.fontBodyS,
                 color = Text0
             )

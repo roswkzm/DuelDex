@@ -2,4 +2,5 @@
 <resources>
     <string name="add_deck_btn_text">Add Deck</string>
     <string name="saved_card_deck_title">Choose a deck to save your card</string>
+    <string name="show_card_price">Show Prices</string>
 </resources>

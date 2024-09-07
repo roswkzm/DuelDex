@@ -2,6 +2,7 @@ package com.example.loldex.core.datastore
 
 import androidx.datastore.core.DataStore
 import com.example.loldex.core.model.UserEnvData
+import com.example.loldex.core.model.enums.LocalizationConfig
 import com.example.loldex.core.model.enums.ThemeConfig
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -67,6 +68,16 @@ class UserPreferencesDataSource @Inject constructor(
 
                     ThemeConfigProto.THEME_CONFIG_LIGHT -> ThemeConfig.LIGHT
                     ThemeConfigProto.THEME_CONFIG_DARK -> ThemeConfig.DARK
+                },
+                localizationConfig = when (preferences.localizationConfig) {
+                    null,
+                    LocalizationConfigProto.LOCALIZATION_CONFIG_UNSPECIFIED,
+                    LocalizationConfigProto.UNRECOGNIZED,
+                    LocalizationConfigProto.LOCALIZATION_CONFIG_FOLLOW_SYSTEM,
+                    -> LocalizationConfig.FOLLOW_SYSTEM
+
+                    LocalizationConfigProto.LOCALIZATION_CONFIG_ENGLISH -> LocalizationConfig.ENGLISH
+                    LocalizationConfigProto.LOCALIZATION_CONFIG_KOREAN -> LocalizationConfig.KOREAN
                 }
             )
         }
@@ -78,6 +89,18 @@ class UserPreferencesDataSource @Inject constructor(
                     ThemeConfig.FOLLOW_SYSTEM -> ThemeConfigProto.THEME_CONFIG_FOLLOW_SYSTEM
                     ThemeConfig.LIGHT -> ThemeConfigProto.THEME_CONFIG_LIGHT
                     ThemeConfig.DARK -> ThemeConfigProto.THEME_CONFIG_DARK
+                }
+            }
+        }
+    }
+
+    suspend fun setLocalizationConfig(localizationConfig: LocalizationConfig) {
+        userPreferences.updateData {
+            it.copy {
+                this.localizationConfig = when (localizationConfig) {
+                    LocalizationConfig.FOLLOW_SYSTEM -> LocalizationConfigProto.LOCALIZATION_CONFIG_FOLLOW_SYSTEM
+                    LocalizationConfig.ENGLISH -> LocalizationConfigProto.LOCALIZATION_CONFIG_ENGLISH
+                    LocalizationConfig.KOREAN -> LocalizationConfigProto.LOCALIZATION_CONFIG_KOREAN
                 }
             }
         }

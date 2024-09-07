@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 import "com/example/loldex/data/theme_config.proto";
+import "com/example/loldex/data/localization_config.proto";
 
 option java_package = "com.example.loldex.core.datastore";
 option java_multiple_files = true;
@@ -8,4 +9,5 @@ option java_multiple_files = true;
 message UserPreferences {
   repeated string recent_searches = 1;
   ThemeConfigProto theme_config = 2;
+  LocalizationConfigProto localization_config = 3;
 }

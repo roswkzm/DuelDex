@@ -71,7 +71,7 @@ fun CardPriceLayout(
     ExpandableCard(
         modifier = modifier,
         color = Color.Gray,
-        title = "Show Prices",
+        title = stringResource(id = R.string.show_card_price),
         titleColor = Color.Black,
         content = {
             Column(

@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.loldex.core.data.repository.UserDataRepository
 import com.example.loldex.core.model.UserEnvData
+import com.example.loldex.core.model.enums.LocalizationConfig
 import com.example.loldex.core.model.enums.ThemeConfig
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
@@ -29,6 +30,12 @@ class SettingsViewModel @Inject constructor(
     fun setThemeConfig(themeConfig: ThemeConfig) {
         viewModelScope.launch {
             userDataRepository.setThemeConfig(themeConfig)
+        }
+    }
+
+    fun setLocalizationConfig(localizationConfig: LocalizationConfig) {
+        viewModelScope.launch {
+            userDataRepository.setLocalizationConfig(localizationConfig)
         }
     }
 }

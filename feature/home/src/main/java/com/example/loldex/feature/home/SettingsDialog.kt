@@ -29,6 +29,7 @@ import com.example.loldex.core.designsystem.theme.Gray800
 import com.example.loldex.core.designsystem.theme.ThemePreviews
 import com.example.loldex.core.designsystem.theme.ldTypography
 import com.example.loldex.core.model.UserEnvData
+import com.example.loldex.core.model.enums.LocalizationConfig
 import com.example.loldex.core.model.enums.ThemeConfig
 
 @Composable
@@ -40,7 +41,8 @@ fun SettingsDialog(
     SettingsContent(
         onDismiss = onDismiss,
         settingsUiState = settingsUiState,
-        onChangeThemeConfig = viewModel::setThemeConfig
+        onChangeThemeConfig = viewModel::setThemeConfig,
+        onChangeLocalizationConfig = viewModel::setLocalizationConfig,
     )
 }
 
@@ -49,6 +51,7 @@ fun SettingsContent(
     onDismiss: () -> Unit,
     settingsUiState: SettingsUiState,
     onChangeThemeConfig: (ThemeConfig) -> Unit,
+    onChangeLocalizationConfig: (LocalizationConfig) -> Unit,
 ) {
     DefaultAlertDialog(
         onDismissRequest = onDismiss,
@@ -65,7 +68,8 @@ fun SettingsContent(
                 }
 
                 is SettingsUiState.Success -> {
-                    var selectedThemeConfig = settingsUiState.appEnvData.themeConfig
+                    val selectedThemeConfig = settingsUiState.appEnvData.themeConfig
+                    val selectedLocalizationConfig = settingsUiState.appEnvData.localizationConfig
                     Column {
                         HorizontalDivider()
                         Text(
@@ -82,6 +86,24 @@ fun SettingsContent(
                                     text = theme.name,
                                     selected = selectedThemeConfig == theme,
                                     onClick = { onChangeThemeConfig(theme) }
+                                )
+                            }
+                        }
+
+                        Text(
+                            modifier = Modifier.padding(vertical = 16.dp),
+                            text = stringResource(id = R.string.settings_dialog_localization_mode),
+                            style = MaterialTheme.ldTypography.fontTitleS.copy(fontWeight = FontWeight.Bold),
+                        )
+
+                        Column(
+                            modifier = Modifier
+                        ) {
+                            for (localization in LocalizationConfig.entries) {
+                                ThemeRadioButton(
+                                    text = localization.name,
+                                    selected = selectedLocalizationConfig == localization,
+                                    onClick = { onChangeLocalizationConfig(localization) }
                                 )
                             }
                         }
@@ -138,12 +160,14 @@ fun ThemeRadioButton(
 fun SettingsContentPreview() {
     val settingsUiState = SettingsUiState.Success(
         UserEnvData(
-            themeConfig = ThemeConfig.FOLLOW_SYSTEM
+            themeConfig = ThemeConfig.FOLLOW_SYSTEM,
+            localizationConfig = LocalizationConfig.FOLLOW_SYSTEM,
         )
     )
     SettingsContent(
         onDismiss = {},
         settingsUiState = settingsUiState,
         onChangeThemeConfig = {},
+        onChangeLocalizationConfig = {},
     )
 }

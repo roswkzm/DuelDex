@@ -63,6 +63,7 @@ dependencies {
     implementation(libs.timber)
 
     implementation(libs.androidx.splashscreen)
+    implementation(libs.androidx.appcompat)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)

@@ -2,4 +2,5 @@
 <resources>
     <string name="add_deck_btn_text">덱 추가</string>
     <string name="saved_card_deck_title">카드를 저장할 덱을 선택하세요.</string>
+    <string name="show_card_price">가격 보기</string>
 </resources>
