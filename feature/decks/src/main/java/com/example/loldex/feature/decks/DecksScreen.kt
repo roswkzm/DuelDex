@@ -5,8 +5,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -31,11 +33,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.loldex.core.designsystem.component.LdBackGround
 import com.example.loldex.core.designsystem.component.LdButton
-import com.example.loldex.core.designsystem.theme.Black
-import com.example.loldex.core.designsystem.theme.Gray500
 import com.example.loldex.core.designsystem.theme.LolDexTheme
-import com.example.loldex.core.designsystem.theme.Neutral30
-import com.example.loldex.core.designsystem.theme.Text0
 import com.example.loldex.core.designsystem.theme.ThemePreviews
 import com.example.loldex.core.designsystem.theme.ldTypography
 import com.example.loldex.core.model.DeckData
@@ -83,6 +81,7 @@ internal fun DecksScreen(
         modifier = Modifier
             .fillMaxSize()
             .statusBarPadding()
+            .padding(horizontal = 4.dp)
     ) {
         var isError by remember { mutableStateOf(false) }
         when (decksUiState) {
@@ -92,7 +91,9 @@ internal fun DecksScreen(
                         .fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
-                    CircularProgressIndicator(modifier = Modifier)
+                    CircularProgressIndicator(
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
                 }
             }
 
@@ -108,8 +109,14 @@ internal fun DecksScreen(
                         onChangeIsShowCreateDeckDialog = onChangeIsShowCreateDeckDialog
                     )
 
+                    Spacer(modifier = Modifier.height(10.dp))
+
                     if (deckList.isEmpty()) {
-                        Text(text = "Deck Size 0")
+                        Text(
+                            text = stringResource(id = R.string.deck_count_empty),
+                            style = MaterialTheme.ldTypography.fontLabelM,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
                     } else {
                         LazyColumn(
                             modifier = Modifier
@@ -139,6 +146,7 @@ internal fun DecksScreen(
                             onChangeValue("")
                             onChangeIsShowCreateDeckDialog(false)
                         },
+                        containerColor = MaterialTheme.colorScheme.surfaceBright,
                         onClickedConfirm = {
                             onChangeValue("")
                             onClickedInsertDeck(it)
@@ -170,37 +178,36 @@ fun DeckTotalTitleLayout(
             Text(
                 text = stringResource(id = R.string.total_deck_list),
                 style = MaterialTheme.ldTypography.fontLabelXL,
-                color = Black
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Text(
                 modifier = Modifier
                     .padding(start = 8.dp),
                 text = "${deckList.size}",
                 style = MaterialTheme.ldTypography.fontLabelL,
-                color = Gray500
+                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
             )
         }
 
         LdButton(
             onClick = { onChangeIsShowCreateDeckDialog(true) },
             colors = ButtonDefaults.buttonColors(
-                containerColor = Neutral30,
-                disabledContainerColor = Neutral30
+                containerColor = MaterialTheme.colorScheme.outlineVariant,
             ),
-            contentPadding = PaddingValues(horizontal = 8.dp, vertical = 5.dp),
+            contentPadding = PaddingValues(horizontal = 8.dp),
             leadingIcon = {
                 Icon(
                     modifier = Modifier.size(20.dp),
                     imageVector = Icons.Filled.Add,
                     contentDescription = "Add Deck",
-                    tint = Text0
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             },
             text = {
                 Text(
                     text = stringResource(id = R.string.add_deck_btn_text),
                     style = MaterialTheme.ldTypography.fontBodyS,
-                    color = Text0
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
         )

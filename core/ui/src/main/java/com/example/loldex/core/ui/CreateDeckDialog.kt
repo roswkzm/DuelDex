@@ -17,9 +17,7 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color.Companion.Black
-import androidx.compose.ui.graphics.Color.Companion.Gray
-import androidx.compose.ui.graphics.Color.Companion.White
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -27,16 +25,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.loldex.core.designsystem.component.DefaultAlertDialog
 import com.example.loldex.core.designsystem.component.LdButton
-import com.example.loldex.core.designsystem.theme.AttributeFire
-import com.example.loldex.core.designsystem.theme.Error
-import com.example.loldex.core.designsystem.theme.Gray800
-import com.example.loldex.core.designsystem.theme.Text0
+import com.example.loldex.core.designsystem.theme.LolDexTheme
 import com.example.loldex.core.designsystem.theme.ThemePreviews
 import com.example.loldex.core.designsystem.theme.ldTypography
 
 @Composable
 fun CreateDeckDialog(
     onDismiss: () -> Unit,
+    containerColor: Color,
     onClickedConfirm: (String) -> Unit,
     inputValue: String,
     onValueChange: (String) -> Unit,
@@ -44,6 +40,7 @@ fun CreateDeckDialog(
 ) {
     DefaultAlertDialog(
         onDismissRequest = onDismiss,
+        containerColor = containerColor,
         title = {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -52,14 +49,20 @@ fun CreateDeckDialog(
                 Text(
                     text = stringResource(id = R.string.insert_deck_dialog_title),
                     style = MaterialTheme.ldTypography.fontTitleS.copy(fontWeight = FontWeight.Bold),
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 IconButton(
                     onClick = onDismiss,
                     modifier = Modifier.sizeIn(maxWidth = 24.dp, maxHeight = 24.dp),
-                    colors = IconButtonDefaults.iconButtonColors(contentColor = Black)
+                    colors = IconButtonDefaults.iconButtonColors(
+                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
                 ) {
-                    Icon(imageVector = Icons.Filled.Close, contentDescription = null)
+                    Icon(
+                        imageVector = Icons.Filled.Close,
+                        contentDescription = null
+                    )
                 }
             }
         },
@@ -72,7 +75,7 @@ fun CreateDeckDialog(
                     Text(
                         text = stringResource(id = R.string.insert_deck_dialog_placeholder),
                         style = MaterialTheme.ldTypography.fontLabelM,
-                        color = Gray
+                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
                     )
                 },
                 supportingText = {
@@ -91,7 +94,7 @@ fun CreateDeckDialog(
                                     .size(16.dp),
                                 painter = painterResource(id = R.drawable.error_circle),
                                 contentDescription = null,
-                                tint = Error
+                                tint = MaterialTheme.colorScheme.error
                             )
                             Text(
                                 text = stringResource(id = errorMessage),
@@ -100,14 +103,18 @@ fun CreateDeckDialog(
                                     lineHeight = 18.sp,
                                     fontWeight = FontWeight(400)
                                 ),
-                                color = Error
+                                color = MaterialTheme.colorScheme.error
                             )
                         }
                     }
                 },
                 colors = OutlinedTextFieldDefaults.colors(
-                    errorTextColor = Error,
-                    errorBorderColor = Error,
+                    focusedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    unfocusedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    focusedBorderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    unfocusedBorderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    errorTextColor = MaterialTheme.colorScheme.error,
+                    errorBorderColor = MaterialTheme.colorScheme.error,
                 ),
             )
         },
@@ -120,13 +127,13 @@ fun CreateDeckDialog(
                     }
                 },
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Gray800,
-                    contentColor = White
+                    containerColor = MaterialTheme.colorScheme.onSurfaceVariant,
                 ),
                 text = {
                     Text(
                         text = stringResource(id = R.string.insert_deck_dialog_btn_confirm),
-                        style = MaterialTheme.ldTypography.fontLabelM
+                        style = MaterialTheme.ldTypography.fontLabelM,
+                        color = MaterialTheme.colorScheme.onSecondary
                     )
                 },
             )
@@ -136,8 +143,8 @@ fun CreateDeckDialog(
                 modifier = Modifier,
                 onClick = onDismiss,
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = AttributeFire,
-                    contentColor = Text0
+                    containerColor = MaterialTheme.colorScheme.error,
+                    contentColor = MaterialTheme.colorScheme.onSecondary
                 ),
                 text = {
                     Text(
@@ -153,11 +160,14 @@ fun CreateDeckDialog(
 @ThemePreviews
 @Composable
 internal fun CreateDeckDialogPreview() {
-    CreateDeckDialog(
-        onDismiss = {},
-        onClickedConfirm = {},
-        inputValue = "",
-        onValueChange = {},
-        isError = false
-    )
+    LolDexTheme {
+        CreateDeckDialog(
+            onDismiss = {},
+            containerColor = MaterialTheme.colorScheme.surfaceBright,
+            onClickedConfirm = {},
+            inputValue = "",
+            onValueChange = {},
+            isError = false
+        )
+    }
 }

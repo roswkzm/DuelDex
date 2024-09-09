@@ -3,4 +3,5 @@
     <string name="total_deck_list">통합 덱 목록</string>
     <string name="add_deck_btn_text">덱 추가</string>
     <string name="deck_card_total_count">통합</string>
+    <string name="deck_count_empty">덱이 비어있습니다.</string>
 </resources>

@@ -37,6 +37,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.loldex.core.designsystem.component.LdButton
 import com.example.loldex.core.designsystem.theme.Black
+import com.example.loldex.core.designsystem.theme.LolDexTheme
 import com.example.loldex.core.designsystem.theme.Secondary
 import com.example.loldex.core.designsystem.theme.Text0
 import com.example.loldex.core.designsystem.theme.ThemePreviews
@@ -163,6 +164,7 @@ internal fun SavedCardToDeckContent(
                             onChangeDeckNameValue("")
                             onChangeIsShowCreateDeckDialog(false)
                         },
+                        containerColor = MaterialTheme.colorScheme.surfaceBright,
                         onClickedConfirm = {
                             onChangeDeckNameValue("")
                             onClickedInsertDeck(it)
@@ -228,15 +230,17 @@ fun SavedCardToDeckContentPreview(
     @PreviewParameter(DeckDataPreviewParameterProvider::class) deckList: List<DeckData>
 ) {
     val savedDecksUiState = SavedDecksUiState.Success(deckList)
-    SavedCardToDeckContent(
-        isShowDialogChange = { },
-        savedDecksUiState = savedDecksUiState,
-        onClickedDeleteDeck = {},
-        onClickedInsertDeck = {},
-        onClickedInsertCardToDeck = {},
-        isShowCreateDeckDialog = false,
-        onChangeIsShowCreateDeckDialog = { },
-        insertDeckName = "",
-        onChangeDeckNameValue = { },
-    )
+    LolDexTheme {
+        SavedCardToDeckContent(
+            isShowDialogChange = { },
+            savedDecksUiState = savedDecksUiState,
+            onClickedDeleteDeck = {},
+            onClickedInsertDeck = {},
+            onClickedInsertCardToDeck = {},
+            isShowCreateDeckDialog = false,
+            onChangeIsShowCreateDeckDialog = { },
+            insertDeckName = "",
+            onChangeDeckNameValue = { },
+        )
+    }
 }

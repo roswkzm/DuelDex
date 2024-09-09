@@ -17,10 +17,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.Red
 import androidx.compose.ui.unit.dp
-import com.example.loldex.core.designsystem.theme.Gray300
+import com.example.loldex.core.designsystem.theme.LolDexTheme
 import com.example.loldex.core.designsystem.theme.ThemePreviews
 import com.example.loldex.core.designsystem.theme.ldTypography
 import com.example.loldex.core.model.DeckData
@@ -36,7 +34,7 @@ fun DeckListItem(
             .fillMaxWidth()
             .height(50.dp)
             .clickable { onClickedDeck(deckData) },
-        color = Gray300,
+        color = MaterialTheme.colorScheme.surfaceBright,
         shape = RoundedCornerShape(12.dp),
         tonalElevation = 4.dp,
         shadowElevation = 4.dp
@@ -48,7 +46,7 @@ fun DeckListItem(
             Text(
                 text = deckData.deckName,
                 style = MaterialTheme.ldTypography.fontLabelM,
-                color = Color.Black
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Spacer(modifier = Modifier.weight(1f))
             Icon(
@@ -57,7 +55,7 @@ fun DeckListItem(
                     .clickable { onClickedDeleteDeck(deckData) },
                 imageVector = Icons.Filled.DeleteForever,
                 contentDescription = null,
-                tint = Red
+                tint = MaterialTheme.colorScheme.error
             )
         }
     }
@@ -67,9 +65,11 @@ fun DeckListItem(
 @Composable
 fun DeckListItemPreview() {
     val deckData = DeckData(deckName = "Deck Name")
-    DeckListItem(
-        deckData = deckData,
-        onClickedDeck = {},
-        onClickedDeleteDeck = {}
-    )
+    LolDexTheme {
+        DeckListItem(
+            deckData = deckData,
+            onClickedDeck = {},
+            onClickedDeleteDeck = {}
+        )
+    }
 }
