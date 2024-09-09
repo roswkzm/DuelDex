@@ -12,6 +12,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import androidx.tracing.trace
+import com.example.loldex.core.data.util.NetworkMonitor
 import com.example.loldex.feature.decks.navigation.DECKS_ROUTE
 import com.example.loldex.feature.decks.navigation.navigateToDecks
 import com.example.loldex.feature.home.navigation.HOME_ROUTE
@@ -20,22 +21,28 @@ import com.example.loldex.navigation.TopLevelDestination
 import com.example.loldex.navigation.TopLevelDestination.DECKS
 import com.example.loldex.navigation.TopLevelDestination.HOME
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 
 @Composable
 fun rememberAppState(
     windowSizeClass: WindowSizeClass,
+    networkMonitor: NetworkMonitor,
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     navController: NavHostController = rememberNavController(),
 ): AppState {
     return remember(
         navController,
         coroutineScope,
-        windowSizeClass
+        windowSizeClass,
+        networkMonitor,
     ) {
         AppState(
             navController,
             coroutineScope,
-            windowSizeClass
+            windowSizeClass,
+            networkMonitor,
         )
     }
 }
@@ -44,7 +51,8 @@ fun rememberAppState(
 class AppState(
     val navController: NavHostController,
     val coroutineScope: CoroutineScope,
-    val windowSizeClass: WindowSizeClass
+    val windowSizeClass: WindowSizeClass,
+    val networkMonitor: NetworkMonitor,
 ) {
     val currentDestination: NavDestination?
         @Composable get() = navController.currentBackStackEntryAsState().value?.destination
@@ -55,6 +63,14 @@ class AppState(
             DECKS_ROUTE -> DECKS
             else -> null
         }
+
+    val isOffline = networkMonitor.isOnline
+        .map(Boolean::not)
+        .stateIn(
+            scope = coroutineScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = false,
+        )
 
     val topLevelDestinations: List<TopLevelDestination> = TopLevelDestination.entries
 

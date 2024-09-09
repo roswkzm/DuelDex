@@ -21,20 +21,26 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.loldex.MainActivityUiState.Loading
 import com.example.loldex.MainActivityUiState.Success
+import com.example.loldex.core.data.util.NetworkMonitor
 import com.example.loldex.core.designsystem.component.LdBackGround
 import com.example.loldex.core.designsystem.theme.LolDexTheme
 import com.example.loldex.core.model.enums.LocalizationConfig
 import com.example.loldex.core.model.enums.ThemeConfig
 import com.example.loldex.ui.MainScreen
+import com.example.loldex.ui.rememberAppState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import java.util.Locale
+import javax.inject.Inject
 
 @AndroidEntryPoint
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 class MainActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var networkMonitor: NetworkMonitor
 
     private val viewModel: MainViewModel by viewModels()
 
@@ -65,6 +71,11 @@ class MainActivity : ComponentActivity() {
         )
 
         setContent {
+            val appState = rememberAppState(
+                windowSizeClass = calculateWindowSizeClass(this),
+                networkMonitor = networkMonitor,
+            )
+
             val darkTheme = shouldUseDarkTheme(uiState = uiState)
             val locale = shouldUseLocalization(uiState = uiState)
 
@@ -73,9 +84,7 @@ class MainActivity : ComponentActivity() {
                 locale = locale,
             ) {
                 LdBackGround {
-                    MainScreen(
-                        windowSizeClass = calculateWindowSizeClass(activity = this)
-                    )
+                    MainScreen(appState = appState)
                 }
             }
         }

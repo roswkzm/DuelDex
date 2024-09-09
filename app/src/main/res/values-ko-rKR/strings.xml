@@ -3,4 +3,5 @@
     <string name="app_name">LolDex</string>
     <string name="feature_home">홈</string>
     <string name="feature_decks">덱 정보</string>
+    <string name="network_not_connected">⚠️ 인터넷에 연결되어 있지 않습니다.</string>
 </resources>

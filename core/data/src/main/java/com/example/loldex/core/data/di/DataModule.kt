@@ -6,6 +6,8 @@ import com.example.loldex.core.data.repository.UserDataRepository
 import com.example.loldex.core.data.repository.UserDataRepositoryImpl
 import com.example.loldex.core.data.repository.YugiohRepository
 import com.example.loldex.core.data.repository.YugiohRepositoryImpl
+import com.example.loldex.core.data.util.ConnectivityManagerNetworkMonitor
+import com.example.loldex.core.data.util.NetworkMonitor
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -29,4 +31,9 @@ internal abstract class DataModule {
     abstract fun bindDecksRepository(
         decksRepositoryImpl: DecksRepositoryImpl
     ): DecksRepository
+
+    @Binds
+    internal abstract fun bindsNetworkMonitor(
+        networkMonitor: ConnectivityManagerNetworkMonitor,
+    ): NetworkMonitor
 }
