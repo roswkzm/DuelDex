@@ -31,10 +31,6 @@ class YugiohRepositoryImpl @Inject constructor(
             val response = dataSource.getYugiohPagingList(num, offset)
             response.suspendOnSuccess {
                 emit(data)
-            }.onError {
-
-            }.onException {
-
             }
         }.flowOn(ioDispatcher)
 
@@ -48,7 +44,7 @@ class YugiohRepositoryImpl @Inject constructor(
             }.onError {
                 map(ErrorResponseMapper) { Timber.e("[Error] : $error") }
             }.onException {
-                Timber.e(message)
+                throw Exception(message)
             }
         }.flowOn(ioDispatcher)
 
@@ -62,7 +58,7 @@ class YugiohRepositoryImpl @Inject constructor(
             }.onError {
                 map(ErrorResponseMapper) { Timber.e("[Error] : $error") }
             }.onException {
-                Timber.e(message)
+                throw Exception(message)
             }
         }.flowOn(ioDispatcher)
 
@@ -89,7 +85,7 @@ class YugiohRepositoryImpl @Inject constructor(
             }.onError {
                 map(ErrorResponseMapper) { onError("[Code: $code]: $error") }
             }.onException {
-                Timber.e(message)
+                throw Exception(message)
             }
         }.flowOn(ioDispatcher)
 }

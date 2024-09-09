@@ -6,4 +6,6 @@
     <string name="insert_deck_dialog_btn_cancel">Cancel</string>
     <string name="insert_deck_dialog_empty_deck_name_error">Please enter the deck name.</string>
     <string name="insert_deck_dialog_duplicate_deck_name_error">Deck with a duplicate name exists.</string>
+    <string name="ui_state_failed_title">Something went wrong. Please try again later.</string>
+    <string name="ui_state_failed_btn_retry">Retry</string>
 </resources>

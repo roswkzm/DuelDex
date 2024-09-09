@@ -7,18 +7,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ErrorOutline
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -29,7 +23,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -37,9 +30,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.loldex.core.designsystem.theme.Neutral10
 import com.example.loldex.core.designsystem.theme.Text20
 import com.example.loldex.core.designsystem.theme.ThemePreviews
-import com.example.loldex.core.designsystem.theme.ldTypography
 import com.example.loldex.core.model.YugiohCardData
 import com.example.loldex.core.ui.GridYugiohCardItem
+import com.example.loldex.core.ui.UiStateFailedScreen
 import com.example.loldex.core.ui.preview_parameter_provider.YugiohCardDataPreviewParameterProvider
 import com.example.loldex.core.ui.util.statusBarPadding
 import com.example.loldex.feature.search.ui.RecentSearches
@@ -73,6 +66,19 @@ internal fun SearchRoute(
     var levelValue by remember { mutableStateOf(0f) }
     val recommendedKeywordList = listOf("Dark Magician")
 
+    fun performSearch() {
+        debounceJob?.cancel()
+        debounceJob = scope.launch {
+            delay(500)
+            cardSearchQueryToFilter(
+                searchValue = searchValue,
+                selectedFilterValues = selectedFilterValues,
+                levelValue = levelValue,
+                viewModel = viewModel
+            )
+        }
+    }
+
     LaunchedEffect(searchValue, selectedFilterValues.toMap(), levelValue) {
         // 모든 Filters가 꺼져있는지 판단하는 Boolean ( Filter가 하나라도 살아있으면 해당 Filter로 검색이 되어야한다.)
         val areAllFiltersEmpty = selectedFilterValues.values.all { it.isNullOrEmpty() }
@@ -82,16 +88,7 @@ internal fun SearchRoute(
             debounceJob?.cancel()
             viewModel.cardSearchStateIdle()
         } else {
-            debounceJob?.cancel()
-            debounceJob = scope.launch {
-                delay(500)
-                cardSearchQueryToFilter(
-                    searchValue = searchValue,
-                    selectedFilterValues = selectedFilterValues,
-                    levelValue = levelValue,
-                    viewModel = viewModel
-                )
-            }
+            performSearch()
         }
     }
 
@@ -102,12 +99,7 @@ internal fun SearchRoute(
         onSearchValueChange = { searchValue = it },
         onSearch = {
             viewModel.addRecentSearch(it)
-            cardSearchQueryToFilter(
-                searchValue = it,
-                selectedFilterValues = selectedFilterValues,
-                levelValue = levelValue,
-                viewModel = viewModel
-            )
+            performSearch()
         },
         selectedFilterValues = selectedFilterValues,
         onFilterValueChange = { selectedFilterValues[it.first] = it.second },
@@ -120,7 +112,10 @@ internal fun SearchRoute(
         onClickedDeleteAll = viewModel::clearAllRecentSearches,
         onClickedCardItem = onClickedCardItem,
         onClickedDeleteString = { searchValue = "" },
-        onClickedClose = onClickedClose
+        onClickedClose = onClickedClose,
+        onClickedRetry = {
+            performSearch()
+        }
     )
 }
 
@@ -143,6 +138,7 @@ internal fun SearchScreen(
     onClickedCardItem: (String) -> Unit,
     onClickedDeleteString: () -> Unit,
     onClickedClose: () -> Unit,
+    onClickedRetry: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -203,25 +199,9 @@ internal fun SearchScreen(
                 }
 
                 is SearchResultUiState.Error -> {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(12.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        Icon(
-                            modifier = Modifier.size(90.dp),
-                            imageVector = Icons.Filled.ErrorOutline,
-                            contentDescription = "Error Icon",
-                            tint = Color.Red,
-                        )
-                        Text(
-                            text = cardSearchResult.errorMessage,
-                            style = MaterialTheme.ldTypography.fontTitleM,
-                            color = Color.Red
-                        )
-                    }
+                    UiStateFailedScreen(
+                        onClickedRetry = onClickedRetry
+                    )
                 }
 
                 is SearchResultUiState.Success -> {
@@ -307,5 +287,6 @@ fun SearchScreenPreview(
         onClickedCardItem = {},
         onClickedDeleteString = {},
         onClickedClose = {},
+        onClickedRetry = {},
     )
 }

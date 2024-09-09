@@ -6,4 +6,6 @@
     <string name="insert_deck_dialog_btn_cancel">취소</string>
     <string name="insert_deck_dialog_empty_deck_name_error">덱 이름을 입력하세요.</string>
     <string name="insert_deck_dialog_duplicate_deck_name_error">중복된 이름의 덱이 존재합니다.</string>
+    <string name="ui_state_failed_title">문제가 발생했습니다. 나중에 다시 시도해 주세요.</string>
+    <string name="ui_state_failed_btn_retry">재시도</string>
 </resources>

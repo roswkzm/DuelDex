@@ -29,6 +29,15 @@ class CardDetailViewModel @Inject constructor(
     val cardDetailUiState: StateFlow<CardDetailUiState> = _cardDetailUiState.asStateFlow()
 
     init {
+        loadCardDetailData()
+    }
+
+    fun retryLoadCardDetailData() {
+        _cardDetailUiState.value = CardDetailUiState.Loading
+        loadCardDetailData()
+    }
+
+    private fun loadCardDetailData() {
         viewModelScope.launch {
             getYugiohCardDataByNameUseCase.invoke(
                 cardName = cardName

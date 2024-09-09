@@ -22,6 +22,7 @@ class DeckDetailViewModel @Inject constructor(
 
 
     fun getDeckWithCards(deckId: Long) {
+        _deckDetailUiState.value = DeckDetailUiState.Loading
         viewModelScope.launch {
             try {
                 decksRepository.getDeckWithCards(deckId).collect { deckWithCards ->

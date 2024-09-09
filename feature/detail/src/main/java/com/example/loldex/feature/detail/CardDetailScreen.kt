@@ -40,6 +40,7 @@ import com.example.loldex.core.designsystem.theme.ThemePreviews
 import com.example.loldex.core.designsystem.theme.ldTypography
 import com.example.loldex.core.model.YugiohCardData
 import com.example.loldex.core.ui.CarouselPager
+import com.example.loldex.core.ui.UiStateFailedScreen
 import com.example.loldex.core.ui.attribute.AttributeSize
 import com.example.loldex.core.ui.attribute.AttributeTag
 import com.example.loldex.core.ui.preview_parameter_provider.YugiohCardDataPreviewParameterProvider
@@ -67,7 +68,8 @@ internal fun CardDetailRoute(
         onClickedSavedCard = { yugiohCardData ->
             cardDataToSave = yugiohCardData
             isShowSaveDeckDialog = true
-        }
+        },
+        onClickedRetry = viewModel::retryLoadCardDetailData
     )
 
     if (isShowSaveDeckDialog) {
@@ -91,6 +93,7 @@ internal fun CardDetailRoute(
 internal fun CardDetailScreen(
     cardDetailUiState: CardDetailUiState, scrollState: ScrollState,
     onClickedSavedCard: (YugiohCardData) -> Unit,
+    onClickedRetry: () -> Unit,
 ) {
     val context = LocalContext.current
     var webUrlString by remember { mutableStateOf("") }
@@ -109,7 +112,9 @@ internal fun CardDetailScreen(
     ) {
         when (cardDetailUiState) {
             CardDetailUiState.Error -> {
-                Text(text = "CardDetailUiState.Error")
+                UiStateFailedScreen(
+                    onClickedRetry = onClickedRetry
+                )
             }
 
             CardDetailUiState.Loading -> {
@@ -255,7 +260,8 @@ fun CardDetailScreenPreview(
             CardDetailScreen(
                 cardDetailUiState = CardDetailUiState.Success(yugiohCardData),
                 scrollState = scrollState,
-                onClickedSavedCard = {}
+                onClickedSavedCard = {},
+                onClickedRetry = {}
             )
         }
     }

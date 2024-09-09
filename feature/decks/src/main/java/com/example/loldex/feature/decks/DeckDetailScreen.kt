@@ -52,6 +52,7 @@ import com.example.loldex.core.model.DeckWithCardData
 import com.example.loldex.core.model.YugiohCardData
 import com.example.loldex.core.ui.GridYugiohCardItem
 import com.example.loldex.core.ui.ListYugiohCardItem
+import com.example.loldex.core.ui.UiStateFailedScreen
 import com.example.loldex.core.ui.preview_parameter_provider.DeckWithCardDataPreviewParameterProvider
 import com.example.loldex.core.ui.util.statusBarPadding
 import com.example.loldex.core.designsystem.R as DesignR
@@ -77,7 +78,10 @@ internal fun DeckDetailRoute(
         onClickedCardViewMode = { isCardViewMode = it },
         onClickedCardItem = onClickedCardItem,
         onClickedDeckNameEdit = viewModel::updateDeckName,
-        onDeleteCard = viewModel::deleteDeckCard
+        onDeleteCard = viewModel::deleteDeckCard,
+        onClickedRetry = {
+            viewModel.getDeckWithCards(deckData.id)
+        }
     )
 }
 
@@ -90,6 +94,7 @@ internal fun DeckDetailScreen(
     onClickedCardItem: (String) -> Unit,
     onClickedDeckNameEdit: (DeckData) -> Unit,
     onDeleteCard: (Long, Long) -> Unit,
+    onClickedRetry: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -109,7 +114,9 @@ internal fun DeckDetailScreen(
             }
 
             is DeckDetailUiState.Error -> {
-
+                UiStateFailedScreen(
+                    onClickedRetry = onClickedRetry
+                )
             }
 
             is DeckDetailUiState.Success -> {
@@ -365,6 +372,7 @@ internal fun DeckDetailScreenPreview(
                 onClickedCardItem = {},
                 onClickedDeckNameEdit = {},
                 onDeleteCard = { _, _ -> },
+                onClickedRetry = {}
             )
         }
     }
