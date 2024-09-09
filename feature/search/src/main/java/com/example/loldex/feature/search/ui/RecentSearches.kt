@@ -15,8 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.loldex.core.designsystem.component.TagWithDeleteButton
-import com.example.loldex.core.designsystem.theme.Text10
-import com.example.loldex.core.designsystem.theme.Text20
+import com.example.loldex.core.designsystem.theme.LolDexTheme
 import com.example.loldex.core.designsystem.theme.ThemePreviews
 import com.example.loldex.core.designsystem.theme.ldTypography
 import com.example.loldex.feature.search.R
@@ -41,7 +40,7 @@ fun RecentSearches(
             Text(
                 text = stringResource(id = R.string.recent_searches),
                 style = MaterialTheme.ldTypography.fontLabelL,
-                color = Text10
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
 
             Text(
@@ -50,7 +49,7 @@ fun RecentSearches(
                     .clickable { onClickedDeleteAll() },
                 text = stringResource(id = R.string.recent_searches_delete_all),
                 style = MaterialTheme.ldTypography.fontLabelL,
-                color = Text20
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
 
@@ -64,6 +63,7 @@ fun RecentSearches(
                 TagWithDeleteButton(
                     name = recentSearchList[index],
                     color = Color.Transparent,
+                    contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
                     onClickedTag = onClickedTag,
                     onClickedDelete = onClickedDeleteTag
                 )
@@ -75,11 +75,13 @@ fun RecentSearches(
 @ThemePreviews
 @Composable
 fun RecentSearchesPreview() {
-    val recentSearchList = listOf("가나다", "라마바", "사아자", "차카타", "파하")
-    RecentSearches(
-        recentSearchList = recentSearchList,
-        onClickedTag = {},
-        onClickedDeleteAll = {},
-        onClickedDeleteTag = {}
-    )
+    LolDexTheme {
+        val recentSearchList = listOf("가나다", "라마바", "사아자", "차카타", "파하")
+        RecentSearches(
+            recentSearchList = recentSearchList,
+            onClickedTag = {},
+            onClickedDeleteAll = {},
+            onClickedDeleteTag = {}
+        )
+    }
 }

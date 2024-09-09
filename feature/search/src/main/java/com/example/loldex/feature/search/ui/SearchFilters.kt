@@ -25,14 +25,13 @@ import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.loldex.core.designsystem.component.TagButton
-import com.example.loldex.core.designsystem.theme.Text0
-import com.example.loldex.core.designsystem.theme.Text10
-import com.example.loldex.core.designsystem.theme.Text20
+import com.example.loldex.core.designsystem.theme.LolDexTheme
 import com.example.loldex.core.designsystem.theme.ThemePreviews
 import com.example.loldex.core.designsystem.theme.ldTypography
 import com.example.loldex.feature.search.R
@@ -58,7 +57,8 @@ fun SearchFilters(
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
-            horizontalArrangement = Arrangement.End
+            horizontalArrangement = Arrangement.End,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             val icon = if (isExpanded) Icons.Filled.FilterAltOff else Icons.Filled.FilterAlt
 
@@ -66,17 +66,17 @@ fun SearchFilters(
                 Text(
                     text = stringResource(id = R.string.search_filters),
                     style = MaterialTheme.ldTypography.fontLabelL,
-                    color = Text10
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Spacer(modifier = Modifier.weight(1f))
             }
             Icon(
                 modifier = Modifier
-                    .size(20.dp)
+                    .size(24.dp)
                     .clickable { isExpanded = !isExpanded },
                 imageVector = icon,
                 contentDescription = null,
-                tint = Text10
+                tint = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
 
@@ -103,6 +103,7 @@ fun SearchFilters(
                         TagButton(
                             name = buttonText,
                             color = Color.Transparent,
+                            contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
                             icon = Icons.Filled.KeyboardArrowDown,
                             onClickedTag = {
                                 filterType = currentSearchFilterType
@@ -149,7 +150,7 @@ internal fun LevelFilter(
         Text(
             text = displayValue,
             style = MaterialTheme.ldTypography.fontLabelL,
-            color = Text10
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
 
         Slider(
@@ -158,11 +159,11 @@ internal fun LevelFilter(
             valueRange = 0f..12f,
             steps = 11,
             colors = SliderDefaults.colors(
-                thumbColor = Text10,
-                activeTrackColor = Text20,
-                activeTickColor = Text0,
-                inactiveTrackColor = Text20,
-                inactiveTickColor = Text0
+                thumbColor = MaterialTheme.colorScheme.onSurface,
+                activeTrackColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                activeTickColor = MaterialTheme.colorScheme.surface,
+                inactiveTrackColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                inactiveTickColor = MaterialTheme.colorScheme.surface,
             )
         )
     }
@@ -171,12 +172,15 @@ internal fun LevelFilter(
 @ThemePreviews
 @Composable
 internal fun SearchFilterPreview() {
-    val selectedFilterValues = remember { mutableStateMapOf<SearchFilterType, String?>() }
-    var levelValue by remember { mutableStateOf(0f) }
-    SearchFilters(
-        selectedFilterValues = selectedFilterValues,
-        onFilterValueChange = {},
-        levelValue = levelValue,
-        onLevelValueChange = {},
-    )
+    LolDexTheme {
+        val selectedFilterValues = remember { mutableStateMapOf<SearchFilterType, String?>() }
+        var levelValue by remember { mutableStateOf(0f) }
+
+        SearchFilters(
+            selectedFilterValues = selectedFilterValues,
+            onFilterValueChange = {},
+            levelValue = levelValue,
+            onLevelValueChange = {},
+        )
+    }
 }

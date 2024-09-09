@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.loldex.core.designsystem.component.RectangleTag
-import com.example.loldex.core.designsystem.theme.Text10
+import com.example.loldex.core.designsystem.theme.LolDexTheme
 import com.example.loldex.core.designsystem.theme.ThemePreviews
 import com.example.loldex.core.designsystem.theme.ldTypography
 import com.example.loldex.feature.search.R
@@ -36,7 +36,7 @@ fun RecommendedKeywords(
             Text(
                 text = stringResource(id = R.string.recommended_keywords),
                 style = MaterialTheme.ldTypography.fontLabelL,
-                color = Text10
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
 
@@ -49,6 +49,8 @@ fun RecommendedKeywords(
             items(recommendedKeywordList.size) { index ->
                 RectangleTag(
                     name = recommendedKeywordList[index],
+                    containerColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    contentColor = MaterialTheme.colorScheme.onSecondary,
                     onClickedTag = onClickedTag,
                 )
             }
@@ -59,9 +61,11 @@ fun RecommendedKeywords(
 @ThemePreviews
 @Composable
 fun RecommendedKeywordsPreview() {
-    val recommendedKeywordList = listOf("Dark Magician")
-    RecommendedKeywords(
-        recommendedKeywordList = recommendedKeywordList,
-        onClickedTag = {}
-    )
+    LolDexTheme {
+        val recommendedKeywordList = listOf("Dark Magician")
+        RecommendedKeywords(
+            recommendedKeywordList = recommendedKeywordList,
+            onClickedTag = {}
+        )
+    }
 }

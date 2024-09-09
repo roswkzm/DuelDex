@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -27,8 +28,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.loldex.core.designsystem.theme.Neutral10
-import com.example.loldex.core.designsystem.theme.Text20
+import com.example.loldex.core.designsystem.theme.LolDexTheme
 import com.example.loldex.core.designsystem.theme.ThemePreviews
 import com.example.loldex.core.model.YugiohCardData
 import com.example.loldex.core.ui.GridYugiohCardItem
@@ -98,7 +98,9 @@ internal fun SearchRoute(
         searchValue = searchValue,
         onSearchValueChange = { searchValue = it },
         onSearch = {
-            viewModel.addRecentSearch(it)
+            if (it.isNotEmpty()) {
+                viewModel.addRecentSearch(it)
+            }
             performSearch()
         },
         selectedFilterValues = selectedFilterValues,
@@ -143,7 +145,7 @@ internal fun SearchScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Neutral10)
+            .background(MaterialTheme.colorScheme.tertiary)
             .statusBarPadding()
     ) {
         SearchTextField(
@@ -182,7 +184,7 @@ internal fun SearchScreen(
                 modifier = Modifier
                     .padding(start = 6.dp, top = 10.dp, end = 6.dp),
                 thickness = 1.dp,
-                color = Text20
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
 
             when (cardSearchResult) {
@@ -194,7 +196,9 @@ internal fun SearchScreen(
                             .fillMaxSize(),
                         contentAlignment = Alignment.Center
                     ) {
-                        CircularProgressIndicator(modifier = Modifier)
+                        CircularProgressIndicator(
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
                     }
                 }
 
@@ -263,30 +267,32 @@ fun setFilterTagText(searchFilterType: SearchFilterType): Int {
 fun SearchScreenPreview(
     @PreviewParameter(YugiohCardDataPreviewParameterProvider::class) yugiohCardList: List<YugiohCardData>
 ) {
-    val scrollState = rememberLazyGridState()
-    var searchValue by remember { mutableStateOf("") }
-    val selectedFilterValues = remember { mutableStateMapOf<SearchFilterType, String?>() }
-    var levelValue by remember { mutableStateOf(0f) }
-    val recentSearchList = listOf("가나다", "라마바", "사아자", "차카타", "파하")
-    val recommendedKeywordList = listOf("Dark Magician")
-    SearchScreen(
-        cardSearchResult = SearchResultUiState.Success(yugiohCardList),
-        scrollState = scrollState,
-        searchValue = searchValue,
-        onSearchValueChange = { searchValue = it },
-        onSearch = {},
-        selectedFilterValues = selectedFilterValues,
-        onFilterValueChange = {},
-        levelValue = levelValue,
-        onLevelValueChange = {},
-        recentSearchList = recentSearchList,
-        recommendedKeywordList = recommendedKeywordList,
-        onClickedTag = {},
-        onClickedDeleteTag = {},
-        onClickedDeleteAll = {},
-        onClickedCardItem = {},
-        onClickedDeleteString = {},
-        onClickedClose = {},
-        onClickedRetry = {},
-    )
+    LolDexTheme {
+        val scrollState = rememberLazyGridState()
+        var searchValue by remember { mutableStateOf("") }
+        val selectedFilterValues = remember { mutableStateMapOf<SearchFilterType, String?>() }
+        var levelValue by remember { mutableStateOf(0f) }
+        val recentSearchList = listOf("가나다", "라마바", "사아자", "차카타", "파하")
+        val recommendedKeywordList = listOf("Dark Magician")
+        SearchScreen(
+            cardSearchResult = SearchResultUiState.Success(yugiohCardList),
+            scrollState = scrollState,
+            searchValue = searchValue,
+            onSearchValueChange = { searchValue = it },
+            onSearch = {},
+            selectedFilterValues = selectedFilterValues,
+            onFilterValueChange = {},
+            levelValue = levelValue,
+            onLevelValueChange = {},
+            recentSearchList = recentSearchList,
+            recommendedKeywordList = recommendedKeywordList,
+            onClickedTag = {},
+            onClickedDeleteTag = {},
+            onClickedDeleteAll = {},
+            onClickedCardItem = {},
+            onClickedDeleteString = {},
+            onClickedClose = {},
+            onClickedRetry = {},
+        )
+    }
 }

@@ -19,20 +19,20 @@ val LocalLocale = staticCompositionLocalOf { Locale.getDefault() }
 
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
-    tertiary = Pink80,
     surface = Neutral20,
     surfaceContainer = Neutral30,
     secondary = Text10,
     error = Error,
+    tertiary = Neutral10,
 )
 
 private val LightColorScheme = lightColorScheme(
     primary = Purple40,
-    tertiary = Pink40,
     surface = Text0,
     surfaceContainer = Text10,
     secondary = Neutral10,
     error = Error,
+    tertiary = Gray300,
 )
 
 @Composable

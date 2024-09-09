@@ -24,9 +24,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.loldex.core.designsystem.R
+import com.example.loldex.core.designsystem.theme.LolDexTheme
 import com.example.loldex.core.designsystem.theme.Neutral20
-import com.example.loldex.core.designsystem.theme.Text0
-import com.example.loldex.core.designsystem.theme.Text20
 import com.example.loldex.core.designsystem.theme.ThemePreviews
 import com.example.loldex.core.designsystem.theme.ldTypography
 
@@ -64,22 +63,21 @@ fun SimpleTag(
 @Composable
 fun RectangleTag(
     name: String,
+    containerColor: Color,
+    contentColor: Color,
     onClickedTag: (String) -> Unit
 ) {
     Button(
         onClick = { onClickedTag(name) },
         enabled = true,
         shape = RoundedCornerShape(8.dp),
-        colors = ButtonDefaults.buttonColors(
-            containerColor = Neutral20,
-            disabledContainerColor = Neutral20
-        ),
+        colors = ButtonDefaults.buttonColors(containerColor),
         contentPadding = PaddingValues(horizontal = 8.dp, vertical = 5.dp)
     ) {
         Text(
             text = name,
             style = MaterialTheme.ldTypography.fontBodyM,
-            color = Text0
+            color = contentColor
         )
     }
 }
@@ -88,6 +86,7 @@ fun RectangleTag(
 fun TagWithDeleteButton(
     name: String,
     color: Color,
+    contentColor: Color,
     onClickedTag: (String) -> Unit,
     onClickedDelete: (String) -> Unit,
 ) {
@@ -96,13 +95,13 @@ fun TagWithDeleteButton(
         enabled = true,
         colors = ButtonDefaults.buttonColors(color),
         shape = RoundedCornerShape(60.dp),
-        border = BorderStroke(1.dp, Neutral20),
+        border = BorderStroke(1.dp, contentColor),
         contentPadding = PaddingValues(horizontal = 12.dp, vertical = 5.dp)
     ) {
         Text(
             text = name,
             style = MaterialTheme.ldTypography.fontBodyM,
-            color = Text0
+            color = contentColor
         )
         Spacer(modifier = Modifier.width(4.dp))
         Icon(
@@ -111,7 +110,7 @@ fun TagWithDeleteButton(
                 .clickable { onClickedDelete(name) },
             imageVector = Icons.Filled.Close,
             contentDescription = null,
-            tint = Text20
+            tint = contentColor
         )
     }
 }
@@ -120,6 +119,7 @@ fun TagWithDeleteButton(
 fun TagButton(
     name: String,
     color: Color,
+    contentColor: Color,
     icon: ImageVector,
     onClickedTag: (String) -> Unit,
 ) {
@@ -134,7 +134,7 @@ fun TagButton(
         Text(
             text = name,
             style = MaterialTheme.ldTypography.fontBodyM,
-            color = Text0
+            color = contentColor
         )
         Spacer(modifier = Modifier.width(4.dp))
         Icon(
@@ -142,7 +142,7 @@ fun TagButton(
                 .size(18.dp),
             imageVector = icon,
             contentDescription = null,
-            tint = Text20
+            tint = contentColor
         )
     }
 }
@@ -150,41 +150,53 @@ fun TagButton(
 @ThemePreviews
 @Composable
 fun SimpleTagPreview() {
-    SimpleTag(
-        color = Color.Magenta,
-        painterResource = R.drawable.image,
-        title = "Yh-Gi-Oh",
-        onClickedTag = {}
-    )
+    LolDexTheme {
+        SimpleTag(
+            color = Color.Magenta,
+            painterResource = R.drawable.image,
+            title = "Yh-Gi-Oh",
+            onClickedTag = {}
+        )
+    }
 }
 
 @ThemePreviews
 @Composable
 fun RectangleTagPreview() {
-    RectangleTag(
-        name = "Yh-Gi-Oh",
-        onClickedTag = {}
-    )
+    LolDexTheme {
+        RectangleTag(
+            name = "Yh-Gi-Oh",
+            containerColor = MaterialTheme.colorScheme.onSurfaceVariant,
+            contentColor = MaterialTheme.colorScheme.onSecondary,
+            onClickedTag = {}
+        )
+    }
 }
 
 @ThemePreviews
 @Composable
 fun TagWithDeleteButtonPreview() {
-    TagWithDeleteButton(
-        name = "Yh-Gi-Oh",
-        color = Color.Transparent,
-        onClickedTag = {},
-        onClickedDelete = {}
-    )
+    LolDexTheme {
+        TagWithDeleteButton(
+            name = "Yh-Gi-Oh",
+            color = Color.Transparent,
+            contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+            onClickedTag = {},
+            onClickedDelete = {}
+        )
+    }
 }
 
 @ThemePreviews
 @Composable
 fun TagButtonPreview() {
-    TagButton(
-        name = "Yh-Gi-Oh",
-        color = Color.Transparent,
-        icon = Icons.Filled.KeyboardArrowDown,
-        onClickedTag = {}
-    )
+    LolDexTheme {
+        TagButton(
+            name = "Yh-Gi-Oh",
+            color = Color.Transparent,
+            contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+            icon = Icons.Filled.KeyboardArrowDown,
+            onClickedTag = {}
+        )
+    }
 }
