@@ -14,21 +14,21 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.loldex.core.designsystem.theme.LolDexTheme
+import com.example.loldex.core.designsystem.theme.ThemePreviews
 
 @Composable
 fun RowScope.LdNavigationBarItem(
     selected: Boolean,
     onClick: () -> Unit,
-    icon : @Composable () -> Unit,
-    modifier : Modifier = Modifier,
+    icon: @Composable () -> Unit,
+    modifier: Modifier = Modifier,
     selectedIcon: @Composable () -> Unit = icon,
-    enabled : Boolean = true,
-    label : @Composable (() -> Unit)? = null,
+    enabled: Boolean = true,
+    label: @Composable (() -> Unit)? = null,
     alwaysShowLabel: Boolean = true
-    ) {
+) {
     NavigationBarItem(
         selected = selected,
         onClick = onClick,
@@ -51,7 +51,7 @@ fun RowScope.LdNavigationBarItem(
 fun LdNavigationBar(
     modifier: Modifier = Modifier,
     content: @Composable RowScope.() -> Unit
-){
+) {
     NavigationBar(
         modifier = modifier,
         contentColor = LdNavigationDefaults.navigationContentColor(),
@@ -60,7 +60,7 @@ fun LdNavigationBar(
     )
 }
 
-@Preview
+@ThemePreviews
 @Composable
 fun LdNavigationPreview() {
     val items = listOf("Home", "Saved")
@@ -104,8 +104,8 @@ object LdNavigationDefaults {
     fun navigationContentColor() = MaterialTheme.colorScheme.onSurfaceVariant
 
     @Composable
-    fun navigationSelectedItemColor() = MaterialTheme.colorScheme.onPrimaryContainer
+    fun navigationSelectedItemColor() = MaterialTheme.colorScheme.inverseSurface
 
     @Composable
-    fun navigationIndicatorColor() = MaterialTheme.colorScheme.primaryContainer
+    fun navigationIndicatorColor() = MaterialTheme.colorScheme.surfaceContainer
 }

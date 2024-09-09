@@ -1,5 +1,6 @@
 package com.example.loldex.core.designsystem.component.paging
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -7,18 +8,24 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.loldex.core.designsystem.R
+import com.example.loldex.core.designsystem.component.LdButton
+import com.example.loldex.core.designsystem.theme.LolDexTheme
+import com.example.loldex.core.designsystem.theme.ThemePreviews
+import com.example.loldex.core.designsystem.theme.ldTypography
 
 @Composable
 fun PageLoader(
@@ -59,38 +66,59 @@ fun ErrorMessage(
     onClickRetry: () -> Unit
 ) {
     Row(
-        modifier = modifier.padding(10.dp),
+        modifier = modifier
+            .background(
+                color = MaterialTheme.colorScheme.surfaceVariant,
+                shape = RoundedCornerShape(12.dp)
+            )
+            .padding(10.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
             text = message,
-            color = Color.Red,
+            color = MaterialTheme.colorScheme.error,
             modifier = Modifier.weight(1f),
             maxLines = 2
         )
-        OutlinedButton(onClick = onClickRetry) {
-            Text(text = stringResource(id = R.string.core_designsystem_paging_state_error_retry))
-        }
+        LdButton(
+            modifier = Modifier,
+            onClick = onClickRetry,
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                contentColor = White
+            ),
+            text = {
+                Text(
+                    text = stringResource(id = R.string.core_designsystem_paging_state_error_retry),
+                    style = MaterialTheme.ldTypography.fontLabelM,
+                    color = MaterialTheme.colorScheme.onSecondary
+                )
+            },
+        )
     }
 }
 
-@Preview
+@ThemePreviews
 @Composable
 fun PageLoaderPreview() {
-    PageLoader(
-        modifier = Modifier.size(24.dp),
-        color = Color.Blue,
-        strokeWidth = 4.dp
-    )
+    LolDexTheme {
+        PageLoader(
+            modifier = Modifier.size(24.dp),
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            strokeWidth = 4.dp
+        )
+    }
 }
 
-@Preview
+@ThemePreviews
 @Composable
 fun ErrorMessagePreview() {
-    ErrorMessage(
-        modifier = Modifier.fillMaxWidth(),
-        message = "Error Message",
-        onClickRetry = {}
-    )
+    LolDexTheme {
+        ErrorMessage(
+            modifier = Modifier.fillMaxWidth(),
+            message = "Error Message",
+            onClickRetry = {}
+        )
+    }
 }

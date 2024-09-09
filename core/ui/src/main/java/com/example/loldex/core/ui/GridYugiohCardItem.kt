@@ -13,7 +13,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -63,7 +62,7 @@ fun GridYugiohCardItem(
                 modifier = Modifier.padding(6.dp),
                 text = yugiohCardData.name,
                 style = MaterialTheme.ldTypography.fontTitleXS,
-                color = Color.White,
+                color = MaterialTheme.colorScheme.inverseSurface,
                 textAlign = TextAlign.Center,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis

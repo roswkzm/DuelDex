@@ -35,7 +35,6 @@ fun DefaultAlertDialog(
     onDismissRequest: () -> Unit,
     containerColor: Color = White,
     title: @Composable (() -> Unit)? = null,
-    showCloseButton: Boolean = false,
     text: @Composable (() -> Unit)? = null,
     confirmButton: @Composable (() -> Unit),
     dismissButton: @Composable (() -> Unit)? = null,
@@ -44,12 +43,12 @@ fun DefaultAlertDialog(
     AlertDialog(
         modifier = modifier,
         onDismissRequest = onDismissRequest,
+        containerColor = containerColor,
         title = title,
         text = text,
         confirmButton = confirmButton,
         dismissButton = dismissButton,
         shape = MaterialTheme.shapes.medium,
-        containerColor = White,
         properties = properties
     )
 }

@@ -22,6 +22,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -41,7 +42,6 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import com.example.loldex.core.designsystem.component.LdBackGround
 import com.example.loldex.core.designsystem.theme.LolDexTheme
-import com.example.loldex.core.designsystem.theme.Text20
 import com.example.loldex.core.designsystem.theme.ThemePreviews
 import com.example.loldex.core.model.YugiohCardData
 import com.example.loldex.core.ui.GridYugiohCardItem
@@ -158,7 +158,7 @@ fun HomeTopBar(
                 .clickable { onClickedSearchIcon() },
             imageVector = Icons.Filled.Search,
             contentDescription = "Search Icon",
-            tint = Text20
+            tint = MaterialTheme.colorScheme.onSurfaceVariant
         )
         Spacer(modifier = Modifier.width(10.dp))
         Icon(
@@ -167,7 +167,7 @@ fun HomeTopBar(
                 .clickable { onClickedSettingsIcon() },
             imageVector = Icons.Filled.Settings,
             contentDescription = "Search Icon",
-            tint = Text20
+            tint = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
 }
