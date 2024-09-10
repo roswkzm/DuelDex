@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LolDex</string>
+    <string name="app_name">DuelDex</string>
     <string name="feature_home">Home</string>
     <string name="feature_decks">Decks</string>
     <string name="network_not_connected">⚠️ You aren’t connected to the internet</string>
