@@ -1,10 +1,10 @@
 plugins {
-    alias(libs.plugins.loldex.android.library)
-    alias(libs.plugins.loldex.android.library.compose)
+    alias(libs.plugins.dueldex.android.library)
+    alias(libs.plugins.dueldex.android.library.compose)
 }
 
 android {
-    namespace = "com.example.loldex.core.ui"
+    namespace = "com.example.dueldex.core.ui"
 }
 
 dependencies {

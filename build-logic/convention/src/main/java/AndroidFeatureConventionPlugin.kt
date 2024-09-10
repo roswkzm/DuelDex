@@ -23,8 +23,8 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             pluginManager.apply {
-                apply("loldex.android.library")
-                apply("loldex.android.androidHilt")
+                apply("dueldex.android.library")
+                apply("dueldex.android.androidHilt")
             }
 
             dependencies {
@@ -38,6 +38,9 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 add("implementation", libs.findLibrary("androidx.lifecycle.viewModelCompose").get())
                 add("implementation", libs.findLibrary("androidx.tracing.ktx").get())
                 add("implementation", libs.findLibrary("timber").get())
+                add("implementation", libs.findLibrary("androidx.junit.ktx").get())
+
+                add("androidTestImplementation", libs.findLibrary("androidx.lifecycle.runtimeTesting").get())
             }
         }
     }

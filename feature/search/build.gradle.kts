@@ -1,10 +1,10 @@
 plugins {
-    alias(libs.plugins.loldex.android.feature)
-    alias(libs.plugins.loldex.android.library.compose)
+    alias(libs.plugins.dueldex.android.feature)
+    alias(libs.plugins.dueldex.android.library.compose)
 }
 
 android {
-    namespace = "com.example.loldex.feature.search"
+    namespace = "com.example.dueldex.feature.search"
 }
 
 dependencies {

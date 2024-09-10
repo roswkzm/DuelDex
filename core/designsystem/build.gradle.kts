@@ -1,11 +1,11 @@
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
-    alias(libs.plugins.loldex.android.library)
-    alias(libs.plugins.loldex.android.library.compose)
+    alias(libs.plugins.dueldex.android.library)
+    alias(libs.plugins.dueldex.android.library.compose)
 }
 
 android {
-    namespace = "com.example.loldex.core.designsystem"
+    namespace = "com.example.dueldex.core.designsystem"
 }
 
 dependencies {

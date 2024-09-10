@@ -1,12 +1,12 @@
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
-    alias(libs.plugins.loldex.android.library)
-    alias(libs.plugins.loldex.android.hilt)
+    alias(libs.plugins.dueldex.android.library)
+    alias(libs.plugins.dueldex.android.hilt)
     id("kotlinx-serialization")
 }
 
 android {
-    namespace = "com.example.loldex.core.network"
+    namespace = "com.example.dueldex.core.network"
     buildFeatures {
         buildConfig = true
     }

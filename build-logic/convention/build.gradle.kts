@@ -4,7 +4,7 @@ plugins {
     `kotlin-dsl`
 }
 
-group = "com.example.loldex.buildlogic"
+group = "com.example.dueldex.buildlogic"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
@@ -35,35 +35,35 @@ tasks {
 gradlePlugin {
     plugins {
         register("androidApplicationCompose") {
-            id = "loldex.android.application.compose"
+            id = "dueldex.android.application.compose"
             implementationClass = "AndroidApplicationComposeConventionPlugin"
         }
         register("androidApplication") {
-            id = "loldex.android.application"
+            id = "dueldex.android.application"
             implementationClass = "AndroidApplicationConventionPlugin"
         }
         register("androidLibraryCompose") {
-            id = "loldex.android.library.compose"
+            id = "dueldex.android.library.compose"
             implementationClass = "AndroidLibraryComposeConventionPlugin"
         }
         register("androidLibrary") {
-            id = "loldex.android.library"
+            id = "dueldex.android.library"
             implementationClass = "AndroidLibraryConventionPlugin"
         }
         register("androidHilt") {
-            id = "loldex.android.androidHilt"
+            id = "dueldex.android.androidHilt"
             implementationClass = "AndroidHiltConventionPlugin"
         }
         register("androidFeature") {
-            id = "loldex.android.feature"
+            id = "dueldex.android.feature"
             implementationClass = "AndroidFeatureConventionPlugin"
         }
         register("jvmLibrary") {
-            id = "loldex.jvm.library"
+            id = "dueldex.jvm.library"
             implementationClass = "JvmLibraryConventionPlugin"
         }
         register("androidRoom") {
-            id = "loldex.android.room"
+            id = "dueldex.android.room"
             implementationClass = "AndroidRoomConventionPlugin"
         }
     }

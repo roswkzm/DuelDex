@@ -1,10 +1,10 @@
 plugins {
-    alias(libs.plugins.loldex.android.library)
-    alias(libs.plugins.loldex.android.hilt)
+    alias(libs.plugins.dueldex.android.library)
+    alias(libs.plugins.dueldex.android.hilt)
 }
 
 android {
-    namespace = "com.example.loldex.core.datastore"
+    namespace = "com.example.dueldex.core.datastore"
     defaultConfig {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

@@ -15,7 +15,7 @@ androidxActivity = "1.8.2"
 androidxAppCompat = "1.7.0"
 androidDesugarJdkLibs = "2.0.4"
 androidxComposeCompiler = "1.5.7"
-ksp = "1.9.22-1.0.17"
+ksp = "1.9.21-1.0.16"
 hilt = "2.51"
 hiltExt = "1.1.0"
 androidxHiltNavigationCompose = "1.2.0"
@@ -47,10 +47,12 @@ pagingCompose = "3.3.0-alpha03"
 splashScreen = "1.0.1"
 androidxBrowser = "1.8.0"
 vico = "2.0.0-alpha.28"
+junitKtx = "1.2.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
 androidx-lifecycle-runtimeCompose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidxLifecycle" }
+androidx-lifecycle-runtimeTesting = { group = "androidx.lifecycle", name = "lifecycle-runtime-testing", version.ref = "androidxLifecycle" }
 androidx-lifecycle-viewModelCompose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "androidxLifecycle" }
 android-desugarJdkLibs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "androidDesugarJdkLibs" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidxAppCompat" }
@@ -148,6 +150,7 @@ androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", vers
 room-gradlePlugin = { group = "androidx.room", name = "room-gradle-plugin", version.ref = "room" }
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 androidx-browser = { group = "androidx.browser", name = "browser", version.ref = "androidxBrowser" }
+androidx-junit-ktx = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "junitKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
@@ -160,11 +163,11 @@ protobuf = { id = "com.google.protobuf", version.ref = "protobufPlugin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 
-loldex-android-application = { id = "loldex.android.application", version = "unspecified" }
-loldex-android-application-compose = { id = "loldex.android.application.compose", version = "unspecified" }
-loldex-android-feature = { id = "loldex.android.feature", version = "unspecified" }
-loldex-android-hilt = { id = "loldex.android.androidHilt", version = "unspecified" }
-loldex-android-library = { id = "loldex.android.library", version = "unspecified" }
-loldex-android-library-compose = { id = "loldex.android.library.compose", version = "unspecified" }
-loldex-jvm-library = { id = "loldex.jvm.library", version = "unspecified" }
-loldex-android-room = { id = "loldex.android.room", version = "unspecified" }
+dueldex-android-application = { id = "dueldex.android.application", version = "unspecified" }
+dueldex-android-application-compose = { id = "dueldex.android.application.compose", version = "unspecified" }
+dueldex-android-feature = { id = "dueldex.android.feature", version = "unspecified" }
+dueldex-android-hilt = { id = "dueldex.android.androidHilt", version = "unspecified" }
+dueldex-android-library = { id = "dueldex.android.library", version = "unspecified" }
+dueldex-android-library-compose = { id = "dueldex.android.library.compose", version = "unspecified" }
+dueldex-jvm-library = { id = "dueldex.jvm.library", version = "unspecified" }
+dueldex-android-room = { id = "dueldex.android.room", version = "unspecified" }

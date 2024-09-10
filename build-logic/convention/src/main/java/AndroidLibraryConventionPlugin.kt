@@ -24,6 +24,10 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
 
                 add("implementation", libs.findLibrary("androidx.tracing.ktx").get())
                 add("implementation", libs.findLibrary("timber").get())
+                add("testImplementation", libs.findLibrary("junit").get())
+                add("implementation", libs.findLibrary("androidx.junit.ktx").get())
+
+                add("androidTestImplementation", libs.findLibrary("androidx.lifecycle.runtimeTesting").get())
             }
         }
     }

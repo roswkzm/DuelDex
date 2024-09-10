@@ -1,10 +1,10 @@
 plugins {
-    alias(libs.plugins.loldex.android.library)
+    alias(libs.plugins.dueldex.android.library)
     alias(libs.plugins.protobuf)
 }
 
 android {
-    namespace = "com.example.loldex.core.datastore.proto"
+    namespace = "com.example.dueldex.core.datastore.proto"
 }
 
 // Setup protobuf configuration, generating lite Java and Kotlin classes

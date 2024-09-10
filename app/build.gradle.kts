@@ -1,11 +1,11 @@
 plugins {
-    alias(libs.plugins.loldex.android.application)
-    alias(libs.plugins.loldex.android.application.compose)
-    alias(libs.plugins.loldex.android.hilt)
+    alias(libs.plugins.dueldex.android.application)
+    alias(libs.plugins.dueldex.android.application.compose)
+    alias(libs.plugins.dueldex.android.hilt)
 }
 
 android {
-    namespace = "com.example.loldex"
+    namespace = "com.example.dueldex"
     compileSdk = 34
 
     buildFeatures {
@@ -13,7 +13,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.loldex"
+        applicationId = "com.example.dueldex"
         versionCode = 1
         versionName = "1.0"
 

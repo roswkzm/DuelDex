@@ -1,11 +1,11 @@
 plugins {
-    alias(libs.plugins.loldex.android.feature)
-    alias(libs.plugins.loldex.android.library.compose)
-    alias(libs.plugins.loldex.android.hilt)
+    alias(libs.plugins.dueldex.android.feature)
+    alias(libs.plugins.dueldex.android.library.compose)
+    alias(libs.plugins.dueldex.android.hilt)
 }
 
 android {
-    namespace = "com.example.loldex.feature.home"
+    namespace = "com.example.dueldex.feature.home"
 }
 
 dependencies {

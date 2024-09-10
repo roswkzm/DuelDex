@@ -1,11 +1,11 @@
 plugins {
-    alias(libs.plugins.loldex.android.library)
-    alias(libs.plugins.loldex.android.hilt)
-    alias(libs.plugins.loldex.android.room)
+    alias(libs.plugins.dueldex.android.library)
+    alias(libs.plugins.dueldex.android.hilt)
+    alias(libs.plugins.dueldex.android.room)
 }
 
 android {
-    namespace = "com.example.loldex.core.database"
+    namespace = "com.example.dueldex.core.database"
 }
 
 dependencies {
