@@ -3,4 +3,8 @@
     <string name="add_deck_btn_text">Add Deck</string>
     <string name="saved_card_deck_title">Choose a deck to save your card</string>
     <string name="show_card_price">Show Prices</string>
+    <string name="card_detail_atk">ATK</string>
+    <string name="card_detail_def">DEF</string>
+    <string name="card_saved_deck_success">Card saved successfully!</string>
+    <string name="card_saved_deck_failed">Failed to save card.</string>
 </resources>

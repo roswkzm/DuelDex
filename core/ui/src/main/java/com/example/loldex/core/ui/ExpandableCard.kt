@@ -28,6 +28,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.example.loldex.core.designsystem.theme.LolDexTheme
 import com.example.loldex.core.designsystem.theme.ThemePreviews
 import com.example.loldex.core.designsystem.theme.ldTypography
 
@@ -35,7 +36,7 @@ import com.example.loldex.core.designsystem.theme.ldTypography
 fun ExpandableCard(
     modifier: Modifier,
     shape: Shape = CardDefaults.shape,
-    color: Color = MaterialTheme.colorScheme.surface,
+    color: Color,
     elevation: Dp = 4.dp,
     title: String,
     titleColor: Color,
@@ -104,20 +105,22 @@ fun ExpandableCardTitle(
 @ThemePreviews
 @Composable
 fun ExpandableCardPreview() {
-    ExpandableCard(
-        modifier = Modifier
-            .fillMaxWidth(),
-        shape = RoundedCornerShape(12.dp),
-        color = Color.Gray,
-        elevation = 4.dp,
-        title = "Title",
-        titleColor = Color.Blue,
-        content = {
-            Column {
-                Text(text = "123")
-                Text(text = "456")
-                Text(text = "789")
+    LolDexTheme {
+        ExpandableCard(
+            modifier = Modifier
+                .fillMaxWidth(),
+            shape = RoundedCornerShape(12.dp),
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            elevation = 4.dp,
+            title = "Title",
+            titleColor = MaterialTheme.colorScheme.onSecondary,
+            content = {
+                Column {
+                    Text(text = "123")
+                    Text(text = "456")
+                    Text(text = "789")
+                }
             }
-        }
-    )
+        )
+    }
 }

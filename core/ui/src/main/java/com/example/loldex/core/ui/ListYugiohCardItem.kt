@@ -36,7 +36,6 @@ import androidx.compose.ui.unit.dp
 import com.example.loldex.core.designsystem.R
 import com.example.loldex.core.designsystem.component.AsyncImageView
 import com.example.loldex.core.designsystem.component.SimpleTag
-import com.example.loldex.core.designsystem.theme.Gray600
 import com.example.loldex.core.designsystem.theme.LolDexTheme
 import com.example.loldex.core.designsystem.theme.ThemePreviews
 import com.example.loldex.core.designsystem.theme.ldTypography
@@ -153,7 +152,7 @@ private fun LevelNameDescriptionLayout(
         Text(
             text = yugiohCardData.name,
             style = MaterialTheme.ldTypography.fontTitleS,
-            color = Color.Black,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )
@@ -161,7 +160,7 @@ private fun LevelNameDescriptionLayout(
         Text(
             text = yugiohCardData.desc,
             style = MaterialTheme.ldTypography.fontTitleXS,
-            color = Gray600,
+            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
             maxLines = if (yugiohCardData.level == null) 3 else 2,
             overflow = TextOverflow.Ellipsis
         )
@@ -191,7 +190,7 @@ private fun AttackDefensePowerLayout(
                 Text(
                     text = "$it",
                     style = MaterialTheme.ldTypography.fontTitleXS,
-                    color = Color.Black
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
         }
@@ -210,7 +209,7 @@ private fun AttackDefensePowerLayout(
                 Text(
                     text = "$it",
                     style = MaterialTheme.ldTypography.fontTitleXS,
-                    color = Color.Black
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
         }

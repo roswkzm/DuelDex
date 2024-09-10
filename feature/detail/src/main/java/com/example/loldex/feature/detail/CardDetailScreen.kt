@@ -160,7 +160,7 @@ internal fun CardDetailScreen(
                         Text(
                             text = yugiohCardData.name,
                             style = MaterialTheme.ldTypography.fontTitleL,
-                            color = Color.Black
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
 
                         AttackDefensePowerLayout(yugiohCardData.atk, yugiohCardData.def)
@@ -207,7 +207,7 @@ internal fun CardDetailScreen(
                         Text(
                             text = yugiohCardData.desc,
                             style = MaterialTheme.ldTypography.fontBodyL,
-                            color = Color.Black
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
 
                         CardPriceLayout(

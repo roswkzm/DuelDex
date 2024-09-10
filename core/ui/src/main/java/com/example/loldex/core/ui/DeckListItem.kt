@@ -34,7 +34,7 @@ fun DeckListItem(
             .fillMaxWidth()
             .height(50.dp)
             .clickable { onClickedDeck(deckData) },
-        color = MaterialTheme.colorScheme.surfaceBright,
+        color = MaterialTheme.colorScheme.surfaceDim,
         shape = RoundedCornerShape(12.dp),
         tonalElevation = 4.dp,
         shadowElevation = 4.dp

@@ -1,6 +1,5 @@
 package com.example.loldex.ui
 
-import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
@@ -27,7 +26,6 @@ import kotlinx.coroutines.flow.stateIn
 
 @Composable
 fun rememberAppState(
-    windowSizeClass: WindowSizeClass,
     networkMonitor: NetworkMonitor,
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     navController: NavHostController = rememberNavController(),
@@ -35,13 +33,11 @@ fun rememberAppState(
     return remember(
         navController,
         coroutineScope,
-        windowSizeClass,
         networkMonitor,
     ) {
         AppState(
             navController,
             coroutineScope,
-            windowSizeClass,
             networkMonitor,
         )
     }
@@ -50,9 +46,8 @@ fun rememberAppState(
 @Stable
 class AppState(
     val navController: NavHostController,
-    val coroutineScope: CoroutineScope,
-    val windowSizeClass: WindowSizeClass,
-    val networkMonitor: NetworkMonitor,
+    coroutineScope: CoroutineScope,
+    networkMonitor: NetworkMonitor,
 ) {
     val currentDestination: NavDestination?
         @Composable get() = navController.currentBackStackEntryAsState().value?.destination

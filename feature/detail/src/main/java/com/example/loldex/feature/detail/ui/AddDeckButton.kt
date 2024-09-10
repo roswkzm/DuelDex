@@ -14,8 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.loldex.core.designsystem.component.LdButton
-import com.example.loldex.core.designsystem.theme.Secondary
-import com.example.loldex.core.designsystem.theme.Text0
+import com.example.loldex.core.designsystem.theme.LolDexTheme
 import com.example.loldex.core.designsystem.theme.ThemePreviews
 import com.example.loldex.core.designsystem.theme.ldTypography
 import com.example.loldex.feature.detail.R
@@ -28,24 +27,21 @@ internal fun AddDeckButton(
         modifier = Modifier
             .fillMaxWidth(),
         onClick = onClickedSavedCard,
-        colors = ButtonDefaults.buttonColors(
-            containerColor = Secondary,
-            disabledContainerColor = Secondary
-        ),
+        colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.onSurfaceVariant),
         contentPadding = PaddingValues(horizontal = 8.dp, vertical = 5.dp),
         leadingIcon = {
             Icon(
                 modifier = Modifier.size(20.dp),
                 imageVector = Icons.Filled.Add,
                 contentDescription = "Add Deck",
-                tint = Text0
+                tint = MaterialTheme.colorScheme.onSecondary
             )
         },
         text = {
             Text(
                 text = stringResource(id = R.string.add_deck_btn_text),
                 style = MaterialTheme.ldTypography.fontBodyS,
-                color = Text0
+                color = MaterialTheme.colorScheme.onSecondary
             )
         }
     )
@@ -54,7 +50,9 @@ internal fun AddDeckButton(
 @ThemePreviews
 @Composable
 fun AddDeckButtonPreview() {
-    AddDeckButton(
-        onClickedSavedCard = {}
-    )
+    LolDexTheme {
+        AddDeckButton(
+            onClickedSavedCard = {}
+        )
+    }
 }

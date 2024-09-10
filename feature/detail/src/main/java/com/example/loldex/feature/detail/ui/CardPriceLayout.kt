@@ -1,5 +1,6 @@
 package com.example.loldex.feature.detail.ui
 
+import android.graphics.Typeface
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -12,7 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.filled.Public
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -21,11 +22,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import com.example.loldex.core.designsystem.theme.Error
+import com.example.loldex.core.designsystem.theme.LolDexTheme
 import com.example.loldex.core.designsystem.theme.ThemePreviews
 import com.example.loldex.core.designsystem.theme.ldTypography
 import com.example.loldex.core.model.YugiohCardData
@@ -45,9 +48,11 @@ import com.patrykandpatrick.vico.compose.common.fill
 import com.patrykandpatrick.vico.core.cartesian.data.CartesianChartModelProducer
 import com.patrykandpatrick.vico.core.cartesian.data.lineSeries
 import com.patrykandpatrick.vico.core.cartesian.layer.LineCartesianLayer
+import com.patrykandpatrick.vico.core.common.component.TextComponent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import com.example.loldex.core.designsystem.R as DesignR
+
 
 @Composable
 fun CardPriceLayout(
@@ -70,9 +75,9 @@ fun CardPriceLayout(
 
     ExpandableCard(
         modifier = modifier,
-        color = Color.Gray,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
         title = stringResource(id = R.string.show_card_price),
-        titleColor = Color.Black,
+        titleColor = MaterialTheme.colorScheme.onSecondary,
         content = {
             Column(
                 modifier = Modifier
@@ -139,15 +144,15 @@ fun PriceByCompanyRow(
             modifier = Modifier,
             text = "$price$",
             style = MaterialTheme.ldTypography.fontTitleXS,
-            color = Color.Black,
+            color = MaterialTheme.colorScheme.onSecondary,
         )
         Spacer(modifier = Modifier.width(30.dp))
         Icon(
             modifier = Modifier
                 .size(25.dp),
-            imageVector = Icons.Filled.ArrowForward,
+            imageVector = Icons.Filled.Public,
             contentDescription = stringResource(id = R.string.add_deck_btn_text),
-            tint = Color.Black
+            tint = MaterialTheme.colorScheme.onSecondary
         )
     }
 }
@@ -161,16 +166,26 @@ fun PriceByChart(
     val priceList = cardPrice.toPriceList()
     val marker = rememberMarker()
 
+    val chartColor = Error
+    val axisColor = MaterialTheme.colorScheme.onSecondary
+    val customLabelComponent = TextComponent(
+        color = axisColor.toArgb(),
+        Typeface.DEFAULT_BOLD
+    )
+
     CartesianChartHost(
         chart =
         rememberCartesianChart(
             rememberLineCartesianLayer(
                 LineCartesianLayer.LineProvider.series(
-                    rememberLine(remember { LineCartesianLayer.LineFill.single(fill(Color(0xffa485e0))) })
+                    rememberLine(remember { LineCartesianLayer.LineFill.single(fill(chartColor)) })
                 )
             ),
-            startAxis = rememberStartAxis(),
+            startAxis = rememberStartAxis(
+                label = customLabelComponent
+            ),
             bottomAxis = rememberBottomAxis(
+                label = customLabelComponent,
                 guideline = null,
                 valueFormatter = { x, _, _ -> marketNameList.getOrNull(x.toInt()) ?: x.toString() }
             ),
@@ -200,26 +215,28 @@ interface OnPriceRowClickListener {
 fun CardPriceLayoutPreview(
     @PreviewParameter(YugiohCardDataPreviewParameterProvider::class) yugiohCardList: List<YugiohCardData>
 ) {
-    val yugiohCardData = yugiohCardList[0]
-    CardPriceLayout(
-        modifier = Modifier
-            .fillMaxWidth(),
-        cardPrice = yugiohCardData.cardPrices[0],
-        priceRowClickListener = object : OnPriceRowClickListener {
-            override fun onCardMarketClick() {
-            }
+    LolDexTheme {
+        val yugiohCardData = yugiohCardList[0]
+        CardPriceLayout(
+            modifier = Modifier
+                .fillMaxWidth(),
+            cardPrice = yugiohCardData.cardPrices[0],
+            priceRowClickListener = object : OnPriceRowClickListener {
+                override fun onCardMarketClick() {
+                }
 
-            override fun onTcgPlayerClick() {
-            }
+                override fun onTcgPlayerClick() {
+                }
 
-            override fun onEbayClick() {
-            }
+                override fun onEbayClick() {
+                }
 
-            override fun onAmazonClick() {
-            }
+                override fun onAmazonClick() {
+                }
 
-            override fun onCoolStuffIncClick() {
+                override fun onCoolStuffIncClick() {
+                }
             }
-        }
-    )
+        )
+    }
 }
