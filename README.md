@@ -12,11 +12,11 @@
 Go to the [Releases](https://github.com/roswkzm/DuelDex/releases) to download the latest APK.
 
 ## 🚀 프로젝트 기획 의도
-이 프로젝트는 유희왕 카드게임 애호가들이 더욱 쉽고 효율적으로 자신만의 카드를 관리하고 활용할 수 있도록 지원하기 위해 기획되었습니다. 유저가 유희왕 카드 목록을 간편하게 확인하고, 검색을 통해 원하는 카드를 쉽게 찾아볼 수 있으며, 각 카드의 상세 정보를 한눈에 파악할 수 있는 기능을 제공합니다.
+**DuelDex**는 유희왕 카드게임을 사랑하는 애호가들이 자신의 카드 컬렉션을 보다 쉽고 효율적으로 관리할 수 있도록 기획되었습니다. 이 앱을 통해 유저는 방대한 유희왕 카드 목록을 손쉽게 탐색하고, 원하는 카드를 빠르게 검색하며, 각 카드의 상세 정보를 직관적으로 확인할 수 있습니다.
 
-또한, 유저는 해당 카드를 판매하는 다양한 사이트로 연결되어 최적의 가격을 확인할 수 있고, 가격 변화 추이를 그래프로 시각화하여 더욱 현명한 소비 결정을 내릴 수 있습니다. 마지막으로, 개인의 플레이 스타일에 맞는 커스텀 덱을 만들고, 다양한 카드 조합을 실험해보는 기능을 통해 전략을 세우는 재미를 극대화하고자 하였습니다.
+또한, 다양한 카드 판매 사이트로 바로 연결되어 최적의 가격을 찾아볼 수 있으며, 가격 변동 추이를 그래프로 시각화하여 현명한 소비 결정을 도울 수 있습니다. 유저는 자신만의 플레이 스타일에 맞춘 커스텀 덱을 만들고, 다양한 카드 조합을 실험하며 전략을 세우는 재미를 극대화할 수 있습니다.
 
-이 앱은 유저가 카드를 손쉽게 검색하고, 자신만의 덱을 다채롭게 구성할 수 있는 기능을 통해 유희왕 카드게임의 전략적 즐거움을 더욱 깊이 경험할 수 있도록 하는 것을 목표로 합니다. 또한, 유저의 카드 관리 및 구매 경험을 혁신적으로 개선하고자 합니다.
+**DuelDex**는 단순한 카드 관리 앱을 넘어, 유저가 자신만의 덱을 창의적으로 구성하고 관리할 수 있는 기능을 통해 유희왕 카드게임의 전략적 즐거움을 더욱 깊이 있게 경험할 수 있도록 설계되었습니다. 이 앱은 유저의 카드게임 라이프를 한층 더 풍성하고 스마트하게 만들어 줄 것입니다.
 
 <details>
 <summary><h2>Use Tech Stack</h2></summary>
@@ -27,18 +27,18 @@ Go to the [Releases](https://github.com/roswkzm/DuelDex/releases) to download th
     - Version Catalogs
     - Convention Plugins
  - Dependency Injection
-    - Hilt : Google의 Hilt 라이브러리는 Android 애플리케이션에서 종속성 주입(DI)을 간단하게 처리할 수 있다.
+    - Hilt : Google의 Hilt 라이브러리는 Android 애플리케이션에서 종속성 주입(DI)을 쉽게 처리할 수 있다.
     - Hilt Navigation Compose : Hilt와 Jetpack Compose를 연동하기 위한 라이브러리로, 네비게이션 기능과 함께 사용할 수 있다.
  - Asynchronous Operations
     - Coroutines : 비동기 프로그래밍을 위한 Kotlin Coroutines 라이브러리
-    - FLow : 비동기 데이터를 스트림 방식으로 처리
+    - Flow : 데이터 스트림을 비동기적으로 처리
  - Networking
     - retrofit2 : Android에서 HTTP 요청을 보내고 API와 통신하기 위한 클라이언트 라이브러리
     - kotlinx-serialization-json : Kotlinx Serialization을 통해 JSON 데이터를 직렬화 및 역직렬화한다.
     - okhttp3 : Retrofit과 함께 사용되는 HTTP 클라이언트 라이브러리이며 logging-interceptor을 위해 사용한다.
     - sandwich : 네트워크 응답을 관리하고 처리하는 Skydoves(엄재웅)의 라이브러리로, Retrofit과 함께 사용됩니다.
  - Image Loading
-     - Coil & Coil-Compose : Compose를 사용하여 이미지를 로드하고 표시하기 위한 Kotlin 기반의 라이브러리.
+     - Coil & Coil-Compose : Compose와 통합되어, Kotlin 기반으로 이미지를 쉽게 로드하고 표시할 수 있는 라이브러리
  - Jetpack Libraries 
      - Jetpack Compose : 선언적 UI 개발을 위한 Android의 최신 툴킷
      - Lifecycle : Android 수명 주기를 관찰하고 수명 주기 변경 시 UI 상태를 관리
@@ -72,7 +72,7 @@ Go to the [Releases](https://github.com/roswkzm/DuelDex/releases) to download th
 
  - **👎단점👎**
     - **너무 많은 모듈**: 각 모듈은 빌드 구성의 복잡성 증가로 인해 오버헤드를 발생시킵니다. 이는 Gradle 동기화 시간을 늘릴 수 있으며, 지속적인 유지 관리 비용이 발생합니다. 또한, 모듈이 많아질수록 단일 모듈로 구성된 프로젝트보다 Gradle 설정의 복잡성이 증가합니다. 
-    - **너무 적은 모듈**: 반대로 모듈이 너무 적고 크거나, 서로 긴밀하게 결합되어 있으면 또 다른 모놀리식(단일화) 구조로 끝날 수 있습니다. 이는 모듈화의 이점 중 일부를 잃게 되는 것을 의미합니다. 모듈이 과도하게 비대하고 명확한 목적이 정의되지 않았다면, 모듈을 분리하는 것을 고려해야 합니다.
+    - **모듈화가 부족할 경우**: 반대로 모듈이 너무 적고 크거나, 서로 긴밀하게 결합되어 있으면 또 다른 모놀리식(단일화) 구조로 끝날 수 있습니다. 이는 모듈화의 이점 중 일부를 잃게 되는 것을 의미합니다. 모듈이 과도하게 비대하고 명확한 목적이 정의되지 않았다면, 모듈을 분리하는 것을 고려해야 합니다.
     - **너무 복잡함**: 여기에는 완벽한 해결책이 없습니다. 실제로 모든 프로젝트에서 모듈화를 하는 것이 항상 합리적인 것은 아닙니다. 중요한 요소는 코드베이스의 크기와 상대적인 복잡성입니다. 프로젝트가 일정 수준 이상 성장할 것으로 예상되지 않는다면, 모듈화로 얻는 확장성이나 빌드 시간 단축의 이점이 적용되지 않을 수 있습니다.
     
 </details>
@@ -82,9 +82,9 @@ Go to the [Releases](https://github.com/roswkzm/DuelDex/releases) to download th
 
 <img src="https://github.com/user-attachments/assets/21bc17a2-2b51-4b15-877b-d302c504552e" width="300"/>
 
- - **App Modue**: 이 모듈은 앱 수준의 클래스와 프로젝트의 나머지 코드베이스를 결합하는 기본 클래스들을 포함한다. 예를 들어 MainActivity, Scaffold, AppState, 그리고 앱 수준에서 제어되는 네비게이션 등이 있습니다. NiaNavHost를 통한 네비게이션 설정과 TopLevelDestination을 통한 하단 네비게이션 바 설정이 좋은 예입니다. app 모듈은 모든 feature 모듈과 필요한 core 모듈에 의존합니다.
+ - **App Module**: 이 모듈은 앱 수준의 클래스와 프로젝트의 나머지 코드베이스를 결합하는 기본 클래스들을 포함한다. 예를 들어 MainActivity, Scaffold, AppState, 그리고 앱 수준에서 제어되는 네비게이션 등이 있습니다. NavHost를 통해 앱 내 네비게이션을 일관되게 처리하고, TopLevelDestination을 통한 하단 네비게이션 바를 간단하게 설정할 수 있습니다. app 모듈은 모든 feature 모듈과 필요한 core 모듈에 의존합니다.
 
- - **Feature Module**: 앱 내에서 단일 책임을 처리하는 기능별 모듈입니다. 이러한 모듈은 필요할 때 다른 앱이나 테스트, 또는 다른 flavor 앱에서도 재사용할 수 있지만, 여전히 독립적으로 분리되고 격리됩니다. 특정 Feature 모듈에서만 필요한 클래스는 해당 모듈 내에 남아 있어야 하며, 그렇지 않은 경우 적절한 core 모듈로 추출해야 합니다. Feature 모듈은 다른 기능 모듈에 의존하지 않아야 하며, 필요한 core 모듈에만 의존해야 합니다.
+ - **Feature Module**: 앱 내에서 단일 책임을 처리하는 기능별 모듈입니다. 이러한 모듈은 필요할 때 다른 앱이나 테스트, 또는 다른 flavor 앱에서도 재사용할 수 있지만, 여전히 독립적으로 분리되고 격리됩니다. 특정 Feature 모듈에서만 필요한 클래스는 해당 모듈 내에 남아 있어야 하며, 그렇지 않은 경우 적절한 core 모듈로 추출해야 합니다. Feature 모듈은 필요한 경우 Core 모듈과만 상호작용하며, 다른 Feature 모듈에 의존하지 않습니다.
      - **일반적으로 각 기능별 UI와 다른 Module에서 데이터를 읽는 UI 구성요소와 ViewModel을 포함한다.**
  
  - **Core Module**: 앱 내의 다른 모듈 간에 공유되어야 하는 보조 코드와 특정 의존성을 포함하는 공통 라이브러리 모듈입니다. 이 모듈들은 다른 core 모듈에 의존할 수 있지만, feature 모듈이나 app 모듈에는 의존해서는 안 됩니다.
@@ -116,7 +116,7 @@ Go to the [Releases](https://github.com/roswkzm/DuelDex/releases) to download th
     <img src="https://github.com/user-attachments/assets/5fe8dfc4-b71b-4a89-ac1d-9830be329df9" width="200"/>
 </div>
 <ul>
-    <li>상태 호이스팅(State Hoisting)이라고도 알려진 단방향 데이터 흐름(UDF)은 상태가 하강하고 이벤트가 상승하여 단방향 정보 스트림으로 이어지는 널리 사용되는 아키텍처 패턴입니다.</li>
+    <li>상태 호이스팅(State Hoisting)이라고도 불리는 단방향 데이터 흐름(UDF)은 상태가 하향 전달되고, 이벤트가 상향 전달되는 패턴으로, 단일 방향으로 정보가 흐릅니다.</li>
     <li>Compose는 이 방법론을 사용하여 UI 상태 표현을 담당하는 컴포저블 또는 구성요소를 상태 저장 및 수정을 관리하는 구성요소와 분리합니다.</li>
 </ul>
      
@@ -165,7 +165,7 @@ Go to the [Releases](https://github.com/roswkzm/DuelDex/releases) to download th
 <details>
 <summary><h2>동작 화면</h2></summary>
  
-### Search Screen
+### Home Screen
 <div>
   <video controls width="300" src="https://github.com/user-attachments/assets/0fb09735-bf32-41f5-b937-f7697c7774f3"></video>
 </div>
@@ -185,7 +185,7 @@ Go to the [Releases](https://github.com/roswkzm/DuelDex/releases) to download th
          - **서버 부하 감소**: 불필요한 중복 요청을 막아 서버에 가해지는 부하를 줄임
          - **네트워크 사용량 감소**: 사용자의 네트워크 자원을 절약하고, 요청 빈도를 줄여 네트워크 트래픽을 최적화
          - **성능 최적화**: 빠르고 정확한 응답을 통해 검색 기능의 전체적인 성능을 개선, 사용자 경험 향상
- - **DataStore 및 DataStore-Proto 사용**: 사용자 데이터를 안전하게 로컬에 저장 및 관리
+ - **DataStore 및 DataStore-Proto 사용**: DataStore-Proto는 구조화된 데이터를 직렬화하여 타입 안전성을 보장하며, 사용자 데이터를 안전하게 저장하고 관리한다.
      - **최근 검색어 기능 구현**: 사용자의 최근 검색어를 저장하고 앱 재실행 시에도 유지
          - **DataStore 사용**: 간단한 key-value 방식으로 최근 검색어를 저장 및 불러오기
          - **Proto 사용**: 구조화된 데이터를 저장하여 타입 안전성을 제공, 데이터 타입을 컴파일 시점에 검증해 안정적인 데이터 처리를 보장
