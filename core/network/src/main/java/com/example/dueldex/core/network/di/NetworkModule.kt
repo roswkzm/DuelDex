@@ -1,10 +1,13 @@
 package com.example.dueldex.core.network.di
 
+import android.content.Context
 import com.example.dueldex.core.network.BuildConfig
+import com.example.dueldex.core.network.demo.DemoAssetManager
 import com.example.dueldex.core.network.interceptor.CommonHeadersInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.json.Json
 import okhttp3.Call
@@ -21,6 +24,12 @@ internal object NetworkModule {
     fun providesNetworkJson(): Json = Json {
         ignoreUnknownKeys = true
     }
+
+    @Provides
+    @Singleton
+    fun providesDemoAssetManager(
+        @ApplicationContext context: Context,
+    ): DemoAssetManager = DemoAssetManager(context.assets::open)
 
     @Provides
     @Singleton

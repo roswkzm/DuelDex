@@ -21,23 +21,6 @@ class DatabaseTest {
     private lateinit var yugiohCardDao: YugiohCardDao
     private lateinit var db: DdDataBase
 
-    val sampleCard = YugiohCardEntity(
-        id = 1,
-        name = "Dark Magician",
-        type = "Spellcaster",
-        frameType = "normal",
-        desc = "The ultimate wizard.",
-        atk = 2500,
-        def = 2100,
-        level = 7,
-        race = "Spellcaster",
-        attribute = "DARK",
-        archetype = "Magician",
-        ygoprodeckUrl = "http://example.com",
-        cardImages = emptyList(),
-        cardPrices = emptyList()
-    )
-
     @Before
     fun createDb() {
         val context = ApplicationProvider.getApplicationContext<Context>()
@@ -115,6 +98,25 @@ class DatabaseTest {
         assertEquals(
             listOf<YugiohCardEntity>(),
             deckWithCards.cards
+        )
+    }
+
+    companion object {
+        private val sampleCard = YugiohCardEntity(
+            id = 1,
+            name = "Dark Magician",
+            type = "Spellcaster",
+            frameType = "normal",
+            desc = "The ultimate wizard.",
+            atk = 2500,
+            def = 2100,
+            level = 7,
+            race = "Spellcaster",
+            attribute = "DARK",
+            archetype = "Magician",
+            ygoprodeckUrl = "http://example.com",
+            cardImages = emptyList(),
+            cardPrices = emptyList()
         )
     }
 }
