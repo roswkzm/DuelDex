@@ -11,5 +11,5 @@ android {
 dependencies {
     api(projects.core.model)
     implementation(libs.kotlinx.datetime)
-    implementation(libs.gson)
+    implementation(libs.kotlinx.serialization.json)
 }

@@ -18,16 +18,19 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
             extensions.configure<LibraryExtension> {
                 configureKotlinAndroid(this)
                 defaultConfig.targetSdk = 34
+                defaultConfig.testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
             }
             dependencies {
                 add("testImplementation", kotlin("test"))
 
                 add("implementation", libs.findLibrary("androidx.tracing.ktx").get())
                 add("implementation", libs.findLibrary("timber").get())
-                add("testImplementation", libs.findLibrary("junit").get())
                 add("implementation", libs.findLibrary("androidx.junit.ktx").get())
 
+                add("testImplementation", libs.findLibrary("junit").get())
                 add("androidTestImplementation", libs.findLibrary("androidx.lifecycle.runtimeTesting").get())
+                add("androidTestImplementation", libs.findLibrary("kotlin.test").get())
+                add("testImplementation", libs.findLibrary("kotlin.test").get())
             }
         }
     }

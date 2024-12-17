@@ -3,31 +3,29 @@ package com.example.dueldex.core.database.util
 import androidx.room.TypeConverter
 import com.example.dueldex.core.model.YugiohCardImage
 import com.example.dueldex.core.model.YugiohCardPrice
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 class Converters {
-    private val gson = Gson()
+    private val json = Json
 
     @TypeConverter
     fun fromCardImages(cardImages: List<YugiohCardImage>): String {
-        return gson.toJson(cardImages)
+        return json.encodeToString(cardImages)
     }
 
     @TypeConverter
     fun toCardImages(cardImagesString: String): List<YugiohCardImage> {
-        val listType = object : TypeToken<List<YugiohCardImage>>() {}.type
-        return gson.fromJson(cardImagesString, listType)
+        return json.decodeFromString(cardImagesString)
     }
 
     @TypeConverter
     fun fromCardPrices(cardPrices: List<YugiohCardPrice>): String {
-        return gson.toJson(cardPrices)
+        return json.encodeToString(cardPrices)
     }
 
     @TypeConverter
     fun toCardPrices(cardPricesString: String): List<YugiohCardPrice> {
-        val listType = object : TypeToken<List<YugiohCardPrice>>() {}.type
-        return gson.fromJson(cardPricesString, listType)
+        return json.decodeFromString(cardPricesString)
     }
 }

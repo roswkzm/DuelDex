@@ -1,8 +1,8 @@
 package com.example.dueldex.core.data
 
+import com.example.dueldex.core.model.YugiohCardData
+import org.junit.Assert.assertEquals
 import org.junit.Test
-
-import org.junit.Assert.*
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -12,6 +12,37 @@ import org.junit.Assert.*
 class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+        var aaa = YugiohCardData(
+            id = 1,
+            name = "",
+            type = "",
+            frameType = "",
+            desc = "",
+            atk = 1,
+            def = 1,
+            level = 1,
+            race = "",
+            attribute = "",
+            archetype = "",
+            ygoprodeckUrl = "",
+            cardImages = listOf(),
+            cardPrices = listOf(),
+        )
+        assertEquals(YugiohCardData(
+            id = 1,
+            name = "",
+            type = "",
+            frameType = "",
+            desc = "",
+            atk = 1,
+            def = 1,
+            level = 1,
+            race = "",
+            attribute = "",
+            archetype = "",
+            ygoprodeckUrl = "",
+            cardImages = listOf(),
+            cardPrices = listOf(),
+        ), aaa)
     }
 }
