@@ -29,6 +29,7 @@ include(":core:data-test")
 include(":core:common")
 include(":core:datastore")
 include(":core:datastore-proto")
+include(":core:datastore-test")
 include(":core:ui")
 include(":core:database")
 
