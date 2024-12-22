@@ -8,6 +8,11 @@ android {
     defaultConfig {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+    testOptions {
+        unitTests {
+            isReturnDefaultValues = true
+        }
+    }
 }
 
 dependencies {
@@ -17,8 +22,6 @@ dependencies {
 
     implementation(projects.core.common)
 
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.espresso.core)
-    androidTestImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(projects.core.datastoreTest)
+    testImplementation(libs.kotlinx.coroutines.test)
 }
