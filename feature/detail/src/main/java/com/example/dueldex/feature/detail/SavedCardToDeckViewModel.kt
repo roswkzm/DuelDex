@@ -20,6 +20,10 @@ class SavedCardToDeckViewModel @Inject constructor(
     private val decksRepository: DecksRepository
 ) : ViewModel() {
 
+    /*
+    SharedFlow -> Channel 변경 예정
+    Link -> https://medium.com/prnd/viewmodel%EC%97%90%EC%84%9C-%EB%8D%94%EC%9D%B4%EC%83%81-eventflow%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EC%A7%80-%EB%A7%88%EC%84%B8%EC%9A%94-3974e8ddffed
+     */
     private val _cardSaveResultFlow = MutableSharedFlow<Boolean>()
     val cardSaveResultFlow: SharedFlow<Boolean> = _cardSaveResultFlow.asSharedFlow()
 
