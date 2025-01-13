@@ -1,5 +1,6 @@
 package com.example.dueldex.feature.detail
 
+import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -59,21 +60,7 @@ internal fun SavedCardToDeckScreen(
     var insertDeckName by remember { mutableStateOf("") }
 
     LaunchedEffect(Unit) {
-        viewModel.cardSaveResultFlow.collect { isSuccess ->
-            if (isSuccess) {
-                Toast.makeText(
-                    context,
-                    context.getString(R.string.card_saved_deck_success),
-                    Toast.LENGTH_SHORT
-                ).show()
-            } else {
-                Toast.makeText(
-                    context,
-                    context.getString(R.string.card_saved_deck_failed),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
+        viewModel.eventChannel.collect { event -> handleEvent(event, context) }
     }
 
     SavedCardToDeckContent(
@@ -167,7 +154,6 @@ internal fun SavedCardToDeckContent(
                 }
 
                 if (isShowCreateDeckDialog) {
-                    // insertDeckName 상태에 따라 isError 상태 업데이트
                     isError =
                         insertDeckName.isEmpty() || deckList.any { it.deckName == insertDeckName }
                     CreateDeckDialog(
@@ -229,6 +215,24 @@ fun SavedDeckTitleLayout(
                 )
             }
         )
+    }
+}
+
+private fun handleEvent(event: Event, context: Context) = when (event) {
+    is Event.CardSaveResult -> {
+        if (event.isSuccess) {
+            Toast.makeText(
+                context,
+                context.getString(R.string.card_saved_deck_success),
+                Toast.LENGTH_SHORT
+            ).show()
+        } else {
+            Toast.makeText(
+                context,
+                context.getString(R.string.card_saved_deck_failed),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 }
 
