@@ -6,7 +6,6 @@ plugins {
 
 android {
     namespace = "com.example.dueldex"
-    compileSdk = 34
 
     buildFeatures {
         buildConfig = true

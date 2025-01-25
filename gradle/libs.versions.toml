@@ -1,27 +1,26 @@
 [versions]
-androidGradlePlugin = "8.2.2"
-androidTools = "31.3.0"
-kotlin = "1.9.21"
-androidxCore = "1.12.0"
+androidGradlePlugin = "8.7.3"
+androidTools = "31.7.3"
+kotlin = "2.1.0"
+androidxCore = "1.15.0"
 junit = "4.13.2"
 androidx-test-ext-junit = "1.1.5"
 espresso-core = "3.5.1"
 lifecycle-runtime-ktx = "2.7.0"
 activity-compose = "1.8.2"
-androidxComposeBom = "2024.09.00"
-org-jetbrains-kotlin-jvm = "1.9.21"
+androidxComposeBom = "2024.12.01"
 androidxLifecycle = "2.7.0"
 androidxActivity = "1.8.2"
 androidxAppCompat = "1.7.0"
-androidDesugarJdkLibs = "2.0.4"
+androidDesugarJdkLibs = "2.1.4"
 androidxComposeCompiler = "1.5.7"
-ksp = "1.9.21-1.0.16"
-hilt = "2.51"
-hiltExt = "1.1.0"
+ksp = "2.1.0-1.0.29"
+hilt = "2.54"
+hiltExt = "1.2.0"
 androidxHiltNavigationCompose = "1.2.0"
-androidxNavigation = "2.8.0-rc01"
-coil = "2.5.0"
-kotlinxCoroutines = "1.8.0"
+androidxNavigation = "2.8.5"
+coil = "2.7.0"
+kotlinxCoroutines = "1.10.1"
 androidx-lifecycle-lifecycle-runtime-ktx = "2.7.0"
 material = "1.11.0"
 material3 = "1.2.0"
@@ -149,6 +148,7 @@ turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine
 # Dependencies of the included build-logic
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
 android-tools-common = { group = "com.android.tools", name = "common", version.ref = "androidTools" }
+compose-gradlePlugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidx-lifecycle-lifecycle-runtime-ktx" }
 ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
@@ -162,19 +162,20 @@ androidx-junit-ktx = { group = "androidx.test.ext", name = "junit-ktx", version.
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+android-test = { id = "com.android.test", version.ref = "androidGradlePlugin" }
+compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-room = { id = "androidx.room", version.ref = "room" }
-protobuf = { id = "com.google.protobuf", version.ref = "protobufPlugin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+protobuf = { id = "com.google.protobuf", version.ref = "protobufPlugin" }
+room = { id = "androidx.room", version.ref = "room" }
 
-dueldex-android-application = { id = "dueldex.android.application", version = "unspecified" }
-dueldex-android-application-compose = { id = "dueldex.android.application.compose", version = "unspecified" }
-dueldex-android-feature = { id = "dueldex.android.feature", version = "unspecified" }
-dueldex-android-hilt = { id = "dueldex.android.androidHilt", version = "unspecified" }
-dueldex-android-library = { id = "dueldex.android.library", version = "unspecified" }
-dueldex-android-library-compose = { id = "dueldex.android.library.compose", version = "unspecified" }
-dueldex-jvm-library = { id = "dueldex.jvm.library", version = "unspecified" }
-dueldex-android-room = { id = "dueldex.android.room", version = "unspecified" }
+dueldex-android-application = { id = "dueldex.android.application" }
+dueldex-android-application-compose = { id = "dueldex.android.application.compose" }
+dueldex-android-feature = { id = "dueldex.android.feature" }
+dueldex-android-hilt = { id = "dueldex.android.androidHilt" }
+dueldex-android-library = { id = "dueldex.android.library" }
+dueldex-android-library-compose = { id = "dueldex.android.library.compose" }
+dueldex-jvm-library = { id = "dueldex.jvm.library" }
+dueldex-android-room = { id = "dueldex.android.room" }
