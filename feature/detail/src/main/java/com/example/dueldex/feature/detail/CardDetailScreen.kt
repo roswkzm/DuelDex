@@ -62,10 +62,6 @@ internal fun CardDetailRoute(
     var isShowSaveDeckDialog by remember { mutableStateOf(false) }
     var cardDataToSave by remember { mutableStateOf<YugiohCardData?>(null) }
 
-    LaunchedEffect(Unit) {
-        viewModel.loadCardDetailData()
-    }
-
     CardDetailScreen(
         cardDetailUiState = cardDetailUiState,
         scrollState = scrollState,
